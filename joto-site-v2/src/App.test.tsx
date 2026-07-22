@@ -5,8 +5,12 @@ import { featureFlags } from "./config/features";
 
 describe("JOTO TECH single-page website", () => {
   afterEach(() => {
-    featureFlags.customerLogoWall = false;
+    featureFlags.customerLogoWall = true;
     window.history.replaceState({}, "", "/");
+  });
+
+  it("enables the approved customer logo wall placement by default", () => {
+    expect(featureFlags.customerLogoWall).toBe(true);
   });
 
   it("renders the approved hero message and supporting statement", () => {
@@ -99,22 +103,22 @@ describe("JOTO TECH single-page website", () => {
     expect(screen.queryByRole("heading", { name: "We Make IT Happen." })).not.toBeInTheDocument();
   });
 
-  it("keeps the customer logo wall off on the public home page by default", () => {
+  it("can hide the customer logo wall through the retained feature flag", () => {
+    featureFlags.customerLogoWall = false;
     const { container } = render(<App />);
 
     expect(container.querySelector("#customer-logo-wall")).not.toBeInTheDocument();
   });
 
-  it("places the enabled customer logo wall between Hero and Solutions", async () => {
-    featureFlags.customerLogoWall = true;
+  it("places the enabled customer logo wall between Selected Experience and About JOTO", async () => {
     const { container } = render(<App />);
     await screen.findByRole("heading", { name: "TRUSTED BY INDUSTRY LEADERS" });
-    const hero = container.querySelector('section[aria-labelledby="hero-title"]') as HTMLElement;
+    const caseStudies = container.querySelector("#case-studies") as HTMLElement;
     const logoWall = container.querySelector("#customer-logo-wall") as HTMLElement;
-    const solutions = container.querySelector("#solutions") as HTMLElement;
+    const about = container.querySelector("#about") as HTMLElement;
 
-    expect(hero.compareDocumentPosition(logoWall)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
-    expect(logoWall.compareDocumentPosition(solutions)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(caseStudies.compareDocumentPosition(logoWall)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(logoWall.compareDocumentPosition(about)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it("renders the isolated customer logo wall preview route", async () => {

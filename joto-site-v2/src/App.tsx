@@ -33,14 +33,14 @@ export default function App() {
   return (
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
       <Hero />
+      <Solutions />
+      <Services />
+      <CaseStudies />
       {featureFlags.customerLogoWall && (
         <Suspense fallback={null}>
           <CustomerLogoWall />
         </Suspense>
       )}
-      <Solutions />
-      <Services />
-      <CaseStudies />
       <About />
       <GlobalPresence />
       <ContactFooter />
