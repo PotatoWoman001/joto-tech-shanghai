@@ -75,3 +75,9 @@ def test_same_site_document_is_a_resource_not_a_page() -> None:
 def test_external_document_is_external() -> None:
     item = classify_url("https://partner.example/manual.pdf", "page-link", CONFIG)
     assert item.status is PageStatus.EXTERNAL
+
+
+def test_bare_domain_and_wordpress_query_case_use_one_identity() -> None:
+    url = "http://JOTOTECH.cn:80//old/../news/?PAGE_ID=11105&utm_source=x#part"
+    assert normalize_url(url, CONFIG.base_url) == "https://www.jototech.cn/news?page_id=11105"
+    assert classify_url(url, "redirect", CONFIG).status is PageStatus.ARCHIVED

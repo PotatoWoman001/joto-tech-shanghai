@@ -1,5 +1,6 @@
 """Deterministic URL normalization and crawl classification rules."""
 
+import posixpath
 import re
 from pathlib import PurePosixPath
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
@@ -10,8 +11,8 @@ from joto_archive.config import CrawlConfig
 from joto_archive.models import DiscoveredUrl, PageStatus
 
 
-DROP_QUERY_PREFIXES = ("utm_",)
-DROP_QUERY_KEYS = {"fbclid", "gclid"}
+DROP_QUERY_PREFIXES = ("ga_", "utm_")
+DROP_QUERY_KEYS = {"_ga", "fbclid", "gclid", "mc_cid", "mc_eid", "msclkid"}
 RESOURCE_EXTENSIONS = {
     ".pdf",
     ".doc",
@@ -35,18 +36,41 @@ def normalize_url(url: str, base_url: str) -> str:
 
     absolute = urljoin(base_url, url.strip())
     parts = urlsplit(absolute)
-    base_host = urlsplit(base_url).hostname
-    scheme = "https" if parts.hostname == base_host else parts.scheme.lower()
-    netloc = parts.netloc.lower()
+    scheme = parts.scheme.lower()
+    if scheme not in {"http", "https"}:
+        return urlunsplit((scheme, parts.netloc, parts.path, parts.query, ""))
+    base_parts = urlsplit(base_url)
+    base_host = (base_parts.hostname or "").lower().rstrip(".")
+    host = (parts.hostname or "").lower().rstrip(".")
+    same_site = bool(host and base_host) and host.removeprefix("www.") == base_host.removeprefix("www.")
+    original_scheme = scheme
+    if same_site:
+        host = base_host
+        scheme = base_parts.scheme.lower() or "https"
+    try:
+        port = parts.port
+    except ValueError as exc:
+        raise ValueError(f"invalid URL port in {url!r}") from exc
+    if (original_scheme, port) in {("http", 80), ("https", 443)} or (
+        same_site and port in {80, 443}
+    ):
+        port = None
+    host_for_netloc = f"[{host}]" if ":" in host else host
+    netloc = f"{host_for_netloc}:{port}" if port is not None else host_for_netloc
     query_items = [
-        (key, value)
+        (key.lower(), value)
         for key, value in parse_qsl(parts.query, keep_blank_values=True)
-        if key not in DROP_QUERY_KEYS and not key.startswith(DROP_QUERY_PREFIXES)
+        if key.lower() not in DROP_QUERY_KEYS
+        and not key.lower().startswith(DROP_QUERY_PREFIXES)
     ]
-    path = parts.path or "/"
+    query_items.sort(key=lambda item: (item[0], item[1]))
+    path = re.sub(r"/{2,}", "/", parts.path or "/")
+    path = posixpath.normpath(path)
+    if not path.startswith("/"):
+        path = f"/{path}"
     if path != "/":
         path = path.rstrip("/")
-    return urlunsplit((scheme, netloc, path, urlencode(query_items), ""))
+    return urlunsplit((scheme, netloc, path, urlencode(query_items, doseq=True), ""))
 
 
 def _exclusion_rule(url: str, config: CrawlConfig) -> str | None:
