@@ -105,7 +105,10 @@ def parse_sitemap_document(
                 item.discovered_from = normalize_discovered_url(source_url, config.base_url)
         return SitemapParseResult(kind=kind, page_urls=merge_discovered_urls(items))
     if kind == "sitemapindex":
-        children = [normalize_discovered_url(value, config.base_url) for value in loc_values]
+        children = [
+            normalize_discovered_url(value, source_url or config.base_url)
+            for value in loc_values
+        ]
         return SitemapParseResult(kind=kind, child_sitemaps=list(dict.fromkeys(children)))
     raise ValueError(f"unsupported sitemap root element: {kind or '<empty>'}")
 
