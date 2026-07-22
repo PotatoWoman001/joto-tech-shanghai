@@ -14,6 +14,7 @@ class PageStatus(StrEnum):
     EXCLUDED_AI = "excluded-ai"
     EXTERNAL = "external"
     RESOURCE = "resource"
+    REVIEW = "review"
     UNREACHABLE = "unreachable"
     ERROR = "error"
 
@@ -93,13 +94,17 @@ class FetchResult(BaseModel):
     content_type: str
     body: bytes
     attempts: int
+    redirect_chain: list[str] = Field(default_factory=list)
+    truncated: bool = False
 
 
 class RenderedPage(BaseModel):
     url: str
     html: str
+    mobile_html: str = ""
     desktop_screenshot: Path
     mobile_screenshot: Path
     console_errors: list[str] = Field(default_factory=list)
     resource_urls: list[str] = Field(default_factory=list)
-
+    blocked_requests: list[str] = Field(default_factory=list)
+    redirect_chain: list[str] = Field(default_factory=list)

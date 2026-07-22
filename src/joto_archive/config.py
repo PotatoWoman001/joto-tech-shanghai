@@ -19,6 +19,10 @@ class CrawlConfig(BaseModel):
     excluded_terms: tuple[str, ...]
     excluded_title_terms: tuple[str, ...]
     excluded_page_ids: tuple[str, ...]
+    excluded_post_ids: tuple[str, ...]
+    excluded_domains: tuple[str, ...]
+    review_page_ids: tuple[str, ...]
+    review_post_ids: tuple[str, ...]
     desktop_viewport: tuple[int, int]
     mobile_viewport: tuple[int, int]
     user_agent: str
@@ -35,4 +39,3 @@ def load_config(path: Path) -> CrawlConfig:
     """Load and validate crawl settings from JSON."""
 
     return CrawlConfig.model_validate(json.loads(path.read_text(encoding="utf-8")))
-

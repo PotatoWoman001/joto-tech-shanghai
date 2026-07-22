@@ -28,10 +28,31 @@ def test_excludes_dify_slug_before_fetch() -> None:
     assert item.exclusion_rule == "term:dify"
 
 
+def test_dify_matching_uses_token_boundaries() -> None:
+    item = classify_url("https://www.jototech.cn/modify", "sitemap", CONFIG)
+    assert item.status is PageStatus.ARCHIVED
+
+
+def test_excludes_confirmed_numeric_alias_and_ai_subdomain() -> None:
+    post = classify_url("https://www.jototech.cn/?p=8406", "sitemap", CONFIG)
+    alias = classify_url("https://www.jototech.cn/?page_id=15071", "page-link", CONFIG)
+    subdomain = classify_url("https://translator.jototech.cn/anything", "page-link", CONFIG)
+    assert post.status is PageStatus.EXCLUDED_AI
+    assert post.exclusion_rule == "post_id:8406"
+    assert alias.status is PageStatus.EXCLUDED_AI
+    assert subdomain.status is PageStatus.EXCLUDED_AI
+
+
+def test_ambiguous_generic_page_is_held_for_review() -> None:
+    item = classify_url("https://www.jototech.cn/?page_id=15192", "sitemap", CONFIG)
+    assert item.status is PageStatus.REVIEW
+
+
 def test_title_preflight_checks_title_not_navigation_copy() -> None:
     assert title_exclusion_rule("<title>JOTO | Dify Partner</title>", CONFIG) == "title:dify"
     normal = '<title>Cisco Networking</title><nav>JOTO AI Solution</nav>'
     assert title_exclusion_rule(normal, CONFIG) is None
+    assert title_exclusion_rule("<title>How to modify a firewall</title>", CONFIG) is None
 
 
 def test_sitemap_only_normal_page_is_archived() -> None:
@@ -54,4 +75,3 @@ def test_same_site_document_is_a_resource_not_a_page() -> None:
 def test_external_document_is_external() -> None:
     item = classify_url("https://partner.example/manual.pdf", "page-link", CONFIG)
     assert item.status is PageStatus.EXTERNAL
-

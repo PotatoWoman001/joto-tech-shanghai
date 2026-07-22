@@ -8,9 +8,12 @@
   "max_workers": 1,
   "excluded_terms": ["joto-ai", "jotoai", "joto.ai", "dify"],
   "excluded_title_terms": ["joto ai", "joto.ai", "dify"],
-  "excluded_page_ids": ["15197"],
+  "excluded_page_ids": ["15197", "15071", "14249", "14227"],
+  "excluded_post_ids": ["8406"],
+  "excluded_domains": ["translator.jototech.cn"],
+  "review_page_ids": ["15192", "12700", "8895"],
+  "review_post_ids": ["5041"],
   "desktop_viewport": [1440, 1000],
   "mobile_viewport": [390, 844],
   "user_agent": "JOTOTECH-Content-Archive/1.0 (+read-only authorized migration)"
 }
-
