@@ -19,6 +19,7 @@ def test_writes_complete_chinese_reports_and_keeps_form_counts_distinct(tmp_path
             {"url": "https://site.test/check", "status": "review", "source": "sitemap", "reason": "名称不清晰"},
             {"url": "https://site.test/copy", "status": "duplicate", "source": "link", "duplicate_of": "page-main"},
             {"url": "https://site.test/missing", "status": "unreachable", "reason": "404"},
+            {"url": "https://site.test/smoke", "status": "active", "source": "smoke", "navigation_path": []},
         ],
     )
     write_json(
@@ -80,7 +81,7 @@ def test_writes_complete_chinese_reports_and_keeps_form_counts_distinct(tmp_path
     assert summary["forms"] == 2
     assert summary["form_fields"] == 3
     assert summary["historical_pages"] == 1
-    assert summary["unlinked_pages"] == 2  # archived page and duplicate link, neither is in main nav
+    assert summary["unlinked_pages"] == 2  # smoke scope cannot establish navigation membership
     assert summary["excluded_ai_pages"] == 1
     assert summary["resource_success"] == 3
     assert summary["resource_failed"] == 1
@@ -95,7 +96,8 @@ def test_writes_complete_chinese_reports_and_keeps_form_counts_distinct(tmp_path
     assert "Agify" in report and "不迁移原脚本" in report
     assert all(term in report for term in ("SEO", "数据库", "新前端", "运营后台"))
 
-    assert "email mismatch" in (tmp_path / "reports/内容问题清单.md").read_text(encoding="utf-8")
+    issue_text = (tmp_path / "reports/内容问题清单.md").read_text(encoding="utf-8")
+    assert issue_text.count("email mismatch") == 1
     assert "名称不清晰" in (tmp_path / "reports/待人工复核.md").read_text(encoding="utf-8")
     assert "https://site.test/dify" in (tmp_path / "reports/排除清单.md").read_text(encoding="utf-8")
     assert json.loads((tmp_path / "reports/summary.json").read_text())["forms"] == 2

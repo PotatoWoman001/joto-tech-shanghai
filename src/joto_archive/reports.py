@@ -117,6 +117,8 @@ def _is_unlinked(record: Mapping[str, Any]) -> bool:
     if explicit is not None:
         return not bool(explicit)
     source = str(record.get("source", "")).lower()
+    if "smoke" in source:
+        return False
     return "navigation" not in source and source not in {"nav", "menu"}
 
 
@@ -159,13 +161,14 @@ def _content_issues(run_dir: Path, pages: Sequence[Mapping[str, Any]]) -> list[d
                         "issue": str(item.get("issue") or item.get("message") or item.get("description") or item),
                     }
                 )
-    for page in pages:
-        page_label = str(page.get("source_url") or page.get("id") or "—")
-        issues = page.get("issues", [])
-        if isinstance(issues, list):
-            for issue in issues:
-                if issue:
-                    found.append({"page": page_label, "issue": str(issue)})
+    if not found:
+        for page in pages:
+            page_label = str(page.get("source_url") or page.get("id") or "—")
+            issues = page.get("issues", [])
+            if isinstance(issues, list):
+                for issue in issues:
+                    if issue:
+                        found.append({"page": page_label, "issue": str(issue)})
 
     unique: list[dict[str, str]] = []
     seen: set[tuple[str, str]] = set()
