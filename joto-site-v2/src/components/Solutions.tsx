@@ -1,4 +1,5 @@
 import { siteContent } from "../content/en";
+import { vendorAnchor } from "../lib/anchors";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
 function Tier({ value }: { value: string }) {
@@ -29,7 +30,7 @@ export default function Solutions() {
               delay={categoryIndex * 70}
               className="group flex min-h-[390px] flex-col border-b border-r border-white/15 bg-white/[0.015] p-6 transition-colors duration-500 hover:bg-white/[0.045] md:min-h-[430px] lg:p-7"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex scroll-mt-24 items-center justify-between" id={`solution-${category.id}`}>
                 <span className="font-mono text-[10px] tracking-[0.18em] text-white/35">
                   {String(categoryIndex + 1).padStart(2, "0")}
                 </span>
@@ -42,8 +43,9 @@ export default function Solutions() {
               <div className="mt-auto space-y-1 pt-10">
                 {category.vendors.map((vendor) => (
                   <div
+                    id={vendorAnchor(category.id, vendor.name).slice(1)}
                     key={vendor.name}
-                    className="flex min-h-11 items-center justify-between gap-3 border-t border-white/10 py-2.5"
+                    className="flex min-h-11 scroll-mt-24 items-center justify-between gap-3 border-t border-white/10 py-2.5"
                   >
                     <span className="text-[13px] font-medium text-white/82">{vendor.name}</span>
                     {vendor.tier && <Tier value={vendor.tier} />}

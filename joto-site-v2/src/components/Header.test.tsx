@@ -20,6 +20,10 @@ describe("Header", () => {
         link.href,
       );
     }
+
+    expect(
+      within(desktopNavigation).getByRole("link", { name: "Cisco", hidden: true }),
+    ).toHaveAttribute("href", "#solution-network-cisco");
   });
 
   it("opens a full-screen mobile menu and closes it from a link", async () => {
@@ -57,6 +61,34 @@ describe("Header", () => {
     expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute(
       "aria-expanded",
       "false",
+    );
+  });
+
+  it("opens the mobile solution hierarchy and links to a vendor anchor", async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    await user.click(screen.getByRole("button", { name: "Open solution branches" }));
+
+    const mobileNavigation = screen.getByRole("navigation", { name: "Mobile navigation" });
+    expect(within(mobileNavigation).getByRole("button", { name: "Network" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(within(mobileNavigation).getByRole("link", { name: "Cisco" })).toHaveAttribute(
+      "href",
+      "#solution-network-cisco",
+    );
+
+    await user.click(within(mobileNavigation).getByRole("button", { name: "Security" }));
+    expect(within(mobileNavigation).getByRole("button", { name: "Network" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(within(mobileNavigation).getByRole("link", { name: "KnowBe4" })).toHaveAttribute(
+      "href",
+      "#solution-security-knowbe4",
     );
   });
 });

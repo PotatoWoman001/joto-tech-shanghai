@@ -22,6 +22,7 @@ describe("JOTO TECH single-page website", () => {
     }
     expect(region.getAllByRole("heading", { level: 3 })).toHaveLength(5);
     expect(region.queryAllByRole("link")).toHaveLength(0);
+    expect(container.querySelector("#solution-network-cisco")).toBeInTheDocument();
   });
 
   it("shows the complete business page and only explicit partner tiers", () => {
