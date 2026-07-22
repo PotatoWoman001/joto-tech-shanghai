@@ -194,3 +194,172 @@ Expected: 页面测试和生产构建全部通过。随后在 1440×900 与 390�
 git add joto-site-v2/src/pages/PartnerDetailPage.tsx joto-site-v2/src/pages/PartnerDetailPage.test.tsx docs/superpowers/plans/2026-07-22-sunny-cisco-detail.md
 git commit -m "style: refine Cisco hero title scale"
 ```
+
+### Task 6: 真实照片服务卡片
+
+**Files:**
+- Create: `joto-site-v2/src/assets/partners/cisco-consulting.jpg`
+- Create: `joto-site-v2/src/assets/partners/cisco-integration.jpg`
+- Create: `joto-site-v2/src/assets/partners/cisco-managed-services.jpg`
+- Modify: `joto-site-v2/src/content/partners.ts`
+- Modify: `joto-site-v2/src/content/partners.test.ts`
+- Modify: `joto-site-v2/src/pages/PartnerDetailPage.tsx`
+- Modify: `joto-site-v2/src/pages/PartnerDetailPage.test.tsx`
+- Modify: `joto-site-v2/docs/content-sources.md`
+
+**Interfaces:**
+- Extends: `PartnerService` with `icon: "compass" | "wrench" | "headphones"`, `image: string`, `imageAlt: string`, and `imagePosition: string`.
+- Consumes: three locally imported JPEG assets and existing service copy/capabilities.
+- Produces: three rounded service cards with responsive photos, Lucide icons, descriptions, and capability lists.
+
+- [ ] **Step 1: 写数据与页面失败测试**
+
+在 `partners.test.ts` 中验证每项服务都包含本地图片、可访问替代文本和唯一图标：
+
+```tsx
+expect(detail?.services.map((service) => service.icon)).toEqual([
+  "compass",
+  "wrench",
+  "headphones",
+]);
+for (const service of detail?.services ?? []) {
+  expect(service.image).toMatch(/cisco-.*\.jpg$/);
+  expect(service.imageAlt.length).toBeGreaterThan(20);
+}
+```
+
+在 `PartnerDetailPage.test.tsx` 的服务区域断言三张场景图与三个命名图标：
+
+```tsx
+expect(within(services as HTMLElement).getAllByRole("img")).toHaveLength(3);
+for (const service of detail!.services) {
+  expect(within(services as HTMLElement).getByRole("img", { name: service.imageAlt })).toBeInTheDocument();
+  expect(within(services as HTMLElement).getByLabelText(`${service.title} icon`)).toBeInTheDocument();
+}
+```
+
+- [ ] **Step 2: 运行测试并确认失败**
+
+Run: `npm test -- --run src/content/partners.test.ts src/pages/PartnerDetailPage.test.tsx`
+
+Expected: FAIL，因为 `PartnerService` 尚无图片和图标字段，页面也尚未渲染服务图片。
+
+- [ ] **Step 3: 下载已确认的真实照片为本地资源**
+
+```bash
+curl -L "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=82" -o src/assets/partners/cisco-consulting.jpg
+curl -L "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1600&q=82" -o src/assets/partners/cisco-integration.jpg
+curl -L "https://images.pexels.com/photos/37605911/pexels-photo-37605911.jpeg?auto=compress&cs=tinysrgb&w=1600" -o src/assets/partners/cisco-managed-services.jpg
+```
+
+验证三个文件均为 JPEG 且宽度不低于 1200px：
+
+```bash
+file src/assets/partners/cisco-*.jpg
+sips -g pixelWidth src/assets/partners/cisco-*.jpg
+```
+
+- [ ] **Step 4: 扩展服务数据**
+
+在 `partners.ts` 导入三张图片，并把 `PartnerService` 更新为：
+
+```tsx
+export interface PartnerService {
+  title: string;
+  description: string;
+  capabilities: string[];
+  icon: "compass" | "wrench" | "headphones";
+  image: string;
+  imageAlt: string;
+  imagePosition: string;
+}
+```
+
+三项服务依次写入：
+
+```tsx
+{
+  icon: "compass",
+  image: ciscoConsulting,
+  imageAlt: "IT consultants and client stakeholders discussing enterprise network planning around a conference table",
+  imagePosition: "object-center",
+}
+{
+  icon: "wrench",
+  image: ciscoIntegration,
+  imageAlt: "Engineer installing and configuring technical equipment during an on-site integration",
+  imagePosition: "object-center",
+}
+{
+  icon: "headphones",
+  image: ciscoManagedServices,
+  imageAlt: "IT operations engineer viewed from behind monitoring systems inside a server room",
+  imagePosition: "object-center",
+}
+```
+
+- [ ] **Step 5: 实现圆角照片服务卡片**
+
+在 `PartnerDetailPage.tsx` 导入 `Compass`, `Wrench`, `Headphones`，并增加映射：
+
+```tsx
+const serviceIcons = {
+  compass: Compass,
+  wrench: Wrench,
+  headphones: Headphones,
+};
+```
+
+每张服务卡片使用下列结构：
+
+```tsx
+const ServiceIcon = serviceIcons[service.icon];
+
+<article className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/12 bg-[#080d0c]">
+  <div className="relative aspect-[4/3] overflow-hidden md:aspect-[16/10]">
+    <img
+      alt={service.imageAlt}
+      className={`h-full w-full object-cover saturate-[0.78] transition-transform duration-700 group-hover:scale-[1.025] ${service.imagePosition}`}
+      loading="lazy"
+      src={service.image}
+    />
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080d0c]/50" />
+    <div
+      aria-label={`${service.title} icon`}
+      className="absolute bottom-0 left-6 grid h-12 w-12 translate-y-1/2 place-items-center rounded-xl border border-[#2949a8] bg-[#0c1830] text-[#9cb1ff] shadow-xl"
+    >
+      <ServiceIcon aria-hidden="true" className="h-5 w-5" />
+    </div>
+  </div>
+  <div className="flex flex-1 flex-col p-7 pt-11 sm:p-8 sm:pt-12">
+    <h3>{service.title}</h3>
+    <p>{service.description}</p>
+    <ul>{/* existing capability items */}</ul>
+  </div>
+</article>
+```
+
+服务网格改为 `mt-16 grid gap-4 lg:grid-cols-3`，能力勾选标记使用 `text-[#7f9cff]`，保留现有文案与完整五项能力。
+
+- [ ] **Step 6: 记录素材来源**
+
+在 `docs/content-sources.md` 增加三张照片的来源页面、作者/平台、用途与本地文件名。Managed Services 来源页面固定为 `https://www.pexels.com/photo/it-technician-working-in-data-center-server-room-37605911/`。
+
+- [ ] **Step 7: 运行自动验证**
+
+Run: `npm test -- --run && npm run build`
+
+Expected: 24 个现有测试加新增断言全部通过，生产构建成功。
+
+- [ ] **Step 8: 浏览器验证**
+
+Run: `npm run dev -- --host 127.0.0.1 --port 3002`
+
+在 1440×900 与 390×844 检查：三张照片不重复；人物和动作未被严重裁切；桌面照片为 16:10、移动端为 4:3；图标、正文和五项能力完整；页面无横向溢出。
+
+- [ ] **Step 9: 提交服务卡片改版**
+
+```bash
+git add joto-site-v2/src/assets/partners/cisco-*.jpg joto-site-v2/src/content/partners.ts joto-site-v2/src/content/partners.test.ts joto-site-v2/src/pages/PartnerDetailPage.tsx joto-site-v2/src/pages/PartnerDetailPage.test.tsx joto-site-v2/docs/content-sources.md docs/superpowers/plans/2026-07-22-sunny-cisco-detail.md
+git commit -m "feat: add visual Cisco service cards"
+```
