@@ -157,13 +157,13 @@ def _provisional_page_id(source_url: str, html: str) -> str:
     body_classes = " ".join(soup.body.get("class", [])) if soup.body else ""
     import re
 
-    match = re.search(r"page-id-(\d+)", body_classes)
+    match = re.search(r"(?:page-id|postid)-(\d+)", body_classes)
     query = dict(
         part.split("=", 1) if "=" in part else (part, "")
         for part in urlsplit(source_url).query.split("&")
         if part
     )
-    source_id = match.group(1) if match else query.get("page_id")
+    source_id = match.group(1) if match else query.get("page_id") or query.get("p")
     label = source_id or "url"
     digest = hashlib.sha256(source_url.encode()).hexdigest()[:10]
     return f"page-{label}-{digest}"

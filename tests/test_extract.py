@@ -174,3 +174,19 @@ def test_collapsed_tab_content_is_preserved_and_marked_hidden() -> None:
     assert all(block.data["sourceHidden"] is True for block in page.blocks)
     assert page.blocks[0].data["sourceHiddenReasons"] == ["display-none"]
     assert set(page.blocks[1].data["sourceHiddenReasons"]) == {"hidden-attribute", "display-none"}
+
+
+def test_wordpress_post_id_is_preserved_from_query_or_body_class() -> None:
+    query_page = extract_page(
+        "<html><head><title>Post</title></head><body><main><p>Copy</p></main></body></html>",
+        "https://www.jototech.cn/?p=16556",
+        PageStatus.ARCHIVED,
+    )
+    class_page = extract_page(
+        '<html><head><title>Post</title></head><body class="postid-8400"><main><p>Copy</p></main></body></html>',
+        "https://www.jototech.cn/post",
+        PageStatus.ARCHIVED,
+    )
+    assert query_page.source_page_id == "16556"
+    assert query_page.id.startswith("page-16556-")
+    assert class_page.source_page_id == "8400"

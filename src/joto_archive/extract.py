@@ -136,8 +136,9 @@ def _hidden_reasons(tag: Tag, boundary: Tag | None = None) -> list[str]:
 
 def _page_id(source_url: str, soup: BeautifulSoup) -> tuple[str, str | None]:
     body_classes = " ".join(soup.body.get("class", [])) if soup.body else ""
-    match = re.search(r"page-id-(\d+)", body_classes)
-    query_id = parse_qs(urlsplit(source_url).query).get("page_id", [None])[0]
+    match = re.search(r"(?:page-id|postid)-(\d+)", body_classes)
+    query = parse_qs(urlsplit(source_url).query)
+    query_id = query.get("page_id", query.get("p", [None]))[0]
     source_id = match.group(1) if match else query_id
     source_label = source_id or "url"
     url_digest = hashlib.sha256(source_url.encode()).hexdigest()[:10]
