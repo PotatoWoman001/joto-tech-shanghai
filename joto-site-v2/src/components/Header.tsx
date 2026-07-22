@@ -1,11 +1,13 @@
 import { useEffect, useId, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { siteContent } from "../content/en";
-import { vendorAnchor } from "../lib/anchors";
+import { homeAnchor, pageHref, vendorAnchor } from "../lib/anchors";
 
 export const NAV_LINKS = siteContent.nav;
 
 export default function Header() {
+  const fromDetailPage =
+    typeof window !== "undefined" && window.location.pathname.startsWith("/solutions/");
   const [menuOpen, setMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [desktopSolutionsOpen, setDesktopSolutionsOpen] = useState(false);
@@ -53,7 +55,7 @@ export default function Header() {
         <a
           aria-label="JOTO TECH home"
           className="relative z-[70] inline-flex items-center"
-          href="#top"
+          href={homeAnchor("top", fromDetailPage)}
           onClick={closeMenu}
         >
           <span className="text-xl font-extrabold leading-none tracking-[-0.055em] text-white">
@@ -107,7 +109,7 @@ export default function Header() {
                     <div className="bg-[#08100d] p-4" key={category.id}>
                       <a
                         className="text-sm font-semibold text-white transition-colors hover:text-joto-green"
-                        href={`#solution-${category.id}`}
+                        href={homeAnchor(`solution-${category.id}`, fromDetailPage)}
                         onClick={() => setDesktopSolutionsOpen(false)}
                       >
                         {category.title}
@@ -116,7 +118,7 @@ export default function Header() {
                         {category.vendors.map((vendor) => (
                           <a
                             className="block text-[11px] leading-4 text-white/55 transition-colors hover:text-white"
-                            href={vendorAnchor(category.id, vendor.name)}
+                            href={pageHref(vendorAnchor(category.id, vendor.name), fromDetailPage)}
                             key={vendor.name}
                             onClick={() => setDesktopSolutionsOpen(false)}
                           >
@@ -133,7 +135,7 @@ export default function Header() {
           {NAV_LINKS.slice(1).map((link) => (
             <a
               className="font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green"
-              href={link.href}
+              href={pageHref(link.href, fromDetailPage)}
               key={link.href}
             >
               {link.label}
@@ -170,7 +172,7 @@ export default function Header() {
                 className={`font-sans text-[clamp(2rem,10vw,4rem)] font-extrabold leading-none tracking-[-0.04em] text-white transition-[color,transform,opacity] duration-500 hover:text-joto-green ${
                   menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                 }`}
-                href="#solutions"
+                href={homeAnchor("solutions", fromDetailPage)}
                 onClick={closeMenu}
               >
                 SOLUTIONS
@@ -224,7 +226,7 @@ export default function Header() {
                               {category.vendors.map((vendor) => (
                                 <a
                                   className="block text-sm text-white/55 transition-colors hover:text-white"
-                                  href={vendorAnchor(category.id, vendor.name)}
+                                  href={pageHref(vendorAnchor(category.id, vendor.name), fromDetailPage)}
                                   key={vendor.name}
                                   onClick={closeMenu}
                                   tabIndex={solutionsOpen && categoryOpen ? 0 : -1}
@@ -247,7 +249,7 @@ export default function Header() {
               className={`border-b border-white/10 pb-5 font-sans text-[clamp(2rem,10vw,4rem)] font-extrabold leading-none tracking-[-0.04em] text-white transition-[color,transform,opacity] duration-500 hover:translate-x-2 hover:text-joto-green ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
-              href={link.href}
+              href={pageHref(link.href, fromDetailPage)}
               key={link.href}
               onClick={closeMenu}
               style={{ transitionDelay: menuOpen ? `${145 + index * 45}ms` : "0ms" }}

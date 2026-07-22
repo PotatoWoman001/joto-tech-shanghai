@@ -1,0 +1,275 @@
+import { ArrowDownRight, ArrowRight, Check, Mail } from "lucide-react";
+import Header from "../components/Header";
+import SectionHeading, { Reveal } from "../components/SectionHeading";
+import type { PartnerDetail } from "../content/partners";
+
+interface PartnerDetailPageProps {
+  detail: PartnerDetail;
+}
+
+const sectionShell = "mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12";
+
+function GridLines() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
+      {["left-1/4", "left-1/2", "left-3/4"].map((position) => (
+        <span className={`absolute inset-y-0 w-px bg-white/[0.07] ${position}`} key={position} />
+      ))}
+    </div>
+  );
+}
+
+export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
+  return (
+    <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
+      <section
+        aria-labelledby="partner-hero-title"
+        className="relative isolate min-h-[900px] overflow-hidden border-b border-white/10 bg-[#070b0a] lg:min-h-screen"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_76%_43%,rgba(94,210,156,0.15),transparent_34%),linear-gradient(180deg,transparent_55%,#070b0a_100%)]"
+        />
+        <GridLines />
+        <Header />
+
+        <div className={`${sectionShell} relative z-10 grid min-h-[900px] gap-12 pb-14 pt-32 lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-8 lg:pb-16 lg:pt-28`}>
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="flex items-center gap-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-joto-green">
+                  {detail.eyebrow}
+                </p>
+                <span className="h-px w-12 bg-white/20" />
+                <p className="font-mono text-[10px] tracking-[0.18em] text-white/40">01 / 05</p>
+              </div>
+
+              <div className="mt-9 flex items-center gap-5">
+                <img
+                  alt={`${detail.partnerName} logo`}
+                  className="h-8 w-auto max-w-[112px] brightness-0 invert"
+                  src={detail.partnerLogo}
+                />
+                <span className="text-2xl font-light text-white/28">×</span>
+                <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
+              </div>
+
+              <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42">
+                Cisco × JOTO
+              </p>
+              <h1
+                className="mt-5 max-w-[900px] text-[clamp(3.5rem,8.3vw,8.4rem)] font-medium leading-[0.84] tracking-[-0.072em]"
+                id="partner-hero-title"
+              >
+                {detail.title}
+                <br />
+                <em className="font-serif font-normal tracking-[-0.045em] text-joto-green">
+                  {detail.accent}
+                </em>
+              </h1>
+              <p className="mt-8 max-w-2xl text-base leading-7 text-white/60 md:text-lg md:leading-8">
+                {detail.introduction}
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a
+                  className="group inline-flex items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-[#070b0a] transition-transform hover:-translate-y-0.5"
+                  href="#partner-case-studies"
+                >
+                  View Cisco case studies
+                  <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+                </a>
+                <a
+                  className="inline-flex items-center gap-3 rounded-full border border-white/20 px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors hover:border-white/50"
+                  href={`mailto:${detail.contactEmail}`}
+                >
+                  Contact JOTO
+                  <Mail className="h-4 w-4" />
+                </a>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal className="relative lg:col-span-5" delay={120}>
+            <div className="relative -mx-8 sm:mx-0 lg:-ml-20 lg:mr-[-3vw]">
+              <div
+                aria-hidden="true"
+                className="absolute inset-[12%] rounded-full bg-joto-green/10 blur-3xl"
+              />
+              <img
+                alt={detail.heroVisual.alt}
+                className="relative z-10 w-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]"
+                src={detail.heroVisual.src}
+              />
+              <p className="relative z-10 mt-5 border-t border-white/12 pt-4 font-mono text-[9px] uppercase leading-5 tracking-[0.16em] text-white/38">
+                {detail.heroVisual.caption}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-relationship">
+        <div className={sectionShell}>
+          <SectionHeading
+            eyebrow="Cisco × JOTO"
+            index="02"
+            title={detail.relationshipTitle}
+            description={detail.relationshipDescription}
+          />
+          <div className="mt-16 grid border-l border-t border-white/12 lg:grid-cols-3">
+            {detail.reasons.map((reason, index) => (
+              <Reveal
+                className="group min-h-[300px] border-b border-r border-white/12 p-7 transition-colors hover:bg-white/[0.025] sm:p-9"
+                delay={index * 80}
+                key={reason.title}
+              >
+                <p className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
+                  0{index + 1}
+                </p>
+                <h3 className="mt-20 text-2xl font-medium tracking-[-0.04em] text-white sm:text-3xl">
+                  {reason.title}
+                </h3>
+                <p className="mt-5 max-w-md text-sm leading-6 text-white/52">
+                  {reason.description}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#070b0a] py-24 sm:py-28 lg:py-36" id="partner-services">
+        <div className={sectionShell}>
+          <SectionHeading
+            eyebrow="JOTO Cisco Services"
+            index="03"
+            title={detail.servicesTitle}
+            description={detail.servicesDescription}
+          />
+          <div className="mt-16 grid gap-px bg-white/12 lg:grid-cols-3">
+            {detail.services.map((service, index) => (
+              <Reveal
+                className="flex min-h-[520px] flex-col bg-[#080d0c] p-7 sm:p-9"
+                delay={index * 90}
+                key={service.title}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] tracking-[0.2em] text-white/40">
+                    0{index + 1}
+                  </span>
+                  <ArrowDownRight className="h-5 w-5 text-joto-green" />
+                </div>
+                <h3 className="mt-20 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
+                  {service.title}
+                </h3>
+                <p className="mt-5 text-sm leading-6 text-white/52">{service.description}</p>
+                <ul className="mt-auto space-y-3 border-t border-white/12 pt-7">
+                  {service.capabilities.map((capability) => (
+                    <li className="flex items-start gap-3 text-xs leading-5 text-white/64" key={capability}>
+                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-joto-green" />
+                      {capability}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
+        <div className={sectionShell}>
+          <SectionHeading
+            eyebrow="Selected Deployments"
+            index="04"
+            title="Cisco infrastructure, proven in the field."
+            description="Selected environments where JOTO has designed, deployed or supported Cisco technology as part of a wider business-critical solution."
+          />
+          <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
+            {detail.cases.map((caseStudy, index) => (
+              <Reveal key={caseStudy.client}>
+                <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
+                  <div className="flex items-start gap-5 lg:col-span-3">
+                    <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
+                      0{index + 1}
+                    </span>
+                    <img
+                      alt={`${caseStudy.client} logo`}
+                      className="max-h-12 w-auto max-w-[150px] object-contain object-left brightness-0 invert opacity-85"
+                      loading="lazy"
+                      src={caseStudy.logo}
+                    />
+                  </div>
+                  <div className="lg:col-span-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                      {caseStudy.category}
+                    </p>
+                    <h3 className="mt-3 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
+                      {caseStudy.client}
+                    </h3>
+                    <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
+                      {caseStudy.brief}
+                    </p>
+                  </div>
+                  <div className="lg:col-span-3">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-joto-green">
+                      {caseStudy.tag}
+                    </p>
+                    <ul className="mt-5 space-y-2.5">
+                      {caseStudy.scope.map((item) => (
+                        <li className="text-xs leading-5 text-white/52" key={item}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-joto-green text-[#070b0a]" id="contact">
+        <div aria-hidden="true" className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(7,11,10,.4)_1px,transparent_1px),linear-gradient(90deg,rgba(7,11,10,.4)_1px,transparent_1px)] [background-size:25%_100%,25%_100%]" />
+        <div className={`${sectionShell} relative py-24 sm:py-28 lg:py-36`}>
+          <Reveal className="grid gap-10 lg:grid-cols-12 lg:gap-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] lg:col-span-3">
+              05 / Start a project
+            </p>
+            <div className="lg:col-span-9">
+              <h2 className="max-w-5xl text-[clamp(3.2rem,7.5vw,8rem)] font-medium leading-[0.86] tracking-[-0.07em]">
+                {detail.ctaTitle}
+              </h2>
+              <p className="mt-8 max-w-2xl text-base leading-7 text-black/62 md:text-lg">
+                {detail.ctaDescription}
+              </p>
+              <a
+                className="group mt-10 inline-flex items-center gap-4 rounded-full bg-[#070b0a] px-7 py-4 text-xs font-bold uppercase tracking-[0.1em] text-white transition-transform hover:-translate-y-0.5"
+                href={`mailto:${detail.contactEmail}`}
+              >
+                Start a conversation
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <footer className="border-t border-white/10 bg-[#050807] px-5 py-8 text-white sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5">
+          <a className="text-xl font-extrabold tracking-[-0.055em]" href="/#top">
+            JOTO
+          </a>
+          <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">
+            Cisco solutions · designed, deployed and supported by JOTO
+          </p>
+          <a className="text-xs text-white/55 transition-colors hover:text-joto-green" href={`mailto:${detail.contactEmail}`}>
+            {detail.contactEmail}
+          </a>
+        </div>
+      </footer>
+    </main>
+  );
+}

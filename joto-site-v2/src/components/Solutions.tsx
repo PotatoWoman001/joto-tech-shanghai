@@ -1,5 +1,5 @@
 import { siteContent } from "../content/en";
-import { vendorAnchor } from "../lib/anchors";
+import { vendorId } from "../lib/anchors";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
 export default function Solutions() {
@@ -30,7 +30,7 @@ export default function Solutions() {
                 <span
                   aria-hidden="true"
                   className="absolute left-0 top-0 scroll-mt-24"
-                  id={vendorAnchor(category.id, vendor.name).slice(1)}
+                  id={vendorId(category.id, vendor.name)}
                   key={vendor.name}
                 />
               ))}

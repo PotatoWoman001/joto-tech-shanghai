@@ -6,6 +6,7 @@ import Header, { NAV_LINKS } from "./Header";
 describe("Header", () => {
   afterEach(() => {
     document.body.style.overflow = "";
+    window.history.replaceState({}, "", "/");
   });
 
   it("renders the approved navigation destinations", () => {
@@ -28,7 +29,7 @@ describe("Header", () => {
 
     expect(
       within(desktopNavigation).getByRole("link", { name: "Cisco", hidden: true }),
-    ).toHaveAttribute("href", "#solution-network-cisco");
+    ).toHaveAttribute("href", "/solutions/network/cisco");
   });
 
   it("opens the desktop solution directory on click without the redundant hierarchy label", async () => {
@@ -98,7 +99,7 @@ describe("Header", () => {
     );
     expect(within(mobileNavigation).getByRole("link", { name: "Cisco" })).toHaveAttribute(
       "href",
-      "#solution-network-cisco",
+      "/solutions/network/cisco",
     );
 
     await user.click(within(mobileNavigation).getByRole("button", { name: "Security" }));
@@ -110,5 +111,23 @@ describe("Header", () => {
       "href",
       "#solution-security-knowbe4",
     );
+  });
+
+  it("returns detail-page navigation to the corresponding home sections", () => {
+    window.history.replaceState({}, "", "/solutions/network/cisco");
+    render(<Header />);
+
+    const desktopNavigation = screen.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+
+    expect(screen.getByRole("link", { name: "JOTO TECH home" })).toHaveAttribute("href", "/#top");
+    expect(within(desktopNavigation).getByRole("link", { name: "SERVICES" })).toHaveAttribute(
+      "href",
+      "/#services",
+    );
+    expect(
+      within(desktopNavigation).getByRole("link", { name: "Aruba", hidden: true }),
+    ).toHaveAttribute("href", "/#solution-network-aruba");
   });
 });

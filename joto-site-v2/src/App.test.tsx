@@ -1,8 +1,12 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
 
 describe("JOTO TECH single-page website", () => {
+  afterEach(() => {
+    window.history.replaceState({}, "", "/");
+  });
+
   it("renders the approved hero message and supporting statement", () => {
     const { container } = render(<App />);
     const hero = container.querySelector('section[aria-labelledby="hero-title"]');
@@ -80,5 +84,16 @@ describe("JOTO TECH single-page website", () => {
     for (const term of forbidden) {
       expect(container.textContent?.toLowerCase()).not.toContain(term.toLowerCase());
     }
+  });
+
+  it("renders the Cisco partner detail at its public pathname", () => {
+    window.history.replaceState({}, "", "/solutions/network/cisco");
+
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "We Make IT Happen." })).not.toBeInTheDocument();
   });
 });
