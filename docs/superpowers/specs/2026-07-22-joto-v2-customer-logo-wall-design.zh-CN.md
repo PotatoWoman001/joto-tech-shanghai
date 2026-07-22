@@ -1,17 +1,17 @@
 # JOTO V2 首页客户 Logo 墙设计规格
 
 日期：2026-07-22  
-状态：待用户书面审阅  
+状态：已批准；2026-07-22 批准首页位置修订
 开发分支：`codex/joto-logo-wall`
 
 ## 1. 目标
 
-在不影响当前首页开发分支和正式首页展示的前提下，制作一个可独立预览、可通过功能开关接入首页的客户 Logo 墙。视觉参考 `https://joto.ai/` 首页 Hero 下方的双行横向滚动 Logo 带，但颜色、间距与动效需要适配 JOTO TECH V2 的深色视觉体系。
+在不影响当前首页开发分支的前提下，制作一个可独立预览、通过功能开关接入首页的客户 Logo 墙。正式启用后放在 `03 SELECTED EXPERIENCE` 与 `04 ABOUT JOTO` 之间。视觉参考 `https://joto.ai/` 的双行横向滚动 Logo 带，但颜色、间距与动效适配 JOTO TECH V2 的深色视觉体系。
 
 成功标准：
 
 - 当前首页分支不包含 Logo 墙开发提交。
-- 未开启功能开关时，正式首页 DOM 与当前版本保持一致。
+- 功能开关默认开启；关闭时首页不挂载 Logo 墙。
 - 可通过独立预览路径检查桌面端、移动端和减少动态效果模式。
 - 42 个品牌使用 2026 年当前标识；已更名品牌不继续展示旧标识。
 - 页面不会因为 Logo 图片加载产生明显布局跳动，也不会引入第三方运行时请求。
@@ -20,7 +20,7 @@
 
 ### 方案 A：独立双行滚动区块（采用）
 
-将 Logo 墙作为 `CustomerLogoWall` 独立组件，视觉上紧接 Hero、代码上与 Hero 解耦。组件拥有自己的内容数据、样式、动效与测试，通过功能开关插入 `Hero` 与 `Solutions` 之间。
+将 Logo 墙作为 `CustomerLogoWall` 独立组件，代码上与相邻板块解耦。组件拥有自己的内容数据、样式、动效与测试，通过功能开关插入 `CaseStudies` 与 `About` 之间。
 
 优点：对 Hero 布局侵入最小；可单独预览和测试；未来增删 Logo 不需要修改 Hero。缺点：比绝对定位在 Hero 内多一个页面区块。
 
@@ -34,7 +34,7 @@ Logo 最易浏览，也没有持续动画，但 42 个卡片会显著拉长首�
 
 ## 3. 页面位置与视觉
 
-Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过轻微顶部/底部渐变与 Hero、下一节自然衔接。
+Logo 墙位于 `03 SELECTED EXPERIENCE` 与 `04 ABOUT JOTO` 之间，背景沿用 `#070b0a`，通过轻微顶部/底部渐变与相邻区块自然衔接。
 
 - 标题：`TRUSTED BY INDUSTRY LEADERS`
 - 不使用 `Trusted by Fortune 500`。42 个品牌并非全部属于《财富》世界 500 强，未经逐项证明不应作该声明。
@@ -50,7 +50,7 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 
 - `src/components/CustomerLogoWall.tsx`：只负责渲染和可访问性。
 - `src/content/customerLogos.ts`：42 个品牌的名称、Logo 导入和行分组。
-- `src/config/features.ts`：`customerLogoWall` 功能开关，默认关闭。
+- `src/config/features.ts`：`customerLogoWall` 功能开关，默认开启。
 - `src/pages/CustomerLogoWallPreviewPage.tsx`：独立预览，不依赖首页开关。
 - `src/assets/customer-logos/`：本地 Logo 文件。
 - `docs/content-sources/customer-logo-wall.md`：品牌名称、当前状态、来源 URL、素材日期和来源类型。
@@ -60,9 +60,9 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 首页接入方式：
 
 ```tsx
-<Hero />
+<CaseStudies />
 {featureFlags.customerLogoWall && <CustomerLogoWall />}
-<Solutions />
+<About />
 ```
 
 预览路径：`/preview/customer-logo-wall`。该路径只用于开发验收，不加入主导航。
@@ -146,7 +146,7 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 
 - 42 个源文件只加载一次；循环复制节点复用相同 URL，由浏览器缓存。
 - 对栅格文件进行尺寸与体积检查，避免导入印刷级超大图片。
-- 图片使用 `loading="lazy"` 和 `decoding="async"`，组件保留稳定占位尺寸。
+- 图片使用 `decoding="async"`；不使用横向动画不可靠的懒加载，组件保留稳定占位尺寸。
 - 单个素材加载失败时卡片显示品牌文字，不影响整条轨道。
 - 构建时检查所有导入文件存在；缺失素材不能以远程 URL 临时替代。
 
@@ -155,7 +155,7 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 自动化测试：
 
 - 功能开关关闭时，首页不存在 Logo 墙。
-- 功能开关开启时，Logo 墙位于 Hero 与 Solutions 之间。
+- 功能开关默认开启时，Logo 墙位于 Case Studies 与 About 之间。
 - 预览路径始终可渲染 Logo 墙。
 - 42 个唯一品牌全部存在，循环副本不重复暴露给辅助技术。
 - `FORVIA` 和 `Guolian Minsheng Securities` 存在；`Faurecia` 和旧 `Guolian Securities` 不作为显示名称出现。
@@ -164,7 +164,7 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 视觉验收：
 
 - 桌面宽屏、标准笔记本、平板和手机宽度下均无横向页面溢出。
-- Hero、Solutions 及现有导航锚点不发生回归。
+- Case Studies、About 及现有导航锚点不发生回归。
 - 两行循环衔接处无跳帧或明显空白。
 - 减少动态效果模式下没有持续动画。
 - 深色背景下各品牌可辨识，且 Logo 墙不会抢过 Hero 主标题。
@@ -172,6 +172,6 @@ Logo 墙位于 `Hero` 与 `Solutions` 之间，背景沿用 `#070b0a`，通过�
 ## 10. 发布流程
 
 1. 在独立工作树 `codex/joto-logo-wall` 完成素材、组件、预览页和测试。
-2. 保持 `customerLogoWall` 默认关闭，提交验收版本。
-3. 本地构建、测试和浏览器视觉验收全部通过后，再由用户决定是否开启首页开关或将分支合并到首页主线。
-4. 开启前再次确认客户关系、商标使用授权与标题措辞。
+2. 保持 `customerLogoWall` 功能开关，并按用户批准设为默认开启。
+3. 本地构建、测试和浏览器视觉验收全部通过后，将分支交付合并。
+4. 正式上线前再次确认客户关系、商标使用授权与标题措辞。
