@@ -1,2 +1,0 @@
-[console_scripts]
-joto-archive = joto_archive.cli:main
