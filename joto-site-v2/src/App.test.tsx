@@ -1,9 +1,11 @@
 import { render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
+import { featureFlags } from "./config/features";
 
 describe("JOTO TECH single-page website", () => {
   afterEach(() => {
+    featureFlags.customerLogoWall = false;
     window.history.replaceState({}, "", "/");
   });
 
@@ -95,5 +97,33 @@ describe("JOTO TECH single-page website", () => {
       screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
     ).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "We Make IT Happen." })).not.toBeInTheDocument();
+  });
+
+  it("keeps the customer logo wall off on the public home page by default", () => {
+    const { container } = render(<App />);
+
+    expect(container.querySelector("#customer-logo-wall")).not.toBeInTheDocument();
+  });
+
+  it("places the enabled customer logo wall between Hero and Solutions", async () => {
+    featureFlags.customerLogoWall = true;
+    const { container } = render(<App />);
+    await screen.findByRole("heading", { name: "TRUSTED BY INDUSTRY LEADERS" });
+    const hero = container.querySelector('section[aria-labelledby="hero-title"]') as HTMLElement;
+    const logoWall = container.querySelector("#customer-logo-wall") as HTMLElement;
+    const solutions = container.querySelector("#solutions") as HTMLElement;
+
+    expect(hero.compareDocumentPosition(logoWall)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(logoWall.compareDocumentPosition(solutions)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it("renders the isolated customer logo wall preview route", async () => {
+    window.history.replaceState({}, "", "/preview/customer-logo-wall");
+    const { container } = render(<App />);
+
+    await screen.findByRole("heading", { name: "TRUSTED BY INDUSTRY LEADERS" });
+
+    expect(container.querySelector("#customer-logo-wall")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 1, name: "We Make IT Happen." })).not.toBeInTheDocument();
   });
 });

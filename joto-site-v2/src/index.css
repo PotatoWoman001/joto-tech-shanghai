@@ -65,3 +65,72 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+@keyframes customer-logo-wall-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.customer-logo-wall::before,
+.customer-logo-wall::after {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  left: 0;
+  height: 4rem;
+  background: linear-gradient(180deg, #070b0a, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.customer-logo-wall::before {
+  top: 0;
+}
+
+.customer-logo-wall::after {
+  bottom: 0;
+  transform: rotate(180deg);
+}
+
+.customer-logo-wall__viewport {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.customer-logo-wall__track {
+  animation: customer-logo-wall-scroll var(--logo-wall-duration, 48s) linear infinite;
+  will-change: transform;
+}
+
+.customer-logo-wall__track--reverse {
+  animation-direction: reverse;
+}
+
+.customer-logo-wall__viewport:hover .customer-logo-wall__track,
+.customer-logo-wall__viewport:focus-within .customer-logo-wall__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .customer-logo-wall__viewport {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .customer-logo-wall__track {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .customer-logo-wall__track [data-logo-sequence="duplicate"] {
+    display: none;
+  }
+}

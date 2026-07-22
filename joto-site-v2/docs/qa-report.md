@@ -40,3 +40,19 @@
 - 后续接入三语言、Solution 详情页、联系表单数据库与邮件服务。
 
 本版本保持本地运行，未修改原网站，未部署到线上环境。
+
+## Customer Logo Wall Preview — 2026-07-22
+
+- 分支：`codex/joto-logo-wall`
+- 独立预览：`/preview/customer-logo-wall`
+- 正式首页开关：关闭；`#solutions` 仍直接跟在 Hero 后面
+- 加载隔离：首页网络记录中无 `CustomerLogoWall` 模块和客户 Logo 请求；预览/开启时才按需加载独立代码块
+- 素材：42 个品牌、两行各 21 个，运行时全部使用本地资源
+- 更名核验：FORVIA；Guolian Minsheng Securities
+- 自动测试与生产构建：通过
+- 浏览器尺寸：1440×1000、390×844；均无页面级横向溢出
+- 图片加载：84 个 DOM 图片节点（含无障碍隐藏的循环副本），0 个损坏、0 个外站请求
+- 动效：两行连续滚动且方向相反；悬停暂停
+- 减少动态效果：动画为 `none`，循环副本隐藏，原始列表可横向滚动
+- 控制台：无页面错误
+- 截图：`docs/screenshots/customer-logo-wall-desktop.png`、`docs/screenshots/customer-logo-wall-mobile.png`
