@@ -30,6 +30,12 @@
 - 主视觉：真实产品图不使用白色卡片边框，直接叠化进深绿色背景。
 - 动效：延续现有 Reveal 进入动画和 hover 细节，并遵守 reduced-motion。
 
+### 首屏标题比例微调
+
+- 保持 `Cisco solutions,` 的现有字号和无衬线视觉重量。
+- 将绿色斜体 `delivered by JOTO.` 相对当前实现缩小约 20%，桌面端与移动端同步调整。
+- 保持 Instrument Serif、JOTO green、现有换行和左对齐关系，不修改其他首屏元素。
+
 ## 可复用方式
 
 - 合作伙伴内容放在独立数据文件中。
@@ -41,4 +47,3 @@
 - 首个路由：`/solutions/network/cisco`。
 - 当前 Vite 单页应用通过 pathname 选择页面，不新增路由依赖。
 - 正式服务器需要把未知前端路径回退到 `index.html`，确保直接访问详情页可打开。
-
