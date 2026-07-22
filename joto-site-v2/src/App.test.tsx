@@ -49,6 +49,26 @@ describe("JOTO TECH single-page website", () => {
     expect(container.querySelector("#solution-network-cisco")).toBeInTheDocument();
   });
 
+  it("renders a real local photograph for every end-to-end service", () => {
+    const { container } = render(<App />);
+    const services = within(container.querySelector("#services") as HTMLElement);
+
+    expect(services.getAllByRole("img")).toHaveLength(4);
+    expect(
+      services.getByRole("img", {
+        name: "Security operator monitoring multiple live systems in a control center",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps the Starbucks logo in its original colors", () => {
+    render(<App />);
+    const logo = screen.getByRole("img", { name: "Starbucks China logo" });
+
+    expect(logo).not.toHaveClass("brightness-0");
+    expect(logo).not.toHaveClass("invert");
+  });
+
   it("shows the complete business page with the global delivery map", () => {
     render(<App />);
 

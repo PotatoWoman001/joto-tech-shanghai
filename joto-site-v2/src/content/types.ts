@@ -24,6 +24,8 @@ export interface SolutionCategory {
 export interface ServiceItem {
   title: string;
   description: string;
+  image: string;
+  imageAlt: string;
   points: string[];
 }
 
@@ -33,6 +35,7 @@ export interface CaseStudy {
   summary: string;
   capabilities: string[];
   logo?: string;
+  logoTreatment?: "light" | "original";
 }
 
 export interface Stat {

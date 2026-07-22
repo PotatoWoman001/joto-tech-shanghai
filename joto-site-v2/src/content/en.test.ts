@@ -47,6 +47,21 @@ describe("English site content", () => {
     }
   });
 
+  it("assigns a local photograph and descriptive alt text to every service", () => {
+    for (const service of siteContent.services.items) {
+      expect(service.image).toMatch(/\.webp$/i);
+      expect(service.imageAlt.trim().length).toBeGreaterThan(20);
+    }
+  });
+
+  it("preserves the original Starbucks logo colors", () => {
+    const starbucks = siteContent.caseStudies.items.find(
+      ({ client }) => client === "Starbucks China",
+    );
+
+    expect(starbucks?.logoTreatment).toBe("original");
+  });
+
   it("shows only the partnership levels supplied for each category", () => {
     const tiers = Object.fromEntries(
       siteContent.solutions.categories.flatMap((category) =>

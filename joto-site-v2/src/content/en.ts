@@ -14,6 +14,10 @@ import paloAltoLogo from "../assets/logos/palo-alto.svg";
 import sangforLogo from "../assets/logos/sangfor.png";
 import starbucksLogo from "../assets/logos/starbucks.svg";
 import verkadaLogo from "../assets/logos/verkada.png";
+import advisoryPlanningVisual from "../assets/services/advisory-planning.webp";
+import designIntegrationVisual from "../assets/services/design-integration.webp";
+import managedSupportVisual from "../assets/services/managed-support.webp";
+import securityComplianceVisual from "../assets/services/security-compliance.webp";
 import collaborationVisual from "../assets/solutions/collaboration.webp";
 import networkVisual from "../assets/solutions/network.webp";
 import safeguardingVisual from "../assets/solutions/safeguarding.webp";
@@ -245,6 +249,8 @@ export const siteContent: SiteContent = {
         title: "Advisory & Planning",
         description:
           "Translate business, technical and compliance requirements into a practical architecture and roadmap.",
+        image: advisoryPlanningVisual,
+        imageAlt: "Technology team collaborating around laptops during a planning workshop",
         points: [
           "Current-state assessment",
           "Architecture and technology selection",
@@ -256,6 +262,8 @@ export const siteContent: SiteContent = {
         title: "Design & Integration",
         description:
           "Coordinate products, deployment work and acceptance across connected infrastructure domains.",
+        image: designIntegrationVisual,
+        imageAlt: "Network cabling and active equipment inside enterprise server racks",
         points: [
           "Detailed solution design",
           "Multi-vendor procurement coordination",
@@ -267,6 +275,8 @@ export const siteContent: SiteContent = {
         title: "Security & Compliance",
         description:
           "Strengthen technology and operating practices around access, protection and audit readiness.",
+        image: securityComplianceVisual,
+        imageAlt: "Security operator monitoring multiple live systems in a control center",
         points: [
           "Security architecture review",
           "Network and identity controls",
@@ -278,6 +288,8 @@ export const siteContent: SiteContent = {
         title: "Managed Services & Support",
         description:
           "Maintain service continuity through coordinated monitoring, maintenance and user support.",
+        image: managedSupportVisual,
+        imageAlt: "IT support team working across multiple desktop systems in an office",
         points: [
           "Remote and on-site support",
           "Incident and service coordination",
@@ -308,6 +320,7 @@ export const siteContent: SiteContent = {
           "Security-infrastructure reinforcement supporting large-scale business operations in China.",
         capabilities: ["Network security", "Endpoint protection", "Security operations"],
         logo: starbucksLogo,
+        logoTreatment: "original",
       },
       {
         client: "Danaher",

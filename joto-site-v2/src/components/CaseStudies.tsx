@@ -36,7 +36,9 @@ export default function CaseStudies() {
                       src={item.logo}
                       alt={`${item.client} logo`}
                       loading="lazy"
-                      className="max-h-20 w-auto max-w-full object-contain object-left brightness-0 invert sm:max-h-24 sm:max-w-[260px]"
+                      className={`max-h-20 w-auto max-w-full object-contain object-left sm:max-h-24 sm:max-w-[260px] ${
+                        item.logoTreatment === "original" ? "" : "brightness-0 invert"
+                      }`}
                     />
                   </div>
                 ) : (
