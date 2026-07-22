@@ -56,3 +56,9 @@ The following primary sources informed concise vendor descriptions. Descriptions
 - Existing logo files in the supplied project are reused where available.
 - No third-party logo repository was used.
 - KnowBe4, OneLogin, Inspur, Vodia, CyberData, InformaCast and Keyking intentionally use text fallbacks in this version because a stable, directly downloadable official logo asset was not confirmed during implementation.
+
+### Cisco service photography
+
+- `cisco-consulting.jpg`: [Unsplash photo 5U_28ojjgms](https://unsplash.com/photos/5U_28ojjgms), cropped responsively for the Consulting & Design card.
+- `cisco-integration.jpg`: [Unsplash source image](https://images.unsplash.com/photo-1581092918056-0c4c3acd3789), cropped responsively for the Integration & Support card.
+- `cisco-managed-services.jpg`: [IT technician working in a data-center server room on Pexels](https://www.pexels.com/photo/it-technician-working-in-data-center-server-room-37605911/), cropped responsively for the Managed Services card.

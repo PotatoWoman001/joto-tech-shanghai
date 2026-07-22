@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowRight, Check, Mail } from "lucide-react";
+import { ArrowDownRight, ArrowRight, Check, Compass, Headphones, Mail, Wrench } from "lucide-react";
 import Header from "../components/Header";
 import SectionHeading, { Reveal } from "../components/SectionHeading";
 import type { PartnerDetail } from "../content/partners";
@@ -8,6 +8,12 @@ interface PartnerDetailPageProps {
 }
 
 const sectionShell = "mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12";
+
+const serviceIcons = {
+  compass: Compass,
+  wrench: Wrench,
+  headphones: Headphones,
+};
 
 function GridLines() {
   return (
@@ -146,33 +152,58 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
             title={detail.servicesTitle}
             description={detail.servicesDescription}
           />
-          <div className="mt-16 grid gap-px bg-white/12 lg:grid-cols-3">
-            {detail.services.map((service, index) => (
-              <Reveal
-                className="flex min-h-[520px] flex-col bg-[#080d0c] p-7 sm:p-9"
-                delay={index * 90}
-                key={service.title}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-white/40">
-                    0{index + 1}
-                  </span>
-                  <ArrowDownRight className="h-5 w-5 text-joto-green" />
-                </div>
-                <h3 className="mt-20 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
-                  {service.title}
-                </h3>
-                <p className="mt-5 text-sm leading-6 text-white/52">{service.description}</p>
-                <ul className="mt-auto space-y-3 border-t border-white/12 pt-7">
-                  {service.capabilities.map((capability) => (
-                    <li className="flex items-start gap-3 text-xs leading-5 text-white/64" key={capability}>
-                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-joto-green" />
-                      {capability}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
+          <div className="mt-16 grid gap-4 lg:grid-cols-3">
+            {detail.services.map((service, index) => {
+              const ServiceIcon = serviceIcons[service.icon];
+
+              return (
+                <Reveal className="h-full" delay={index * 90} key={service.title}>
+                  <article className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/12 bg-[#080d0c] transition-colors hover:border-white/20">
+                    <div className="relative">
+                      <div className="aspect-[4/3] overflow-hidden md:aspect-[16/10]">
+                        <img
+                          alt={service.imageAlt}
+                          className={`h-full w-full object-cover ${service.imagePosition} transition-transform duration-700 group-hover:scale-[1.025]`}
+                          loading="lazy"
+                          src={service.image}
+                        />
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-0 bg-gradient-to-t from-[#080d0c]/55 via-transparent to-transparent"
+                        />
+                      </div>
+                      <div
+                        aria-label={`${service.title} icon`}
+                        className="absolute bottom-0 left-6 grid h-12 w-12 translate-y-1/2 place-items-center rounded-[14px] border border-[#3158d5]/70 bg-[#10193a] text-[#9bb0ff] shadow-[0_12px_30px_rgba(0,0,0,0.35)] sm:left-8"
+                      >
+                        <ServiceIcon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-1 flex-col p-7 pt-11 sm:p-8 sm:pt-12">
+                      <span className="font-mono text-[10px] tracking-[0.2em] text-white/40">
+                        0{index + 1}
+                      </span>
+                      <h3 className="mt-7 text-2xl font-medium tracking-[-0.045em] sm:text-3xl">
+                        {service.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-6 text-white/52">{service.description}</p>
+                      <ul className="mt-8 space-y-3 border-t border-white/12 pt-6 lg:mt-auto">
+                        {service.capabilities.map((capability) => (
+                          <li
+                            className="flex items-start gap-3 text-xs leading-5 text-white/64"
+                            key={capability}
+                          >
+                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#7f9cff]" />
+                            {capability}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

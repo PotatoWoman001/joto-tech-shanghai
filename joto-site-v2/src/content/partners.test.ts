@@ -7,6 +7,15 @@ describe("partner detail content", () => {
 
     expect(detail?.partnerName).toBe("Cisco");
     expect(detail?.services).toHaveLength(3);
+    expect(detail?.services.map((service) => service.icon)).toEqual([
+      "compass",
+      "wrench",
+      "headphones",
+    ]);
+    for (const service of detail?.services ?? []) {
+      expect(service.image).toMatch(/cisco-.*\.jpg$/);
+      expect(service.imageAlt.length).toBeGreaterThan(20);
+    }
     expect(detail?.cases).toHaveLength(3);
     expect(detail?.contactEmail).toBe("sales@jototech.cn");
     expect(detail?.heroVisual.src).toMatch(/cisco-network-management\.png$/);

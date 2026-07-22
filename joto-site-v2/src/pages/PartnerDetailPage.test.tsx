@@ -22,6 +22,15 @@ describe("PartnerDetailPage", () => {
     const services = container.querySelector("#partner-services");
     expect(services).not.toBeNull();
     expect(within(services as HTMLElement).getAllByRole("heading", { level: 3 })).toHaveLength(3);
+    expect(within(services as HTMLElement).getAllByRole("img")).toHaveLength(3);
+    for (const service of detail!.services) {
+      expect(
+        within(services as HTMLElement).getByRole("img", { name: service.imageAlt }),
+      ).toBeInTheDocument();
+      expect(
+        within(services as HTMLElement).getByLabelText(`${service.title} icon`),
+      ).toBeInTheDocument();
+    }
 
     const cases = container.querySelector("#partner-case-studies");
     expect(cases).not.toBeNull();

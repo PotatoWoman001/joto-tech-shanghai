@@ -1,4 +1,7 @@
 import ciscoHeroVisual from "../assets/partners/cisco-network-management.png";
+import ciscoConsulting from "../assets/partners/cisco-consulting.jpg";
+import ciscoIntegration from "../assets/partners/cisco-integration.jpg";
+import ciscoManagedServices from "../assets/partners/cisco-managed-services.jpg";
 import chewyLogo from "../assets/logos/chewy.svg";
 import ciscoLogo from "../assets/logos/cisco.svg";
 import danaherLogo from "../assets/logos/danaher.svg";
@@ -13,6 +16,10 @@ export interface PartnerService {
   title: string;
   description: string;
   capabilities: string[];
+  icon: "compass" | "wrench" | "headphones";
+  image: string;
+  imageAlt: string;
+  imagePosition: string;
 }
 
 export interface PartnerCaseStudy {
@@ -93,6 +100,11 @@ const ciscoDetail: PartnerDetail = {
       title: "Consulting & Design",
       description:
         "JOTO assesses business requirements, users, sites and existing infrastructure before defining the network architecture.",
+      icon: "compass",
+      image: ciscoConsulting,
+      imageAlt:
+        "IT consultants and client stakeholders discussing enterprise network planning around a conference table",
+      imagePosition: "object-center",
       capabilities: [
         "Existing network assessment",
         "Topology and high-availability design",
@@ -105,6 +117,11 @@ const ciscoDetail: PartnerDetail = {
       title: "Integration & Support",
       description:
         "JOTO deploys and integrates Cisco infrastructure within the customer's wider IT environment.",
+      icon: "wrench",
+      image: ciscoIntegration,
+      imageAlt:
+        "Engineer installing and configuring technical equipment during an on-site integration",
+      imagePosition: "object-center",
       capabilities: [
         "Catalyst and wireless deployment",
         "Meraki cloud-managed networking",
@@ -117,6 +134,11 @@ const ciscoDetail: PartnerDetail = {
       title: "Managed Services",
       description:
         "JOTO provides managed support across China and selected international locations according to the agreed service scope.",
+      icon: "headphones",
+      image: ciscoManagedServices,
+      imageAlt:
+        "IT operations engineer viewed from behind monitoring systems inside a server room",
+      imagePosition: "object-center",
       capabilities: [
         "Monitoring and incident response",
         "Configuration changes and backups",
