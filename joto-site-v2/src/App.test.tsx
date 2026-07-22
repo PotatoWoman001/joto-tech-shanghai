@@ -27,15 +27,23 @@ describe("JOTO TECH single-page website", () => {
     expect(container.querySelector("#solution-network-cisco")).toBeInTheDocument();
   });
 
-  it("shows the complete business page and only explicit partner tiers", () => {
+  it("shows the complete business page with the global delivery map", () => {
     render(<App />);
 
     expect(document.querySelector("#services h2")).toBeInTheDocument();
     expect(document.querySelector("#case-studies")).toBeInTheDocument();
-    expect(document.querySelector("#partners")).toBeInTheDocument();
+    expect(document.querySelector("#partners")).not.toBeInTheDocument();
     expect(document.querySelector("#global-presence")).toBeInTheDocument();
-    expect(screen.getAllByText("Gold").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Platinum").length).toBeGreaterThan(0);
+    expect(
+      screen.getByRole("img", { name: /world map showing JOTO's international delivery footprint/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("protects long about statistics from overflowing their cards", () => {
+    render(<App />);
+
+    expect(screen.getByText("LIFECYCLE")).toHaveClass("break-words");
+    expect(screen.getByText("MULTI-VENDOR")).toHaveClass("break-words");
   });
 
   it("contains none of the excluded legacy product language", () => {

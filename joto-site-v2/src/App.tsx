@@ -3,7 +3,6 @@ import CaseStudies from "./components/CaseStudies";
 import ContactFooter from "./components/ContactFooter";
 import GlobalPresence from "./components/GlobalPresence";
 import Hero from "./components/Hero";
-import Partners from "./components/Partners";
 import Services from "./components/Services";
 import Solutions from "./components/Solutions";
 
@@ -15,7 +14,6 @@ export default function App() {
       <Services />
       <CaseStudies />
       <About />
-      <Partners />
       <GlobalPresence />
       <ContactFooter />
     </main>

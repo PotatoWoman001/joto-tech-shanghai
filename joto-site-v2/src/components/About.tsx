@@ -21,20 +21,30 @@ export default function About() {
             </p>
           </Reveal>
           <div className="grid border-l border-t border-white/15 sm:grid-cols-2 lg:col-span-12 lg:mt-16 lg:grid-cols-4">
-            {about.stats.map((stat, index) => (
-              <Reveal
-                key={stat.label}
-                delay={index * 70}
-                className="min-h-48 border-b border-r border-white/15 p-6 sm:min-h-56 lg:p-8"
-              >
-                <p className="text-[clamp(2.75rem,5vw,5rem)] font-medium leading-none tracking-[-0.06em] text-[#5ed29c]">
-                  {stat.value}
-                </p>
-                <p className="mt-12 max-w-[14rem] text-xs uppercase leading-5 tracking-[0.17em] text-white/48">
-                  {stat.label}
-                </p>
-              </Reveal>
-            ))}
+            {about.stats.map((stat, index) => {
+              const isLongValue = stat.value.length > 7;
+
+              return (
+                <Reveal
+                  key={stat.label}
+                  delay={index * 70}
+                  className="min-h-48 min-w-0 overflow-hidden border-b border-r border-white/15 p-6 sm:min-h-56 lg:p-8"
+                >
+                  <p
+                    className={`min-w-0 break-words font-medium leading-[0.96] tracking-[-0.06em] text-[#5ed29c] [overflow-wrap:anywhere] ${
+                      isLongValue
+                        ? "text-[clamp(1.65rem,2.8vw,2.75rem)]"
+                        : "text-[clamp(2.75rem,5vw,5rem)]"
+                    }`}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="mt-12 max-w-[14rem] break-words text-xs uppercase leading-5 tracking-[0.17em] text-white/48">
+                    {stat.label}
+                  </p>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </div>
