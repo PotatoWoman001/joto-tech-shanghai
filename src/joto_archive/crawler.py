@@ -263,6 +263,7 @@ class ArchiveCrawler:
         *,
         asset_store: AssetArchiver | None = None,
         extractor: Extractor = extract_page,
+        follow_discovered_links: bool = True,
     ) -> None:
         self.config = config
         self.storage = storage
@@ -270,6 +271,7 @@ class ArchiveCrawler:
         self.renderer = renderer
         self.asset_store = asset_store or AssetStore(storage.run_dir, fetcher)
         self.extractor = extractor
+        self.follow_discovered_links = follow_discovered_links
 
         self._url_rows: dict[str, dict[str, Any]] = {}
         self._items: dict[str, DiscoveredUrl] = {}
@@ -570,8 +572,9 @@ class ArchiveCrawler:
                 {"page_id": page.id, "source_url": page.source_url, "request": blocked}
             )
 
-        for found in discover_links(rendered.html, effective_url, self.config):
-            self._merge_discovered(found)
+        if self.follow_discovered_links:
+            for found in discover_links(rendered.html, effective_url, self.config):
+                self._merge_discovered(found)
 
     def _evidence_status(self, urls: Iterable[str], html: str) -> tuple[PageStatus | None, str | None]:
         classified = [classify_url(url, "evidence", self.config) for url in urls if url]

@@ -355,3 +355,23 @@ def test_same_semantic_content_deduplicates_despite_different_dom_locators(tmp_p
         ]
     )
     assert sum(page.status is PageStatus.DUPLICATE for page in outcome.pages) == 1
+
+
+def test_smoke_scope_does_not_follow_newly_discovered_links(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    home = "https://www.jototech.cn/"
+    extra = "https://www.jototech.cn/extra"
+    html = '<html><head><title>Home</title></head><body><main><p>Home</p></main><nav><a href="/extra">Extra</a></nav></body></html>'
+    storage = RunStorage(tmp_path / "archive", "bounded-smoke")
+    fetcher = FakeFetcher({home: _result(home, html.encode())})
+    outcome = ArchiveCrawler(
+        config,
+        storage,
+        fetcher,
+        FakeRenderer(tmp_path / "render", {home: html}),
+        follow_discovered_links=False,
+    ).run([classify_url(home, "smoke", config)])
+    assert fetcher.calls == [home]
+    assert len(outcome.pages) == 1
+    assert {row["url"] for row in outcome.urls} == {home}
+    assert extra not in fetcher.calls

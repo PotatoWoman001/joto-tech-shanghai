@@ -133,7 +133,13 @@ def _run_collection(args: argparse.Namespace, config: CrawlConfig, mode: str) ->
                 storage.run_dir,
                 storage_state=args.storage_state,
             ) as renderer:
-                ArchiveCrawler(config, storage, fetcher, renderer).run(items)
+                ArchiveCrawler(
+                    config,
+                    storage,
+                    fetcher,
+                    renderer,
+                    follow_discovered_links=(mode == "full"),
+                ).run(items)
     except SecurityChallengeError as error:
         print(
             "原站 WAF/CAPTCHA 要求人工验证，采集已立即停止；未绕过验证，也未发布结果。"
