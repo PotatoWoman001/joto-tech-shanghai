@@ -63,7 +63,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               >
                 {detail.title}
                 <br />
-                <em className="font-serif font-normal tracking-[-0.045em] text-joto-green">
+                <em className="font-serif text-[clamp(2.8rem,6.64vw,6.72rem)] font-normal tracking-[-0.045em] text-joto-green">
                   {detail.accent}
                 </em>
               </h1>

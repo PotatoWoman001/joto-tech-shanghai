@@ -13,6 +13,9 @@ describe("PartnerDetailPage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
     ).toBeInTheDocument();
+    expect(screen.getByText("delivered by JOTO.")).toHaveClass(
+      "text-[clamp(2.8rem,6.64vw,6.72rem)]",
+    );
     expect(screen.getAllByText("Cisco × JOTO")).toHaveLength(2);
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
 
