@@ -16,6 +16,8 @@ export interface SolutionCategory {
   id: string;
   title: string;
   description: string;
+  image: string;
+  imageAlt: string;
   vendors: Vendor[];
 }
 

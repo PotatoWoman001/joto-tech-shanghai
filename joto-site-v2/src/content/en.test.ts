@@ -38,6 +38,13 @@ describe("English site content", () => {
     });
   });
 
+  it("assigns a local visual and descriptive alt text to every solution category", () => {
+    for (const category of siteContent.solutions.categories) {
+      expect(category.image).toMatch(/\.(png|webp|jpg|jpeg)$/i);
+      expect(category.imageAlt.trim().length).toBeGreaterThan(10);
+    }
+  });
+
   it("shows only the partnership levels supplied for each category", () => {
     const tiers = Object.fromEntries(
       siteContent.solutions.categories.flatMap((category) =>

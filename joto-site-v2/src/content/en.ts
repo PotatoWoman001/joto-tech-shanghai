@@ -14,6 +14,11 @@ import paloAltoLogo from "../assets/logos/palo-alto.svg";
 import sangforLogo from "../assets/logos/sangfor.png";
 import starbucksLogo from "../assets/logos/starbucks.svg";
 import verkadaLogo from "../assets/logos/verkada.png";
+import collaborationVisual from "../assets/solutions/collaboration.webp";
+import networkVisual from "../assets/solutions/network.webp";
+import safeguardingVisual from "../assets/solutions/safeguarding.webp";
+import securityVisual from "../assets/solutions/security.webp";
+import serverStorageVisual from "../assets/solutions/server-storage.webp";
 import type { SiteContent, Vendor } from "./types";
 
 const vendors: Record<string, Vendor> = {
@@ -180,6 +185,8 @@ export const siteContent: SiteContent = {
         title: "Network",
         description:
           "Campus, branch and data-center connectivity designed for consistent performance, visibility and control.",
+        image: networkVisual,
+        imageAlt: "Enterprise network switches connected by illuminated fiber-optic paths",
         vendors: [vendors.cisco, vendors.extreme, vendors.aruba, vendors.sangforNetwork],
       },
       {
@@ -187,6 +194,8 @@ export const siteContent: SiteContent = {
         title: "Security",
         description:
           "Layered protection for people, identities, applications, networks and day-to-day operations.",
+        image: securityVisual,
+        imageAlt: "Layered digital protection surrounding secure enterprise infrastructure",
         vendors: [
           vendors.knowBe4,
           vendors.paloAlto,
@@ -201,6 +210,8 @@ export const siteContent: SiteContent = {
         title: "Server & Storage",
         description:
           "Compute and data platforms sized around resilience, workload needs and practical lifecycle management.",
+        image: serverStorageVisual,
+        imageAlt: "Enterprise data-center racks housing compute and storage infrastructure",
         vendors: [vendors.dell, vendors.huawei, vendors.inspur],
       },
       {
@@ -208,6 +219,8 @@ export const siteContent: SiteContent = {
         title: "Collaboration",
         description:
           "Voice, paging and critical communications that connect teams and reach people when timing matters.",
+        image: collaborationVisual,
+        imageAlt: "Connected enterprise voice, paging and meeting-room communication devices",
         vendors: [vendors.audioCodes, vendors.vodia, vendors.cyberData, vendors.informaCast],
       },
       {
@@ -215,6 +228,8 @@ export const siteContent: SiteContent = {
         title: "Safeguarding",
         description:
           "Connected video, access and physical-security systems for safer workplaces, campuses and facilities.",
+        image: safeguardingVisual,
+        imageAlt: "Video surveillance and access-control devices protecting a modern facility",
         vendors: [vendors.verkada, vendors.hikvision, vendors.keyking],
       },
     ],
