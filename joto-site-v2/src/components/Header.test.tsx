@@ -14,7 +14,12 @@ describe("Header", () => {
       name: "Primary navigation",
     });
 
-    for (const link of NAV_LINKS) {
+    expect(within(desktopNavigation).getByRole("button", { name: "SOLUTIONS" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+
+    for (const link of NAV_LINKS.slice(1)) {
       expect(within(desktopNavigation).getByRole("link", { name: link.label })).toHaveAttribute(
         "href",
         link.href,
@@ -24,6 +29,21 @@ describe("Header", () => {
     expect(
       within(desktopNavigation).getByRole("link", { name: "Cisco", hidden: true }),
     ).toHaveAttribute("href", "#solution-network-cisco");
+  });
+
+  it("opens the desktop solution directory on click without the redundant hierarchy label", async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    const desktopNavigation = screen.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    const toggle = within(desktopNavigation).getByRole("button", { name: "SOLUTIONS" });
+
+    await user.click(toggle);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(screen.queryByText("Solutions / Category / Vendor")).not.toBeInTheDocument();
   });
 
   it("opens a full-screen mobile menu and closes it from a link", async () => {

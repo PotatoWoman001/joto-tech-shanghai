@@ -8,8 +8,10 @@ export const NAV_LINKS = siteContent.nav;
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [desktopSolutionsOpen, setDesktopSolutionsOpen] = useState(false);
   const [activeSolutionCategory, setActiveSolutionCategory] = useState<string | null>("network");
   const menuId = useId();
+  const desktopSolutionsId = useId();
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -27,6 +29,17 @@ export default function Header() {
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    if (!desktopSolutionsOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setDesktopSolutionsOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [desktopSolutionsOpen]);
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -54,40 +67,66 @@ export default function Header() {
         </a>
 
         <nav aria-label="Primary navigation" className="relative hidden items-center gap-7 lg:flex xl:gap-9">
-          <div className="group">
-            <a
-              className="inline-flex items-center gap-1.5 font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green"
-              href="#solutions"
+          <div
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                setDesktopSolutionsOpen(false);
+              }
+            }}
+            onFocus={() => setDesktopSolutionsOpen(true)}
+            onMouseEnter={() => setDesktopSolutionsOpen(true)}
+            onMouseLeave={() => setDesktopSolutionsOpen(false)}
+          >
+            <button
+              aria-controls={desktopSolutionsId}
+              aria-expanded={desktopSolutionsOpen}
+              className="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green"
+              onClick={() => setDesktopSolutionsOpen(true)}
+              type="button"
             >
               SOLUTIONS
-              <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" />
-            </a>
-            <div className="pointer-events-none invisible absolute right-0 top-[50px] w-[min(1100px,92vw)] translate-y-2 border border-white/15 bg-[#08100d]/95 p-7 opacity-0 shadow-2xl backdrop-blur-xl transition-[opacity,transform,visibility] duration-300 group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-joto-green">
-                Solutions / Category / Vendor
-              </p>
-              <div className="grid grid-cols-5 gap-px bg-white/10">
-                {siteContent.solutions.categories.map((category) => (
-                  <div className="bg-[#08100d] p-4" key={category.id}>
-                    <a
-                      className="text-sm font-semibold text-white transition-colors hover:text-joto-green"
-                      href={`#solution-${category.id}`}
-                    >
-                      {category.title}
-                    </a>
-                    <div className="mt-4 space-y-2.5 border-t border-white/10 pt-4">
-                      {category.vendors.map((vendor) => (
-                        <a
-                          className="block text-[11px] leading-4 text-white/55 transition-colors hover:text-white"
-                          href={vendorAnchor(category.id, vendor.name)}
-                          key={vendor.name}
-                        >
-                          {vendor.name}
-                        </a>
-                      ))}
+              <ChevronDown
+                aria-hidden="true"
+                className={`h-3.5 w-3.5 transition-transform duration-300 ${
+                  desktopSolutionsOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <div
+              aria-hidden={!desktopSolutionsOpen}
+              className={`absolute right-0 top-full w-[min(1100px,92vw)] pt-[28px] transition-[opacity,transform,visibility] duration-300 ${
+                desktopSolutionsOpen
+                  ? "pointer-events-auto visible translate-y-0 opacity-100"
+                  : "pointer-events-none invisible translate-y-2 opacity-0"
+              }`}
+              id={desktopSolutionsId}
+            >
+              <div className="border border-white/15 bg-[#08100d]/95 p-7 shadow-2xl backdrop-blur-xl">
+                <div className="grid grid-cols-5 gap-px bg-white/10">
+                  {siteContent.solutions.categories.map((category) => (
+                    <div className="bg-[#08100d] p-4" key={category.id}>
+                      <a
+                        className="text-sm font-semibold text-white transition-colors hover:text-joto-green"
+                        href={`#solution-${category.id}`}
+                        onClick={() => setDesktopSolutionsOpen(false)}
+                      >
+                        {category.title}
+                      </a>
+                      <div className="mt-4 space-y-2.5 border-t border-white/10 pt-4">
+                        {category.vendors.map((vendor) => (
+                          <a
+                            className="block text-[11px] leading-4 text-white/55 transition-colors hover:text-white"
+                            href={vendorAnchor(category.id, vendor.name)}
+                            key={vendor.name}
+                            onClick={() => setDesktopSolutionsOpen(false)}
+                          >
+                            {vendor.name}
+                          </a>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>

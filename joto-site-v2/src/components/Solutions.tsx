@@ -15,12 +15,16 @@ export default function Solutions() {
           description={solutions.description}
         />
 
-        <div className="mt-16 grid border-l border-t border-white/15 md:mt-24 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-16 grid border-l border-t border-white/15 md:mt-24 md:grid-cols-2 lg:grid-cols-5">
           {solutions.categories.map((category, categoryIndex) => (
             <Reveal
               key={category.id}
               delay={categoryIndex * 70}
-              className="group relative flex min-h-[390px] min-w-0 flex-col overflow-hidden border-b border-r border-white/15 bg-white/[0.015] p-5 transition-colors duration-500 hover:bg-white/[0.045] sm:p-6 xl:min-h-[410px] xl:p-5 2xl:p-7"
+              className={`group relative flex min-h-[390px] min-w-0 flex-col overflow-hidden border-b border-r border-white/15 bg-white/[0.015] p-5 transition-colors duration-500 hover:bg-white/[0.045] sm:p-6 lg:min-h-[410px] lg:p-5 2xl:p-7 ${
+                categoryIndex === solutions.categories.length - 1
+                  ? "md:col-span-2 lg:col-span-1"
+                  : ""
+              }`}
             >
               {category.vendors.map((vendor) => (
                 <span
@@ -37,7 +41,13 @@ export default function Solutions() {
                 <span className="h-2 w-2 rounded-full bg-[#5ed29c] shadow-[0_0_18px_rgba(94,210,156,0.65)]" />
               </div>
 
-              <div className="mt-8 aspect-[16/10] overflow-hidden border border-white/10 bg-[#0b1210]">
+              <div
+                className={`mt-8 overflow-hidden border border-white/10 bg-[#0b1210] ${
+                  categoryIndex === solutions.categories.length - 1
+                    ? "aspect-[16/10] md:aspect-[16/6] lg:aspect-[16/10]"
+                    : "aspect-[16/10]"
+                }`}
+              >
                 <img
                   src={category.image}
                   alt={category.imageAlt}

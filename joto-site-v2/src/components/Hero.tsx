@@ -92,9 +92,6 @@ export default function Hero() {
             </div>
           </div>
 
-          <p className="mb-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mb-5">
-            {hero.eyebrow}
-          </p>
           <h1
             className="max-w-[1020px] font-sans text-[40px] font-extrabold uppercase leading-[0.94] tracking-[-0.055em] text-white sm:text-[54px] lg:text-[72px]"
             id="hero-title"
@@ -102,6 +99,9 @@ export default function Hero() {
             {hero.headline}
             <span className="text-joto-green">{hero.accent}</span>
           </h1>
+          <p className="mt-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mt-5">
+            {hero.eyebrow}
+          </p>
           <div className="mt-6 flex max-w-[960px] flex-col gap-7 sm:mt-7 sm:flex-row sm:items-end sm:justify-between">
             <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70 lg:hidden">
               {hero.description}
