@@ -228,6 +228,7 @@ def test_sha_dedup_keeps_distinct_page_and_position_references(tmp_path: Path) -
         ("page-2", "Back", "B", "Caption B", "img[4]"),
     ]
     assert all(ref.status == "downloaded" and ref.source_url for ref in store.references)
+    assert all(ref.local_path == first.relative_path for ref in store.references)
 
 
 def test_public_pdf_requires_document_magic_and_archives_after_bad_candidate(tmp_path: Path) -> None:

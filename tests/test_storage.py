@@ -52,3 +52,11 @@ def test_csv_is_utf8_bom_for_spreadsheet_review(tmp_path: Path):
     storage = RunStorage(tmp_path, "csv")
     path = storage.write_csv("manifests/pages.csv", [{"title": "中文"}], ["title"])
     assert path.read_bytes().startswith(b"\xef\xbb\xbf")
+
+
+def test_json_recursively_serializes_models_and_paths(tmp_path: Path):
+    storage = RunStorage(tmp_path, "models")
+    path = storage.write_json("manifests/pages.json", [sample_page(), {"path": Path("a/b")}])
+    text = path.read_text(encoding="utf-8")
+    assert '"title": "示例"' in text
+    assert '"path": "a/b"' in text

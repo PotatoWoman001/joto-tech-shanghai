@@ -251,11 +251,25 @@ class FakePage:
 class FakeBrowser:
     def __init__(self):
         self.pages: list[FakePage] = []
+        self.context_options: list[dict[str, object]] = []
 
-    def new_page(self, *, viewport: dict[str, int]) -> FakePage:
-        page = FakePage(viewport)
-        self.pages.append(page)
-        return page
+    def new_context(self, **options: object) -> object:
+        self.context_options.append(options)
+        browser = self
+
+        class FakeContext:
+            def __init__(self) -> None:
+                self.closed = False
+
+            def new_page(self) -> FakePage:
+                page = FakePage(options["viewport"])  # type: ignore[arg-type]
+                browser.pages.append(page)
+                return page
+
+            def close(self) -> None:
+                self.closed = True
+
+        return FakeContext()
 
 
 def test_renderer_is_read_only_and_saves_separate_viewport_evidence(tmp_path: Path) -> None:
@@ -303,6 +317,8 @@ def test_renderer_is_read_only_and_saves_separate_viewport_evidence(tmp_path: Pa
             "abort",
         ]
         assert page.closed is True
+    assert all(options["user_agent"] == CONFIG.user_agent for options in browser.context_options)
+    assert all(options["storage_state"] is None for options in browser.context_options)
 
 
 @pytest.mark.parametrize(

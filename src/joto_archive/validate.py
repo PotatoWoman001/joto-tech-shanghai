@@ -55,6 +55,7 @@ def validate_run(run_dir: Path, forbidden_terms: Iterable[str] = ()) -> Validati
     urls = _read_json(run_dir / "manifests" / "urls.json", [])
     assets = _read_json(run_dir / "manifests" / "assets.json", [])
     references = _read_json(run_dir / "manifests" / "asset-references.json", [])
+    asset_errors = _read_json(run_dir / "manifests" / "asset-errors.json", [])
     crawl_errors = _read_json(run_dir / "manifests" / "crawl-errors.json", [])
     baselines = _read_json(run_dir / "manifests" / "baselines.json", {})
 
@@ -148,11 +149,16 @@ def validate_run(run_dir: Path, forbidden_terms: Iterable[str] = ()) -> Validati
     for error in crawl_errors:
         if not error.get("resolved", False):
             _error(findings, "unresolved-crawl-error", f"{error.get('stage')}: {error.get('url')} — {error.get('message')}")
+    for error in asset_errors:
+        if not error.get("resolved", False):
+            source = error.get("url") or error.get("candidate_urls") or error.get("source_position")
+            _error(findings, "unresolved-asset-error", f"{source} — {error.get('reason', 'asset failure')}")
 
     required_manifests = (
         "urls",
         "assets",
         "asset-references",
+        "asset-errors",
         "content-issues",
         "crawl-errors",
     )

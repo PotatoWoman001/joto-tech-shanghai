@@ -28,9 +28,10 @@ def make_valid_run(root: Path) -> Path:
     write_json(root / "manifests/urls.json", [{"url": "https://example.test/one", "status": "archived", "page_id": "one"}])
     write_json(root / "manifests/assets.json", [{"asset_id": "a", "relative_path": "assets/a.bin", "sha256": hashlib.sha256(binary).hexdigest()}])
     write_json(root / "manifests/asset-references.json", [{"asset_id": "a", "source_url": "https://cdn.test/a", "status": "downloaded"}])
+    write_json(root / "manifests/asset-errors.json", [])
     write_json(root / "manifests/crawl-errors.json", [])
     write_json(root / "manifests/content-issues.json", [])
-    for name in ("urls", "assets", "asset-references", "content-issues", "crawl-errors"):
+    for name in ("urls", "assets", "asset-references", "asset-errors", "content-issues", "crawl-errors"):
         (root / f"manifests/{name}.csv").write_text("header\n", encoding="utf-8")
     write_json(root / "manifests/baselines.json", {"one": {"dom_text_blocks": 1, "extracted_text_blocks": 1, "network_asset_urls": 1, "archived_asset_urls": 1}})
     return root
@@ -57,3 +58,13 @@ def test_review_page_must_not_have_cms_output(tmp_path: Path):
     write_json(run / "manifests/urls.json", [{"url": "u", "status": "review", "page_id": "one"}])
     report = validate_run(run)
     assert "excluded-page-output" in {finding.code for finding in report.errors}
+
+
+def test_unresolved_asset_error_fails_delivery(tmp_path: Path):
+    run = make_valid_run(tmp_path)
+    write_json(
+        run / "manifests/asset-errors.json",
+        [{"url": "https://cdn.test/missing.jpg", "reason": "timeout", "resolved": False}],
+    )
+    report = validate_run(run)
+    assert "unresolved-asset-error" in {finding.code for finding in report.errors}

@@ -34,6 +34,10 @@ def _jsonable(value: object) -> object:
         return value.model_dump(mode="json")
     if isinstance(value, Path):
         return value.as_posix()
+    if isinstance(value, dict):
+        return {str(key): _jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple, set)):
+        return [_jsonable(item) for item in value]
     return value
 
 

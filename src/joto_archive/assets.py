@@ -623,6 +623,7 @@ class AssetStore:
                 AssetReference(
                     asset_id=existing.asset_id,
                     page_id=page_id,
+                    local_path=existing.relative_path,
                     source_url=chosen.source_url,
                     selected_url=chosen.final_url,
                     candidate_urls=candidate.urls,

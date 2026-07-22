@@ -286,6 +286,7 @@ class BrowserRenderer:
         post_load_wait_ms: int = 750,
         scroll_steps: int = 12,
         scroll_pause_ms: int = 150,
+        storage_state: Path | None = None,
     ) -> None:
         if not 0 <= post_load_wait_ms <= 1_500:
             raise ValueError("post_load_wait_ms must be between 0 and 1500")
@@ -298,12 +299,16 @@ class BrowserRenderer:
         self.post_load_wait_ms = post_load_wait_ms
         self.scroll_steps = scroll_steps
         self.scroll_pause_ms = scroll_pause_ms
+        self.storage_state = storage_state
         self.playwright: Playwright | None = None
         self.browser: Browser | None = None
 
     def __enter__(self) -> BrowserRenderer:
         self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(headless=True)
+        self.browser = self.playwright.chromium.launch(
+            headless=True,
+            args=["--no-proxy-server"],
+        )
         return self
 
     def __exit__(self, *_: object) -> None:
@@ -372,9 +377,12 @@ class BrowserRenderer:
     ) -> _ViewportCapture:
         if self.browser is None:
             raise RuntimeError("BrowserRenderer must be entered before capture")
-        page: Page = self.browser.new_page(
-            viewport={"width": viewport[0], "height": viewport[1]}
+        context = self.browser.new_context(
+            viewport={"width": viewport[0], "height": viewport[1]},
+            user_agent=self.config.user_agent,
+            storage_state=str(self.storage_state) if self.storage_state else None,
         )
+        page: Page = context.new_page()
         console_errors: list[str] = []
         blocked_requests: list[str] = []
 
@@ -429,6 +437,7 @@ class BrowserRenderer:
             )
         finally:
             page.close()
+            context.close()
 
     @staticmethod
     def _write_json(path: Path, values: list[str]) -> None:
