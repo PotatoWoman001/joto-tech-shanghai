@@ -147,3 +147,50 @@ git add joto-site-v2 docs/superpowers/specs/2026-07-22-sunny-cisco-detail-design
 git commit -m "feat: add Sunny Cisco detail page"
 ```
 
+### Task 5: 首屏绿色斜体标题缩小 20%
+
+**Files:**
+- Modify: `joto-site-v2/src/pages/PartnerDetailPage.tsx:62-69`
+- Test: `joto-site-v2/src/pages/PartnerDetailPage.test.tsx`
+
+**Interfaces:**
+- Consumes: `detail.accent: string`。
+- Produces: 绿色斜体标题独立字号 `text-[clamp(2.8rem,6.64vw,6.72rem)]`，即原 `clamp(3.5rem,8.3vw,8.4rem)` 的 80%。
+
+- [ ] **Step 1: 写失败测试**
+
+在现有页面测试中定位 `delivered by JOTO.`，验证它具有独立的 80% 字号类：
+
+```tsx
+const accent = screen.getByText("delivered by JOTO.");
+expect(accent).toHaveClass("text-[clamp(2.8rem,6.64vw,6.72rem)]");
+```
+
+- [ ] **Step 2: 运行测试并确认失败**
+
+Run: `npm test -- --run src/pages/PartnerDetailPage.test.tsx`
+
+Expected: FAIL，因为斜体标题目前继承 `h1` 的完整字号。
+
+- [ ] **Step 3: 添加独立字号**
+
+将斜体元素更新为：
+
+```tsx
+<em className="font-serif text-[clamp(2.8rem,6.64vw,6.72rem)] font-normal tracking-[-0.045em] text-joto-green">
+  {detail.accent}
+</em>
+```
+
+- [ ] **Step 4: 验证页面**
+
+Run: `npm test -- --run src/pages/PartnerDetailPage.test.tsx && npm run build`
+
+Expected: 页面测试和生产构建全部通过。随后在 1440×900 与 390×844 浏览器视口确认绿色斜体行约缩小 20%、换行正常且无横向溢出。
+
+- [ ] **Step 5: 提交调整**
+
+```bash
+git add joto-site-v2/src/pages/PartnerDetailPage.tsx joto-site-v2/src/pages/PartnerDetailPage.test.tsx docs/superpowers/plans/2026-07-22-sunny-cisco-detail.md
+git commit -m "style: refine Cisco hero title scale"
+```
