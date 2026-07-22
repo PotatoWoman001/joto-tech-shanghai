@@ -1,0 +1,16 @@
+{
+  "base_url": "https://www.jototech.cn/",
+  "sitemap_url": "https://www.jototech.cn/sitemap.xml",
+  "output_dir": "content-archive",
+  "request_delay_seconds": 0.75,
+  "request_timeout_seconds": 30.0,
+  "max_retries": 3,
+  "max_workers": 1,
+  "excluded_terms": ["joto-ai", "jotoai", "joto.ai", "dify"],
+  "excluded_title_terms": ["joto ai", "joto.ai", "dify"],
+  "excluded_page_ids": ["15197"],
+  "desktop_viewport": [1440, 1000],
+  "mobile_viewport": [390, 844],
+  "user_agent": "JOTOTECH-Content-Archive/1.0 (+read-only authorized migration)"
+}
+

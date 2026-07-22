@@ -1,0 +1,9 @@
+.DS_Store
+.playwright-cli/
+.superpowers/
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+content-archive/
+

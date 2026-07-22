@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "joto-content-archive"
+version = "0.1.0"
+description = "Read-only public content archiver for the JOTOTECH website migration"
+requires-python = ">=3.12"
+dependencies = [
+  "beautifulsoup4>=4.13,<5",
+  "httpx>=0.28,<1",
+  "lxml>=5.3,<7",
+  "markdownify>=1.1,<2",
+  "pillow>=11,<13",
+  "playwright>=1.52,<2",
+  "pydantic>=2.11,<3"
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.3,<10", "respx>=0.22,<1"]
+
+[project.scripts]
+joto-archive = "joto_archive.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+

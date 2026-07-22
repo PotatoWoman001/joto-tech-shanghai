@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: joto-content-archive
+Version: 0.1.0
+Summary: Read-only public content archiver for the JOTOTECH website migration
+Requires-Python: >=3.12
+Requires-Dist: beautifulsoup4<5,>=4.13
+Requires-Dist: httpx<1,>=0.28
+Requires-Dist: lxml<7,>=5.3
+Requires-Dist: markdownify<2,>=1.1
+Requires-Dist: pillow<13,>=11
+Requires-Dist: playwright<2,>=1.52
+Requires-Dist: pydantic<3,>=2.11
+Provides-Extra: test
+Requires-Dist: pytest<10,>=8.3; extra == "test"
+Requires-Dist: respx<1,>=0.22; extra == "test"
