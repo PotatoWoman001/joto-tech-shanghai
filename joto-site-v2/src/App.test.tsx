@@ -4,16 +4,25 @@ import App from "./App";
 
 describe("JOTO TECH single-page website", () => {
   it("renders the approved hero message and supporting statement", () => {
-    render(<App />);
+    const { container } = render(<App />);
+    const hero = container.querySelector('section[aria-labelledby="hero-title"]');
+    const region = within(hero as HTMLElement);
+    const eyebrow = region.getByText("ENTERPRISE-READY IT SOLUTIONS");
+    const heading = region.getByRole("heading", {
+      level: 1,
+      name: "We Make IT Happen.",
+    });
+    const description = region.getByText(
+      "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
+    );
 
-    expect(
-      screen.getByRole("heading", { level: 1, name: "We Make IT Happen." }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getAllByText(
-        "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
-      ),
-    ).toHaveLength(2);
+    expect(heading).toBeInTheDocument();
+    expect(eyebrow.compareDocumentPosition(heading)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(heading.compareDocumentPosition(description)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it("renders every primary navigation target", () => {

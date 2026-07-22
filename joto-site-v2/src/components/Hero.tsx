@@ -65,17 +65,9 @@ export default function Hero() {
       <DesktopGrid />
       <Header />
 
-      <div className="absolute inset-x-0 top-[17%] z-20 hidden lg:block">
-        <div className="mx-auto w-full max-w-[1440px] px-12">
-          <p className="max-w-[48%] text-left text-[clamp(1.05rem,1.7vw,1.35rem)] font-normal leading-[1.55] tracking-[-0.018em] text-white/62">
-            {hero.description}
-          </p>
-        </div>
-      </div>
-
       <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-center px-5 pb-12 pt-36 sm:px-8 sm:pb-16 lg:items-end lg:px-12 lg:pb-20">
         <div className="w-full">
-          <div className="liquid-glass mb-[-20px] h-[200px] w-[200px] translate-y-[-50px] rounded-[2px] p-5 sm:mb-[-12px] lg:ml-auto lg:mr-[8.5%]">
+          <div className="liquid-glass mb-[-20px] h-[200px] w-[200px] translate-y-[-50px] rounded-[2px] p-5 sm:mb-[-12px] lg:absolute lg:right-[12.5%] lg:top-[20%] lg:m-0 lg:translate-y-0">
             <div className="flex h-full flex-col">
               <p className="font-sans text-[14px] font-medium tracking-[0.12em] text-white/65">
                 {hero.card.tag}
@@ -92,9 +84,12 @@ export default function Hero() {
             </div>
           </div>
 
+          <p className="mb-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mb-5">
+            {hero.eyebrow}
+          </p>
           <h1
             aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
-            className="max-w-[1100px] font-sans text-[clamp(3rem,14vw,5rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(6.5rem,10.3vw,9.75rem)]"
+            className="max-w-[1100px] font-sans text-[clamp(3rem,14vw,5rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(7rem,11vw,10.5rem)]"
             id="hero-title"
           >
             <span className="block whitespace-nowrap">
@@ -108,11 +103,8 @@ export default function Hero() {
               <span className="text-joto-green">.</span>
             </span>
           </h1>
-          <p className="mt-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mt-5">
-            {hero.eyebrow}
-          </p>
-          <div className="mt-6 flex max-w-[960px] flex-col gap-7 sm:mt-7 sm:flex-row sm:items-end sm:justify-between">
-            <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70 lg:hidden">
+          <div className="mt-6 flex max-w-[1180px] flex-col gap-7 sm:mt-7 sm:flex-row sm:items-end sm:justify-between">
+            <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70 lg:max-w-[48%] lg:text-[clamp(1.05rem,1.7vw,1.35rem)] lg:font-normal lg:leading-[1.55] lg:tracking-[-0.018em] lg:text-white/62">
               {hero.description}
             </p>
             <a
