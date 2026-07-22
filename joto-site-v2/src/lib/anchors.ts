@@ -8,13 +8,10 @@ export function vendorId(categoryId: string, vendorName: string) {
 }
 
 export function vendorAnchor(categoryId: string, vendorName: string) {
-  const id = vendorId(categoryId, vendorName);
-
-  if (id === "solution-network-cisco") {
-    return "/solutions/network/cisco";
-  }
-
-  return `#${id}`;
+  return `/solutions/${categoryId}/${vendorId(categoryId, vendorName).replace(
+    `solution-${categoryId}-`,
+    "",
+  )}`;
 }
 
 export function homeAnchor(anchor: string, fromDetailPage: boolean) {

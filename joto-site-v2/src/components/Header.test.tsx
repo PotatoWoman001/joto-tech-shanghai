@@ -109,7 +109,7 @@ describe("Header", () => {
     );
     expect(within(mobileNavigation).getByRole("link", { name: "KnowBe4" })).toHaveAttribute(
       "href",
-      "#solution-security-knowbe4",
+      "/solutions/security/knowbe4",
     );
   });
 
@@ -128,6 +128,25 @@ describe("Header", () => {
     );
     expect(
       within(desktopNavigation).getByRole("link", { name: "Aruba", hidden: true }),
-    ).toHaveAttribute("href", "/#solution-network-aruba");
+    ).toHaveAttribute("href", "/solutions/network/aruba");
+  });
+
+  it("links representative vendors in every category to public detail routes", () => {
+    render(<Header />);
+    const desktopNavigation = screen.getByRole("navigation", { name: "Primary navigation" });
+    const expectedLinks = [
+      ["Extreme Networks", "/solutions/network/extreme-networks"],
+      ["Palo Alto Networks", "/solutions/security/palo-alto-networks"],
+      ["Dell Technologies", "/solutions/server-storage/dell-technologies"],
+      ["AudioCodes", "/solutions/collaboration/audiocodes"],
+      ["Verkada", "/solutions/safeguarding/verkada"],
+    ];
+
+    for (const [name, href] of expectedLinks) {
+      expect(within(desktopNavigation).getByRole("link", { name, hidden: true })).toHaveAttribute(
+        "href",
+        href,
+      );
+    }
   });
 });

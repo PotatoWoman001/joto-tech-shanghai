@@ -3,12 +3,19 @@ import { describe, expect, it } from "vitest";
 import { getPartnerDetail } from "../content/partners";
 import PartnerDetailPage from "./PartnerDetailPage";
 
+function renderDetail(pathname: string) {
+  const detail = getPartnerDetail(pathname);
+  expect(detail).toBeDefined();
+
+  return {
+    detail: detail!,
+    ...render(<PartnerDetailPage detail={detail!} />),
+  };
+}
+
 describe("PartnerDetailPage", () => {
   it("renders the complete Cisco × JOTO story from partner data", () => {
-    const detail = getPartnerDetail("/solutions/network/cisco");
-    expect(detail).toBeDefined();
-
-    const { container } = render(<PartnerDetailPage detail={detail!} />);
+    const { container, detail } = renderDetail("/solutions/network/cisco");
 
     expect(
       screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
@@ -40,9 +47,28 @@ describe("PartnerDetailPage", () => {
       "href",
       "#partner-case-studies",
     );
+    expect(screen.getByRole("link", { name: "Contact JOTO" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
     expect(screen.getByRole("link", { name: /Start a conversation/i })).toHaveAttribute(
       "href",
-      "mailto:sales@jototech.cn",
+      "/contact",
     );
+    expect(screen.queryByText(detail!.heroVisual.caption)).not.toBeInTheDocument();
+  });
+
+  it("renders vendor-specific copy and a category visual without Cisco telemetry", () => {
+    renderDetail("/solutions/security/palo-alto-networks");
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(2);
+    expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
+      "href",
+      "#partner-case-studies",
+    );
+    expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
   });
 });

@@ -96,4 +96,15 @@ describe("JOTO TECH single-page website", () => {
     ).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "We Make IT Happen." })).not.toBeInTheDocument();
   });
+
+  it("renders a non-network partner detail at its public pathname", () => {
+    window.history.replaceState({}, "", "/solutions/security/palo-alto-networks");
+
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Cisco × JOTO/)).not.toBeInTheDocument();
+  });
 });
