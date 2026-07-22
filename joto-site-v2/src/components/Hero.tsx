@@ -65,6 +65,14 @@ export default function Hero() {
       <DesktopGrid />
       <Header />
 
+      <div className="absolute inset-x-0 top-[24%] z-20 hidden lg:block">
+        <div className="mx-auto w-full max-w-[1440px] px-12">
+          <p className="max-w-[720px] text-[clamp(2rem,3vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.035em] text-white/72">
+            {hero.description}
+          </p>
+        </div>
+      </div>
+
       <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-end px-5 pb-12 pt-36 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
         <div className="w-full">
           <div className="liquid-glass mb-[-20px] h-[200px] w-[200px] translate-y-[-50px] rounded-[2px] p-5 sm:mb-[-12px] lg:ml-auto lg:mr-[8.5%]">
@@ -95,11 +103,11 @@ export default function Hero() {
             <span className="text-joto-green">{hero.accent}</span>
           </h1>
           <div className="mt-6 flex max-w-[960px] flex-col gap-7 sm:mt-7 sm:flex-row sm:items-end sm:justify-between">
-            <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70">
+            <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70 lg:hidden">
               {hero.description}
             </p>
             <a
-              className="group inline-flex w-fit items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green"
+              className="group inline-flex w-fit items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green lg:ml-auto"
               href={hero.cta.href}
             >
               {hero.cta.label}
