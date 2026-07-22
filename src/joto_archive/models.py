@@ -65,6 +65,34 @@ class AssetRecord(BaseModel):
     quality_note: str = "highest-publicly-available"
 
 
+class AssetReference(BaseModel):
+    """A page-level use of a deduplicated binary asset."""
+
+    page_id: str
+    asset_id: str | None = None
+    selected_url: str = ""
+    candidate_urls: list[str] = Field(default_factory=list)
+    source_url: str = ""
+    block_order: int | None = None
+    position: int | None = None
+    usage: str = "content-image"
+    source_position: str = ""
+    local_path: Path | None = None
+    alt: str = ""
+    title: str = ""
+    caption: str = ""
+    status: str = "downloaded"
+    error: str | None = None
+
+
+class CrawlError(BaseModel):
+    url: str
+    stage: str
+    message: str
+    retryable: bool = False
+    resolved: bool = False
+
+
 class PageRecord(BaseModel):
     id: str
     source_url: str
@@ -85,6 +113,7 @@ class PageRecord(BaseModel):
     captured_at: str
     content_hash: str
     issues: list[str] = Field(default_factory=list)
+    duplicate_of: str | None = None
 
 
 class FetchResult(BaseModel):
