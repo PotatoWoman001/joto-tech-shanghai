@@ -65,15 +65,15 @@ export default function Hero() {
       <DesktopGrid />
       <Header />
 
-      <div className="absolute inset-x-0 top-[24%] z-20 hidden lg:block">
+      <div className="absolute inset-x-0 top-[17%] z-20 hidden lg:block">
         <div className="mx-auto w-full max-w-[1440px] px-12">
-          <p className="max-w-[720px] text-[clamp(2rem,3vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.035em] text-white/72">
+          <p className="max-w-[48%] text-left text-[clamp(1.05rem,1.7vw,1.35rem)] font-normal leading-[1.55] tracking-[-0.018em] text-white/62">
             {hero.description}
           </p>
         </div>
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-end px-5 pb-12 pt-36 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-center px-5 pb-12 pt-36 sm:px-8 sm:pb-16 lg:items-end lg:px-12 lg:pb-20">
         <div className="w-full">
           <div className="liquid-glass mb-[-20px] h-[200px] w-[200px] translate-y-[-50px] rounded-[2px] p-5 sm:mb-[-12px] lg:ml-auto lg:mr-[8.5%]">
             <div className="flex h-full flex-col">
@@ -93,11 +93,20 @@ export default function Hero() {
           </div>
 
           <h1
-            className="max-w-[1020px] font-sans text-[40px] font-extrabold uppercase leading-[0.94] tracking-[-0.055em] text-white sm:text-[54px] lg:text-[72px]"
+            aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
+            className="max-w-[1100px] font-sans text-[clamp(3rem,14vw,5rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(6.5rem,10.3vw,9.75rem)]"
             id="hero-title"
           >
-            {hero.headline}
-            <span className="text-joto-green">{hero.accent}</span>
+            <span className="block whitespace-nowrap">
+              {hero.headline}{" "}
+              <span className="font-serif font-normal italic tracking-[-0.04em]">
+                {hero.accent}
+              </span>
+            </span>
+            <span className="block text-white/78 sm:pl-[0.65em]">
+              {hero.headlineSecondLine}
+              <span className="text-joto-green">.</span>
+            </span>
           </h1>
           <p className="mt-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mt-5">
             {hero.eyebrow}

@@ -11,7 +11,9 @@ describe("English site content", () => {
       "CONTACT",
     ]);
     expect(siteContent.hero.eyebrow).toBe("ENTERPRISE-READY IT SOLUTIONS");
-    expect(`${siteContent.hero.headline}${siteContent.hero.accent}`).toBe("BUILD WHAT'S NEXT.");
+    expect(
+      `${siteContent.hero.headline} ${siteContent.hero.accent} ${siteContent.hero.headlineSecondLine}.`,
+    ).toBe("We Make IT Happen.");
   });
 
   it("contains the five approved solution categories and exact vendor order", () => {

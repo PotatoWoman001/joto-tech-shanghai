@@ -159,10 +159,11 @@ export const siteContent: SiteContent = {
   nav,
   hero: {
     eyebrow: "ENTERPRISE-READY IT SOLUTIONS",
-    headline: "BUILD WHAT'S NEXT",
-    accent: ".",
+    headline: "We Make",
+    accent: "IT",
+    headlineSecondLine: "Happen",
     description:
-      "Design, deploy and operate secure IT infrastructure across China and beyond.",
+      "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
     card: {
       tag: "[ SINCE 2010 ]",
       title: "Engineered by",

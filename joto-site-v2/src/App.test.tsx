@@ -3,6 +3,19 @@ import { describe, expect, it } from "vitest";
 import App from "./App";
 
 describe("JOTO TECH single-page website", () => {
+  it("renders the approved hero message and supporting statement", () => {
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "We Make IT Happen." }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText(
+        "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
+      ),
+    ).toHaveLength(2);
+  });
+
   it("renders every primary navigation target", () => {
     const { container } = render(<App />);
 

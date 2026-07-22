@@ -61,6 +61,7 @@ export interface SiteContent {
     eyebrow: string;
     headline: string;
     accent: string;
+    headlineSecondLine: string;
     description: string;
     card: {
       tag: string;
