@@ -75,6 +75,7 @@ def validate_run(run_dir: Path, forbidden_terms: Iterable[str] = ()) -> Validati
                 run_dir / "markdown" / f"{page_id}.md",
                 run_dir / "raw" / f"{page_id}.html",
                 run_dir / "rendered" / f"{page_id}.desktop.html",
+                run_dir / "rendered" / f"{page_id}.mobile.html",
             ]
             expected_page_files.add(companions[0])
             for path in companions:
@@ -147,5 +148,18 @@ def validate_run(run_dir: Path, forbidden_terms: Iterable[str] = ()) -> Validati
     for error in crawl_errors:
         if not error.get("resolved", False):
             _error(findings, "unresolved-crawl-error", f"{error.get('stage')}: {error.get('url')} — {error.get('message')}")
+
+    required_manifests = (
+        "urls",
+        "assets",
+        "asset-references",
+        "content-issues",
+        "crawl-errors",
+    )
+    for manifest_name in required_manifests:
+        for suffix in ("json", "csv"):
+            path = run_dir / "manifests" / f"{manifest_name}.{suffix}"
+            if not path.is_file() or not path.stat().st_size:
+                _error(findings, "missing-manifest", f"missing {manifest_name}.{suffix}", path)
 
     return ValidationReport(valid=not any(item.severity == "error" for item in findings), findings=findings)

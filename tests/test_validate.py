@@ -20,6 +20,7 @@ def make_valid_run(root: Path) -> Path:
     (root / "markdown/one.md").write_text("正文", encoding="utf-8")
     (root / "raw/one.html").write_text("<p>正文</p>", encoding="utf-8")
     (root / "rendered/one.desktop.html").write_text("<p>正文</p>", encoding="utf-8")
+    (root / "rendered/one.mobile.html").write_text("<p>正文</p>", encoding="utf-8")
     for device in ("desktop", "mobile"):
         Image.new("RGB", (10, 10), "white").save(root / f"screenshots/one.{device}.png")
     binary = b"asset"
@@ -28,6 +29,9 @@ def make_valid_run(root: Path) -> Path:
     write_json(root / "manifests/assets.json", [{"asset_id": "a", "relative_path": "assets/a.bin", "sha256": hashlib.sha256(binary).hexdigest()}])
     write_json(root / "manifests/asset-references.json", [{"asset_id": "a", "source_url": "https://cdn.test/a", "status": "downloaded"}])
     write_json(root / "manifests/crawl-errors.json", [])
+    write_json(root / "manifests/content-issues.json", [])
+    for name in ("urls", "assets", "asset-references", "content-issues", "crawl-errors"):
+        (root / f"manifests/{name}.csv").write_text("header\n", encoding="utf-8")
     write_json(root / "manifests/baselines.json", {"one": {"dom_text_blocks": 1, "extracted_text_blocks": 1, "network_asset_urls": 1, "archived_asset_urls": 1}})
     return root
 
