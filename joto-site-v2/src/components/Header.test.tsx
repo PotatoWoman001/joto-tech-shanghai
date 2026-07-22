@@ -1,0 +1,62 @@
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { afterEach, describe, expect, it } from "vitest";
+import Header, { NAV_LINKS } from "./Header";
+
+describe("Header", () => {
+  afterEach(() => {
+    document.body.style.overflow = "";
+  });
+
+  it("renders the approved navigation destinations", () => {
+    render(<Header />);
+    const desktopNavigation = screen.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+
+    for (const link of NAV_LINKS) {
+      expect(within(desktopNavigation).getByRole("link", { name: link.label })).toHaveAttribute(
+        "href",
+        link.href,
+      );
+    }
+  });
+
+  it("opens a full-screen mobile menu and closes it from a link", async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    const toggle = screen.getByRole("button", { name: "Open menu" });
+    await user.click(toggle);
+
+    expect(screen.getByRole("button", { name: "Close menu" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+
+    const mobileNavigation = screen.getByRole("navigation", {
+      name: "Mobile navigation",
+    });
+    await user.click(within(mobileNavigation).getByRole("link", { name: "SOLUTIONS" }));
+
+    expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(document.body.style.overflow).toBe("");
+  });
+
+  it("closes the mobile menu with Escape", async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    await user.keyboard("{Escape}");
+
+    expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+  });
+});
