@@ -23,8 +23,9 @@ describe("Header", () => {
     const { container } = renderHeader();
     const header = container.querySelector("header");
 
-    expect(header).toHaveClass("fixed", "inset-x-0", "top-0", "z-50");
-    expect(header).toHaveClass("bg-[#070b0a]/90", "backdrop-blur-md");
+    expect(header).toHaveClass("fixed", "inset-x-0", "top-0", "z-[100]");
+    expect(header).toHaveClass("bg-[#050806]");
+    expect(header).not.toHaveClass("bg-[#070b0a]/90", "backdrop-blur-md");
     expect(header).not.toHaveClass("absolute");
   });
 
