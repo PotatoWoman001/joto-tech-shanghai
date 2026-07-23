@@ -42,5 +42,9 @@ describe("SiteFooter", () => {
       "href",
       "/contact",
     );
+    expect(within(company).getByRole("link", { name: "Blog" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
   });
 });

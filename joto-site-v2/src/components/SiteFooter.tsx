@@ -3,6 +3,7 @@ import { useI18n } from "../i18n/I18nProvider";
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Services", href: "#services" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Contact Us", href: "/contact" },

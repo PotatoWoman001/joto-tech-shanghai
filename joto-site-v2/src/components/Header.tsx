@@ -197,14 +197,14 @@ export default function Header() {
 
       <div
         aria-hidden={!menuOpen}
-        className={`fixed inset-0 z-[60] bg-[#070b0a]/[0.98] transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`absolute inset-x-0 top-full z-[60] h-[calc(100svh-76px)] bg-[#070b0a] transition-[opacity,visibility] duration-500 lg:hidden ${
           menuOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
         id={menuId}
       >
         <nav
           aria-label={t("Mobile navigation")}
-          className="flex min-h-[100svh] flex-col gap-5 overflow-y-auto px-7 pb-10 pt-28 sm:px-10"
+          className="flex h-full flex-col gap-5 overflow-y-auto px-7 pb-10 pt-8 sm:px-10"
         >
           <div>
             <div className="flex items-center border-b border-white/10 pb-5">

@@ -112,6 +112,11 @@ describe("Header", () => {
     const mobileNavigation = screen.getByRole("navigation", {
       name: "Mobile navigation",
     });
+    expect(mobileNavigation.parentElement).toHaveClass(
+      "absolute",
+      "top-full",
+      "h-[calc(100svh-76px)]",
+    );
     await user.click(within(mobileNavigation).getByRole("link", { name: "SOLUTIONS" }));
 
     expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute(
