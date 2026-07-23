@@ -26,7 +26,9 @@ describe("PartnerDetailPage", () => {
       screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
     ).toBeInTheDocument();
     expect(screen.getByText("delivered by JOTO.")).toHaveClass(
-      "text-[clamp(2.8rem,6.64vw,6.72rem)]",
+      "text-[clamp(2.35rem,3.8vw,3.55rem)]",
+      "leading-[0.96]",
+      "text-balance",
     );
     expect(screen.getByText("Cisco solutions,")).toHaveClass(
       "text-[clamp(3rem,5.7vw,6rem)]",
@@ -45,6 +47,7 @@ describe("PartnerDetailPage", () => {
     expect(partnershipBadge.parentElement).toHaveClass("basis-full");
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
+    expect(container.querySelector("[data-solution-visual]")).not.toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
       "lg:-ml-8",
       "lg:mr-[-3vw]",
@@ -109,7 +112,7 @@ describe("PartnerDetailPage", () => {
   });
 
   it("renders vendor-specific copy and a category visual without Cisco telemetry", () => {
-    const { container } = renderDetail("/solutions/security/palo-alto-networks");
+    const { container, detail } = renderDetail("/solutions/security/palo-alto-networks");
 
     expect(
       screen.getByRole("heading", {
@@ -127,6 +130,41 @@ describe("PartnerDetailPage", () => {
     ).toHaveAttribute("href", "#partner-services");
     expect(container.querySelector("#partner-case-studies")).not.toBeInTheDocument();
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
+    expect(screen.getByText("Palo Alto Networks integrated protection,")).toHaveClass(
+      "text-[clamp(3rem,4.7vw,5.2rem)]",
+      "text-balance",
+      "break-words",
+    );
+    expect(
+      screen.getByText("carry consistent policy across every business boundary."),
+    ).toHaveClass(
+      "text-[clamp(2.35rem,3.8vw,3.55rem)]",
+      "leading-[0.96]",
+      "text-balance",
+    );
+    expect(container.querySelector('[data-solution-visual="security"]')).toBeInTheDocument();
+    expect(container.querySelector("[data-solution-visual-motion]")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: detail.heroVisual.alt })).toHaveClass(
+      "partner-solution-visual__image",
+    );
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["/solutions/network/extreme-networks", "network"],
+    ["/solutions/security/fortinet", "security"],
+    ["/solutions/server-storage/dell-technologies", "server-storage"],
+    ["/solutions/collaboration/audiocodes", "collaboration"],
+    ["/solutions/safeguarding/verkada", "safeguarding"],
+  ])("uses the category-aware borderless hero visual for %s", (pathname, category) => {
+    const { container, detail } = renderDetail(pathname);
+    const visual = container.querySelector(`[data-solution-visual="${category}"]`);
+
+    expect(visual).toBeInTheDocument();
+    expect(visual).toHaveClass("partner-solution-visual");
+    expect(
+      screen.getByRole("img", { name: detail.heroVisual.alt }),
+    ).toHaveClass("partner-solution-visual__image");
+    expect(visual).not.toHaveClass("border", "rounded-[24px]");
   });
 });
