@@ -58,11 +58,14 @@ export interface PartnerCaseStudy {
   logoTreatment?: "monochrome" | "brand";
 }
 
+export type PartnerBadge = "Gold Partner" | "Platinum Partner" | "Partner";
+
 export interface PartnerDetail {
   pathname: string;
   solutionName: string;
   partnerName: string;
   partnerLogo: string;
+  partnerBadge: PartnerBadge;
   eyebrow: string;
   title: string;
   accent: string;
@@ -245,6 +248,7 @@ interface PartnerFactoryInput {
   categoryId: keyof typeof categoryDefinitions;
   partnerName: string;
   partnerLogo: string;
+  partnerBadge?: PartnerBadge;
   introduction: string;
   capabilities: CapabilityGroups;
   relationshipDescription?: string;
@@ -255,6 +259,7 @@ function createPartnerDetail({
   categoryId,
   partnerName,
   partnerLogo,
+  partnerBadge = "Partner",
   introduction,
   capabilities,
   relationshipDescription,
@@ -266,6 +271,7 @@ function createPartnerDetail({
     solutionName: category.solutionName,
     partnerName,
     partnerLogo,
+    partnerBadge,
     eyebrow: `${category.solutionName} / ${partnerName}`,
     title: `${partnerName} solutions,`,
     accent: "delivered by JOTO.",
@@ -339,6 +345,7 @@ const ciscoDetail: PartnerDetail = {
   solutionName: "Network",
   partnerName: "Cisco",
   partnerLogo: ciscoLogo,
+  partnerBadge: "Gold Partner",
   eyebrow: "Network / Cisco",
   title: "Cisco solutions,",
   accent: "delivered by JOTO.",
@@ -459,6 +466,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
     categoryId: "network",
     partnerName: "Extreme Networks",
     partnerLogo: extremeLogo,
+    partnerBadge: "Gold Partner",
     introduction: "JOTO plans, deploys and supports Extreme Networks wired, wireless, fabric and cloud-managed networking for campuses, branches and distributed enterprises.",
     relationshipDescription: "JOTO's legacy website identifies the company as an Extreme Networks Diamond Partner supporting promotion, demonstrations, proof of concept, deployment and maintenance across major locations in China and Hong Kong.",
     capabilities: [
@@ -484,6 +492,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
     categoryId: "network",
     partnerName: "Sangfor 深信服",
     partnerLogo: sangforLogo,
+    partnerBadge: "Gold Partner",
     introduction: "JOTO delivers Sangfor secure-networking capabilities for branches, application access and enterprise environments that need connectivity and security planned together.",
     capabilities: [
       ["Secure branch and WAN architecture", "Application delivery requirements", "Internet access and policy planning"],
@@ -509,6 +518,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
     categoryId: "security",
     partnerName: "Palo Alto Networks",
     partnerLogo: paloAltoLogo,
+    partnerBadge: "Platinum Partner",
     introduction: "JOTO designs and integrates Palo Alto Networks security across next-generation firewalls, secure access, cloud environments and security operations.",
     capabilities: [
       ["Next-generation firewall architecture", "Prisma secure-access planning", "Cloud and endpoint security alignment"],
@@ -521,6 +531,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
     categoryId: "security",
     partnerName: "Fortinet",
     partnerLogo: fortinetLogo,
+    partnerBadge: "Gold Partner",
     introduction: "JOTO brings Fortinet networking and security together for firewalls, secure branches, access and centrally managed enterprise environments.",
     capabilities: [
       ["Fortinet Security Fabric architecture", "FortiGate sizing and policy design", "Secure SD-WAN and branch planning"],
@@ -533,6 +544,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
     categoryId: "security",
     partnerName: "Sangfor 深信服",
     partnerLogo: sangforLogo,
+    partnerBadge: "Gold Partner",
     introduction: "JOTO helps enterprises apply Sangfor security controls to internet access, applications, endpoints and infrastructure through coordinated architecture and support.",
     capabilities: [
       ["Network and application risk review", "NGAF architecture and sizing", "Secure access policy planning"],

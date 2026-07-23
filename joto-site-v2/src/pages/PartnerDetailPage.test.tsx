@@ -37,6 +37,10 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
+    expect(screen.getByText("Gold Partner")).toHaveAttribute(
+      "data-partner-badge",
+      "Gold Partner",
+    );
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
@@ -109,6 +113,10 @@ describe("PartnerDetailPage", () => {
       screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
+    expect(screen.getByText("Platinum Partner")).toHaveAttribute(
+      "data-partner-badge",
+      "Platinum Partner",
+    );
     expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
       "href",
       "#partner-case-studies",
