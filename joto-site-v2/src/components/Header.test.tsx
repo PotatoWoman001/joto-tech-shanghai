@@ -65,6 +65,23 @@ describe("Header", () => {
     expect(screen.queryByText("Solutions / Category / Vendor")).not.toBeInTheDocument();
   });
 
+  it("keeps the desktop solution directory within the viewport", () => {
+    renderHeader();
+    const toggle = screen.getByRole("button", { name: "SOLUTIONS" });
+    const directoryId = toggle.getAttribute("aria-controls");
+    const directory = directoryId ? document.getElementById(directoryId) : null;
+
+    expect(directory).toHaveClass(
+      "fixed",
+      "left-4",
+      "right-4",
+      "top-[76px]",
+      "mx-auto",
+      "max-w-[1100px]",
+    );
+    expect(directory).not.toHaveClass("absolute", "right-0", "w-[min(1100px,92vw)]");
+  });
+
   it("opens a full-screen mobile menu and closes it from a link", async () => {
     const user = userEvent.setup();
     renderHeader();
