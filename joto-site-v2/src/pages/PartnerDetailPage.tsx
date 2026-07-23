@@ -64,13 +64,73 @@ function GridLines() {
   );
 }
 
+type SolutionVisualCategory =
+  | "network"
+  | "security"
+  | "server-storage"
+  | "collaboration"
+  | "safeguarding";
+
+function getSolutionVisualCategory(pathname: string): SolutionVisualCategory {
+  const category = pathname.split("/")[2];
+
+  if (
+    category === "network" ||
+    category === "security" ||
+    category === "server-storage" ||
+    category === "collaboration" ||
+    category === "safeguarding"
+  ) {
+    return category;
+  }
+
+  return "network";
+}
+
+function PartnerSolutionVisual({ detail }: PartnerDetailPageProps) {
+  const category = getSolutionVisualCategory(detail.pathname);
+
+  return (
+    <div
+      className="partner-solution-visual relative aspect-[4/3] w-full"
+      data-solution-visual={category}
+    >
+      <div aria-hidden="true" className="partner-solution-visual__aura" />
+      <img
+        alt={detail.heroVisual.alt}
+        className="partner-solution-visual__image"
+        src={detail.heroVisual.src}
+      />
+      <div aria-hidden="true" className="partner-solution-visual__wash" />
+      <div
+        aria-hidden="true"
+        className="partner-solution-visual__hud"
+        data-solution-visual-motion
+      >
+        <span className="partner-solution-visual__label">
+          {detail.partnerName} / {detail.solutionName}
+        </span>
+        <span className="partner-solution-visual__axis partner-solution-visual__axis--horizontal" />
+        <span className="partner-solution-visual__axis partner-solution-visual__axis--vertical" />
+        <span className="partner-solution-visual__scanner" />
+        <span className="partner-solution-visual__reticle" />
+        <span className="partner-solution-visual__node partner-solution-visual__node--one" />
+        <span className="partner-solution-visual__node partner-solution-visual__node--two" />
+        <span className="partner-solution-visual__node partner-solution-visual__node--three" />
+      </div>
+    </div>
+  );
+}
+
 export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
   const { t } = useI18n();
+  const hasCiscoTelemetry = Boolean(detail.heroVisual.telemetry);
+
   return (
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
       <section
         aria-labelledby="partner-hero-title"
-        className="relative isolate min-h-[900px] overflow-hidden border-b border-white/10 bg-[#070b0a] lg:min-h-screen"
+        className="relative min-h-[900px] overflow-hidden border-b border-white/10 bg-[#070b0a] lg:min-h-screen"
       >
         <div
           aria-hidden="true"
@@ -79,8 +139,8 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         <GridLines />
         <Header />
 
-        <div className={`${sectionShell} relative z-10 grid min-h-[900px] gap-12 pb-14 pt-32 lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-8 lg:pb-16 lg:pt-28`}>
-          <div className="min-w-0 lg:col-span-7">
+        <div className={`${sectionShell} relative z-10 grid min-h-[900px] gap-12 pb-14 pt-32 lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-12 lg:pb-16 lg:pt-28 xl:gap-16`}>
+          <div className="min-w-0 lg:col-span-6 xl:col-span-7">
             <Reveal>
               <div className="flex items-center gap-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-joto-green">
@@ -107,20 +167,20 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               </div>
 
               <h1
-                className="mt-10 max-w-[900px] font-medium leading-[0.88] tracking-[-0.065em]"
+                className="mt-10 max-w-full font-medium tracking-[-0.055em]"
                 id="partner-hero-title"
               >
                 <span
                   className={`block ${
-                    detail.partnerName.length > 14
-                      ? "text-[clamp(2.45rem,4vw,4.7rem)]"
-                      : "text-[clamp(3rem,5.7vw,6rem)]"
-                  } lg:whitespace-nowrap`}
+                    hasCiscoTelemetry
+                      ? "text-[clamp(3rem,5.7vw,6rem)] leading-[0.9] lg:whitespace-nowrap"
+                      : "text-balance break-words text-[clamp(3rem,4.7vw,5.2rem)] leading-[0.92]"
+                  }`}
                   data-partner-title-line
                 >
                   {detail.title}
                 </span>
-                <em className="mt-2 block font-serif text-[clamp(2.8rem,6.64vw,6.72rem)] font-normal tracking-[-0.045em] text-joto-green">
+                <em className="mt-3 block max-w-full text-balance break-words font-serif text-[clamp(2.35rem,3.8vw,3.55rem)] font-normal leading-[0.96] tracking-[-0.035em] text-joto-green">
                   {detail.accent}
                 </em>
               </h1>
@@ -130,11 +190,11 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   className="group inline-flex items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-[#070b0a] transition-transform hover:-translate-y-0.5"
-                  href="#partner-case-studies"
+                  href={detail.cases.length > 0 ? "#partner-case-studies" : "#partner-services"}
                 >
-                  {detail.heroVisual.telemetry
+                  {detail.cases.length > 0
                     ? `${t("View")} ${detail.partnerName} ${t("case studies")}`
-                    : `${t("Explore")} ${detail.partnerName} ${t("use cases")}`}
+                    : `${t("Explore")} ${detail.partnerName} ${t("services")}`}
                   <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                 </a>
                 <a
@@ -148,48 +208,40 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
           </div>
 
           <Reveal
-            className={`relative lg:col-span-5 ${detail.heroVisual.telemetry ? "lg:translate-y-14" : ""}`}
+            className={`relative lg:col-span-6 xl:col-span-5 ${hasCiscoTelemetry ? "lg:translate-y-14" : ""}`}
             delay={120}
           >
-            {detail.heroVisual.telemetry && (
+            {hasCiscoTelemetry && (
               <div data-network-telemetry>
                 <NetworkTelemetryReadouts />
               </div>
             )}
             <div
               className={`relative -mx-8 sm:mx-0 ${
-                detail.heroVisual.telemetry
+                hasCiscoTelemetry
                   ? "lg:-ml-8 lg:mr-[-3vw] xl:-ml-28 xl:mr-[-7vw]"
-                  : "lg:-ml-10"
+                  : "lg:-ml-4"
               }`}
-              data-cisco-device-stage={detail.heroVisual.telemetry ? "true" : undefined}
+              data-cisco-device-stage={hasCiscoTelemetry ? "true" : undefined}
             >
-              <div
-                aria-hidden="true"
-                className="absolute inset-[12%] rounded-full bg-joto-green/10 blur-3xl"
-              />
-              <div
-                className={`relative z-10 w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] ${
-                  detail.heroVisual.telemetry
-                    ? "aspect-[690/288]"
-                    : "aspect-[4/3] overflow-hidden rounded-[24px] border border-white/12"
-                }`}
-              >
-                <img
-                  alt={detail.heroVisual.alt}
-                  className={`absolute inset-0 h-full w-full ${
-                    detail.heroVisual.telemetry ? "object-contain" : "object-cover"
-                  }`}
-                  src={detail.heroVisual.src}
-                />
-                {!detail.heroVisual.telemetry && (
+              {hasCiscoTelemetry ? (
+                <>
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-[#070b0a]/65 via-transparent to-transparent"
+                    className="absolute inset-[12%] rounded-full bg-joto-green/10 blur-3xl"
                   />
-                )}
-                {detail.heroVisual.telemetry && <NetworkTelemetryScreen />}
-              </div>
+                  <div className="relative z-10 aspect-[690/288] w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]">
+                    <img
+                      alt={detail.heroVisual.alt}
+                      className="absolute inset-0 h-full w-full object-contain"
+                      src={detail.heroVisual.src}
+                    />
+                    <NetworkTelemetryScreen />
+                  </div>
+                </>
+              ) : (
+                <PartnerSolutionVisual detail={detail} />
+              )}
             </div>
           </Reveal>
         </div>
@@ -295,21 +347,22 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
-        <div className={sectionShell}>
-          <SectionHeading
-            eyebrow={detail.casesEyebrow}
-            index="04"
-            title={detail.casesTitle}
-            description={detail.casesDescription}
-          />
-          <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
-            {detail.cases.map((caseStudy, index) => {
-              const isPortraitLogo = caseStudy.client === "Harrow International School";
+      {detail.cases.length > 0 && (
+        <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
+          <div className={sectionShell}>
+            <SectionHeading
+              eyebrow={detail.casesEyebrow}
+              index="04"
+              title={detail.casesTitle}
+              description={detail.casesDescription}
+            />
+            <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
+              {detail.cases.map((caseStudy, index) => {
+                const isPortraitLogo = caseStudy.client === "Harrow International School";
 
-              return (
-                <Reveal key={caseStudy.client}>
-                  <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
+                return (
+                  <Reveal key={caseStudy.client}>
+                    <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
                     <div className="flex items-start gap-5 lg:col-span-3">
                       <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
                         0{index + 1}
@@ -357,13 +410,14 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                       </ul>
                     </div>
                     <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
-                  </article>
-                </Reveal>
-              );
-            })}
+                    </article>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="relative overflow-hidden bg-joto-green text-[#070b0a]" id="contact">
         <div aria-hidden="true" className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(7,11,10,.4)_1px,transparent_1px),linear-gradient(90deg,rgba(7,11,10,.4)_1px,transparent_1px)] [background-size:25%_100%,25%_100%]" />

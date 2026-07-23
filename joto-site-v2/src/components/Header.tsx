@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { siteContent } from "../content/en";
 import { useI18n } from "../i18n/I18nProvider";
@@ -6,6 +6,7 @@ import { localeMeta, locales, localizedHref } from "../i18n/routing";
 import { homeAnchor, pageHref, vendorAnchor } from "../lib/anchors";
 
 export const NAV_LINKS = siteContent.nav;
+const DESKTOP_SOLUTIONS_CLOSE_DELAY_MS = 2500;
 
 export default function Header() {
   const { locale, pathname, siteContent: localizedContent, switchHref, t } = useI18n();
@@ -14,9 +15,52 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [desktopSolutionsOpen, setDesktopSolutionsOpen] = useState(false);
+  const [desktopSolutionsPinned, setDesktopSolutionsPinned] = useState(false);
   const [activeSolutionCategory, setActiveSolutionCategory] = useState<string | null>("network");
+  const desktopSolutionsRootRef = useRef<HTMLDivElement>(null);
+  const desktopSolutionsCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const menuId = useId();
   const desktopSolutionsId = useId();
+
+  const clearDesktopSolutionsCloseTimer = () => {
+    if (desktopSolutionsCloseTimerRef.current === null) return;
+
+    window.clearTimeout(desktopSolutionsCloseTimerRef.current);
+    desktopSolutionsCloseTimerRef.current = null;
+  };
+
+  const closeDesktopSolutions = () => {
+    clearDesktopSolutionsCloseTimer();
+    setDesktopSolutionsOpen(false);
+    setDesktopSolutionsPinned(false);
+  };
+
+  const openDesktopSolutions = () => {
+    clearDesktopSolutionsCloseTimer();
+    setDesktopSolutionsOpen(true);
+  };
+
+  const scheduleDesktopSolutionsClose = () => {
+    if (desktopSolutionsPinned) return;
+
+    clearDesktopSolutionsCloseTimer();
+    desktopSolutionsCloseTimerRef.current = window.setTimeout(() => {
+      setDesktopSolutionsOpen(false);
+      desktopSolutionsCloseTimerRef.current = null;
+    }, DESKTOP_SOLUTIONS_CLOSE_DELAY_MS);
+  };
+
+  const togglePinnedDesktopSolutions = () => {
+    clearDesktopSolutionsCloseTimer();
+
+    if (desktopSolutionsOpen && desktopSolutionsPinned) {
+      closeDesktopSolutions();
+      return;
+    }
+
+    setDesktopSolutionsOpen(true);
+    setDesktopSolutionsPinned(true);
+  };
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -39,12 +83,38 @@ export default function Header() {
     if (!desktopSolutionsOpen) return;
 
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDesktopSolutionsOpen(false);
+      if (event.key !== "Escape") return;
+
+      clearDesktopSolutionsCloseTimer();
+      setDesktopSolutionsOpen(false);
+      setDesktopSolutionsPinned(false);
     };
 
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [desktopSolutionsOpen]);
+
+  useEffect(() => {
+    if (!desktopSolutionsOpen) return;
+
+    const closeOnOutsidePointerDown = (event: PointerEvent) => {
+      if (desktopSolutionsRootRef.current?.contains(event.target as Node)) return;
+
+      clearDesktopSolutionsCloseTimer();
+      setDesktopSolutionsOpen(false);
+      setDesktopSolutionsPinned(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePointerDown);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePointerDown);
+  }, [desktopSolutionsOpen]);
+
+  useEffect(
+    () => () => {
+      clearDesktopSolutionsCloseTimer();
+    },
+    [],
+  );
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -54,7 +124,7 @@ export default function Header() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070b0a]/90 shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-[100] border-b border-white/10 bg-[#050806] shadow-[0_10px_30px_rgba(0,0,0,0.24)]"
       dir="ltr"
     >
       <div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
@@ -76,20 +146,22 @@ export default function Header() {
 
         <nav aria-label={t("Primary navigation")} className="relative hidden items-center gap-5 lg:flex xl:gap-8">
           <div
+            data-desktop-solutions-trigger
             onBlur={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                setDesktopSolutionsOpen(false);
+                scheduleDesktopSolutionsClose();
               }
             }}
-            onFocus={() => setDesktopSolutionsOpen(true)}
-            onMouseEnter={() => setDesktopSolutionsOpen(true)}
-            onMouseLeave={() => setDesktopSolutionsOpen(false)}
+            onFocus={openDesktopSolutions}
+            onMouseEnter={openDesktopSolutions}
+            onMouseLeave={scheduleDesktopSolutionsClose}
+            ref={desktopSolutionsRootRef}
           >
             <button
               aria-controls={desktopSolutionsId}
               aria-expanded={desktopSolutionsOpen}
               className="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 font-sans text-[14px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green xl:text-[16px]"
-              onClick={() => setDesktopSolutionsOpen(true)}
+              onClick={togglePinnedDesktopSolutions}
               type="button"
             >
               {navLinks[0].label}
@@ -108,7 +180,10 @@ export default function Header() {
                   : "pointer-events-none invisible translate-y-2 opacity-0"
               }`}
               data-desktop-solutions-directory
+              data-menu-pinned={desktopSolutionsPinned ? "true" : "false"}
               id={desktopSolutionsId}
+              onMouseEnter={openDesktopSolutions}
+              onMouseLeave={scheduleDesktopSolutionsClose}
             >
               <div className="border border-white/15 bg-[#08100d]/95 p-7 shadow-2xl backdrop-blur-xl">
                 <div className="grid grid-cols-5 gap-px bg-white/10">
@@ -117,7 +192,7 @@ export default function Header() {
                       <a
                         className="text-sm font-semibold text-white transition-colors hover:text-joto-green"
                         href={localizedHref(homeAnchor(`solution-${category.id}`, fromInteriorPage), locale)}
-                        onClick={() => setDesktopSolutionsOpen(false)}
+                        onClick={closeDesktopSolutions}
                       >
                         {category.title}
                       </a>
@@ -130,7 +205,7 @@ export default function Header() {
                               locale,
                             )}
                             key={vendor.name}
-                            onClick={() => setDesktopSolutionsOpen(false)}
+                            onClick={closeDesktopSolutions}
                           >
                             {vendor.name}
                           </a>

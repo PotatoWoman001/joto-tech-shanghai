@@ -1,6 +1,6 @@
-import { render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { I18nProvider } from "../i18n/I18nProvider";
 import Header, { NAV_LINKS } from "./Header";
 
@@ -14,6 +14,7 @@ function renderHeader() {
 
 describe("Header", () => {
   afterEach(() => {
+    vi.useRealTimers();
     document.body.style.overflow = "";
     window.history.replaceState({}, "", "/");
   });
@@ -22,8 +23,9 @@ describe("Header", () => {
     const { container } = renderHeader();
     const header = container.querySelector("header");
 
-    expect(header).toHaveClass("fixed", "inset-x-0", "top-0", "z-50");
-    expect(header).toHaveClass("bg-[#070b0a]/90", "backdrop-blur-md");
+    expect(header).toHaveClass("fixed", "inset-x-0", "top-0", "z-[100]");
+    expect(header).toHaveClass("bg-[#050806]");
+    expect(header).not.toHaveClass("bg-[#070b0a]/90", "backdrop-blur-md");
     expect(header).not.toHaveClass("absolute");
   });
 
@@ -74,6 +76,43 @@ describe("Header", () => {
 
     expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(screen.queryByText("Solutions / Category / Vendor")).not.toBeInTheDocument();
+  });
+
+  it("pins the desktop solution directory after click until the user closes it", () => {
+    const { container } = renderHeader();
+    const toggle = screen.getByRole("button", { name: "SOLUTIONS" });
+    const trigger = container.querySelector("[data-desktop-solutions-trigger]");
+    const directory = container.querySelector("[data-desktop-solutions-directory]");
+
+    fireEvent.click(toggle);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(directory).toHaveAttribute("data-menu-pinned", "true");
+
+    fireEvent.mouseLeave(trigger as Element);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.click(toggle);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(directory).toHaveAttribute("data-menu-pinned", "false");
+  });
+
+  it("keeps a hover-opened solution directory visible for 2.5 seconds after pointer leave", () => {
+    vi.useFakeTimers();
+    const { container } = renderHeader();
+    const toggle = screen.getByRole("button", { name: "SOLUTIONS" });
+    const trigger = container.querySelector("[data-desktop-solutions-trigger]");
+
+    fireEvent.mouseEnter(trigger as Element);
+    fireEvent.mouseLeave(trigger as Element);
+
+    act(() => vi.advanceTimersByTime(2499));
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+
+    act(() => vi.advanceTimersByTime(1));
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
   });
 
   it("keeps the desktop solution directory within the viewport", () => {

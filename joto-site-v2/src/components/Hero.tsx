@@ -56,7 +56,7 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] overflow-hidden bg-[#070b0a] text-white"
+      className="relative flex min-h-[100svh] overflow-hidden bg-[#070b0a] text-white"
     >
       <HlsBackgroundVideo
         className="absolute inset-0 h-full w-full object-cover opacity-60"

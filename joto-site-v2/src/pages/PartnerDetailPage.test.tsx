@@ -26,7 +26,9 @@ describe("PartnerDetailPage", () => {
       screen.getByRole("heading", { level: 1, name: /Cisco solutions, delivered by JOTO/i }),
     ).toBeInTheDocument();
     expect(screen.getByText("delivered by JOTO.")).toHaveClass(
-      "text-[clamp(2.8rem,6.64vw,6.72rem)]",
+      "text-[clamp(2.35rem,3.8vw,3.55rem)]",
+      "leading-[0.96]",
+      "text-balance",
     );
     expect(screen.getByText("Cisco solutions,")).toHaveClass(
       "text-[clamp(3rem,5.7vw,6rem)]",
@@ -37,13 +39,16 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
-    expect(screen.getByText("Gold Partner")).toHaveClass(
-      "rounded-full",
-      "border-[#f2cf5b]/55",
-      "text-[#ffe481]",
+    const goldBadge = screen.getByText("Gold Partner");
+    expect(goldBadge).toHaveAttribute(
+      "data-partner-badge",
+      "Gold Partner",
     );
+    expect(goldBadge.parentElement).toHaveClass("basis-full");
+    expect(goldBadge.parentElement).not.toHaveClass("lg:basis-auto");
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
+    expect(container.querySelector("[data-solution-visual]")).not.toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
       "lg:-ml-8",
       "lg:mr-[-3vw]",
@@ -108,32 +113,62 @@ describe("PartnerDetailPage", () => {
   });
 
   it("renders vendor-specific copy and a category visual without Cisco telemetry", () => {
-    const { container } = renderDetail("/solutions/security/palo-alto-networks");
+    const { container, detail } = renderDetail("/solutions/security/palo-alto-networks");
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Palo Alto Networks integrated protection/i,
+      }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
-    expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
-      "href",
-      "#partner-case-studies",
+    const platinumBadge = screen.getByText("Platinum Partner");
+    expect(platinumBadge).toHaveAttribute(
+      "data-partner-badge",
+      "Platinum Partner",
     );
-    expect(screen.getByText("Platinum Partner")).toHaveClass(
-      "rounded-full",
-      "border-white/35",
-      "text-white/85",
-    );
+    expect(platinumBadge.parentElement).toHaveClass("basis-full");
+    expect(platinumBadge.parentElement).not.toHaveClass("lg:basis-auto");
+    expect(
+      screen.getByRole("link", { name: /Explore Palo Alto Networks services/i }),
+    ).toHaveAttribute("href", "#partner-services");
+    expect(container.querySelector("#partner-case-studies")).not.toBeInTheDocument();
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
+    expect(screen.getByText("Palo Alto Networks integrated protection,")).toHaveClass(
+      "text-[clamp(3rem,4.7vw,5.2rem)]",
+      "text-balance",
+      "break-words",
+    );
+    expect(
+      screen.getByText("carry consistent policy across every business boundary."),
+    ).toHaveClass(
+      "text-[clamp(2.35rem,3.8vw,3.55rem)]",
+      "leading-[0.96]",
+      "text-balance",
+    );
+    expect(container.querySelector('[data-solution-visual="security"]')).toBeInTheDocument();
+    expect(container.querySelector("[data-solution-visual-motion]")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: detail.heroVisual.alt })).toHaveClass(
+      "partner-solution-visual__image",
+    );
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
   });
 
-  it("shows the standard partner badge on every non-tiered detail page", () => {
-    renderDetail("/solutions/network/aruba");
+  it.each([
+    ["/solutions/network/extreme-networks", "network"],
+    ["/solutions/security/fortinet", "security"],
+    ["/solutions/server-storage/dell-technologies", "server-storage"],
+    ["/solutions/collaboration/audiocodes", "collaboration"],
+    ["/solutions/safeguarding/verkada", "safeguarding"],
+  ])("uses the category-aware borderless hero visual for %s", (pathname, category) => {
+    const { container, detail } = renderDetail(pathname);
+    const visual = container.querySelector(`[data-solution-visual="${category}"]`);
 
-    expect(screen.getByText("Partner")).toHaveClass(
-      "rounded-full",
-      "border-joto-green/35",
-      "text-joto-green",
-    );
+    expect(visual).toBeInTheDocument();
+    expect(visual).toHaveClass("partner-solution-visual");
+    expect(
+      screen.getByRole("img", { name: detail.heroVisual.alt }),
+    ).toHaveClass("partner-solution-visual__image");
+    expect(visual).not.toHaveClass("border", "rounded-[24px]");
   });
 });

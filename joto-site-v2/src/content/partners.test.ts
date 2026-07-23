@@ -58,12 +58,47 @@ describe("partner detail content", () => {
 
     for (const detail of partnerDetails) {
       expect(detail.services).toHaveLength(3);
-      expect(detail.cases).toHaveLength(3);
       expect(detail.reasons).toHaveLength(3);
       expect(detail.partnerLogo).toBeTruthy();
       expect(detail.heroVisual.src).toBeTruthy();
       expect(getPartnerDetail(`${detail.pathname}/`)?.partnerName).toBe(detail.partnerName);
     }
+
+    const nonCiscoDetails = partnerDetails.filter((detail) => detail.partnerName !== "Cisco");
+    expect(nonCiscoDetails).toHaveLength(19);
+    expect(nonCiscoDetails.every((detail) => detail.cases.length === 0)).toBe(true);
+    expect(new Set(nonCiscoDetails.map((detail) => detail.title)).size).toBe(19);
+    expect(new Set(nonCiscoDetails.map((detail) => detail.accent)).size).toBe(19);
+    expect(new Set(nonCiscoDetails.map((detail) => detail.relationshipTitle)).size).toBe(19);
+    expect(new Set(nonCiscoDetails.map((detail) => detail.servicesTitle)).size).toBe(19);
+    expect(new Set(nonCiscoDetails.map((detail) => detail.ctaTitle)).size).toBe(19);
+
+    for (const detail of nonCiscoDetails) {
+      expect(detail.title).not.toBe(`${detail.partnerName} solutions,`);
+      expect(detail.accent).not.toBe("delivered by JOTO.");
+      expect(detail.relationshipTitle).not.toBe(
+        `${detail.partnerName} technology, shaped around your environment.`,
+      );
+    }
+  });
+
+  it("assigns a partnership badge to every detail route", () => {
+    expect(partnerDetails.every((detail) => detail.partnerBadge)).toBe(true);
+    expect(
+      partnerDetails
+        .filter((detail) => detail.partnerBadge === "Gold Partner")
+        .map((detail) => detail.pathname),
+    ).toEqual([
+      "/solutions/network/cisco",
+      "/solutions/network/extreme-networks",
+      "/solutions/network/sangfor",
+      "/solutions/security/fortinet",
+      "/solutions/security/sangfor",
+    ]);
+    expect(getPartnerDetail("/solutions/security/palo-alto-networks")?.partnerBadge).toBe(
+      "Platinum Partner",
+    );
+    expect(getPartnerDetail("/solutions/network/aruba")?.partnerBadge).toBe("Partner");
   });
 
   it("assigns a partnership badge to every detail route", () => {
