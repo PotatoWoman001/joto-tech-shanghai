@@ -28,7 +28,15 @@ describe("PartnerDetailPage", () => {
     expect(screen.getByText("delivered by JOTO.")).toHaveClass(
       "text-[clamp(2.8rem,6.64vw,6.72rem)]",
     );
-    expect(screen.getAllByText("Cisco × JOTO")).toHaveLength(2);
+    expect(screen.getByText("Cisco solutions,")).toHaveClass(
+      "text-[clamp(3rem,5.7vw,6rem)]",
+      "lg:whitespace-nowrap",
+    );
+    expect(screen.getAllByText("Cisco × JOTO")).toHaveLength(1);
+    expect(screen.getByRole("img", { name: "Cisco logo" })).toHaveClass(
+      "max-h-7",
+      "max-w-[132px]",
+    );
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelectorAll("[data-switch-port]")).toHaveLength(12);
@@ -43,9 +51,11 @@ describe("PartnerDetailPage", () => {
       expect(
         within(services as HTMLElement).getByRole("img", { name: service.imageAlt }),
       ).toBeInTheDocument();
-      expect(
-        within(services as HTMLElement).getByLabelText(`${service.title} icon`),
-      ).toBeInTheDocument();
+      expect(within(services as HTMLElement).getByLabelText(`${service.title} icon`)).toHaveClass(
+        "border-joto-green/45",
+        "bg-joto-green/10",
+        "text-joto-green",
+      );
     }
 
     const cases = container.querySelector("#partner-case-studies");
@@ -54,6 +64,11 @@ describe("PartnerDetailPage", () => {
     const chewyLogo = within(cases as HTMLElement).getByRole("img", { name: "Chewy logo" });
     expect(chewyLogo).toHaveAttribute("data-logo-treatment", "brand");
     expect(chewyLogo).not.toHaveClass("brightness-0");
+    const harrowLogo = within(cases as HTMLElement).getByRole("img", {
+      name: "Harrow International School logo",
+    });
+    expect(harrowLogo).toHaveClass("h-24", "w-[100px]");
+    expect(harrowLogo).toHaveAttribute("data-case-logo-size", "portrait");
 
     expect(screen.getByRole("link", { name: /View Cisco case studies/i })).toHaveAttribute(
       "href",
@@ -76,7 +91,7 @@ describe("PartnerDetailPage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(2);
+    expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
       "href",
       "#partner-case-studies",

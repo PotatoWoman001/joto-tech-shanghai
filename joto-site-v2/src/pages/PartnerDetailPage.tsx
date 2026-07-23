@@ -54,30 +54,32 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                 <p className="font-mono text-[10px] tracking-[0.18em] text-white/40">01 / 05</p>
               </div>
 
-              <div className="mt-9 flex items-center gap-5">
+              <div className="mt-9 flex items-center gap-4">
                 <img
                   alt={`${detail.partnerName} logo`}
-                  className="max-h-10 w-auto max-w-[180px] object-contain brightness-0 invert"
+                  className="max-h-7 w-auto max-w-[132px] object-contain brightness-0 invert"
+                  data-partner-lockup-logo
                   src={detail.partnerLogo}
                 />
                 <span className="text-2xl font-light text-white/28">×</span>
                 <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
               </div>
 
-              <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42">
-                {detail.partnerName} × JOTO
-              </p>
               <h1
-                className={`mt-5 max-w-[900px] font-medium leading-[0.84] tracking-[-0.072em] ${
-                  detail.partnerName.length > 14
-                    ? "text-[clamp(2.7rem,6.7vw,7rem)]"
-                    : "text-[clamp(3.5rem,8.3vw,8.4rem)]"
-                }`}
+                className="mt-10 max-w-[900px] font-medium leading-[0.88] tracking-[-0.065em]"
                 id="partner-hero-title"
               >
-                {detail.title}
-                <br />
-                <em className="font-serif text-[clamp(2.8rem,6.64vw,6.72rem)] font-normal tracking-[-0.045em] text-joto-green">
+                <span
+                  className={`block ${
+                    detail.partnerName.length > 14
+                      ? "text-[clamp(2.45rem,4vw,4.7rem)]"
+                      : "text-[clamp(3rem,5.7vw,6rem)]"
+                  } lg:whitespace-nowrap`}
+                  data-partner-title-line
+                >
+                  {detail.title}
+                </span>
+                <em className="mt-2 block font-serif text-[clamp(2.8rem,6.64vw,6.72rem)] font-normal tracking-[-0.045em] text-joto-green">
                   {detail.accent}
                 </em>
               </h1>
@@ -180,7 +182,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#070b0a] py-20 sm:py-24 lg:py-16" id="partner-services">
+      <section className="bg-[#070b0a] py-16 sm:py-20 lg:py-12" id="partner-services">
         <div className={sectionShell}>
           <SectionHeading
             eyebrow={`JOTO ${detail.partnerName} ${t("Services")}`}
@@ -188,7 +190,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
             title={detail.servicesTitle}
             description={detail.servicesDescription}
           />
-          <div className="mt-12 grid gap-4 lg:mt-10 lg:grid-cols-3">
+          <div className="mt-10 grid gap-4 lg:mt-8 lg:grid-cols-3">
             {detail.services.map((service, index) => {
               const ServiceIcon = serviceIcons[service.icon];
 
@@ -196,7 +198,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                 <Reveal className="h-full" delay={index * 90} key={service.title}>
                   <article className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/12 bg-[#080d0c] transition-colors hover:border-white/20">
                     <div className="relative">
-                      <div className="aspect-[4/3] overflow-hidden md:aspect-[16/10]">
+                      <div className="aspect-[16/9] overflow-hidden md:aspect-[2/1]">
                         <img
                           alt={service.imageAlt}
                           className={`h-full w-full object-cover ${service.imagePosition} transition-transform duration-700 group-hover:scale-[1.025]`}
@@ -210,21 +212,21 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                       </div>
                       <div
                         aria-label={`${service.title} icon`}
-                        className="absolute bottom-0 left-6 grid h-12 w-12 translate-y-1/2 place-items-center rounded-[14px] border border-[#3158d5]/70 bg-[#10193a] text-[#9bb0ff] shadow-[0_12px_30px_rgba(0,0,0,0.35)] sm:left-8"
+                        className="absolute bottom-0 left-6 grid h-11 w-11 translate-y-1/2 place-items-center rounded-[12px] border border-joto-green/45 bg-joto-green/10 text-joto-green shadow-[0_12px_30px_rgba(0,0,0,0.35)] sm:left-7"
                       >
                         <ServiceIcon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
                       </div>
                     </div>
 
-                    <div className="flex flex-1 flex-col p-7 pt-11 sm:p-8 sm:pt-12">
+                    <div className="flex flex-1 flex-col p-6 pt-10 sm:p-7 sm:pt-10">
                       <span className="font-mono text-[10px] tracking-[0.2em] text-white/40">
                         0{index + 1}
                       </span>
-                      <h3 className="mt-5 text-2xl font-medium tracking-[-0.045em] sm:text-[1.7rem]">
+                      <h3 className="mt-4 text-2xl font-medium tracking-[-0.045em] sm:text-[1.65rem]">
                         {service.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-6 text-white/52">{service.description}</p>
-                      <ul className="mt-6 space-y-2.5 border-t border-white/12 pt-5 lg:mt-7">
+                      <p className="mt-3 text-sm leading-6 text-white/52">{service.description}</p>
+                      <ul className="mt-5 space-y-2 border-t border-white/12 pt-4">
                         {service.capabilities.map((capability) => (
                           <li
                             className="flex items-start gap-3 text-xs leading-5 text-white/64"
@@ -253,56 +255,63 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
             description={detail.casesDescription}
           />
           <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
-            {detail.cases.map((caseStudy, index) => (
-              <Reveal key={caseStudy.client}>
-                <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
-                  <div className="flex items-start gap-5 lg:col-span-3">
-                    <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
-                      0{index + 1}
-                    </span>
-                    {caseStudy.logo ? (
-                      <img
-                        alt={`${caseStudy.client} logo`}
-                        className={`max-h-12 w-auto max-w-[150px] object-contain object-left opacity-90 ${
-                          caseStudy.logoTreatment === "brand" ? "" : "brightness-0 invert"
-                        }`}
-                        data-logo-treatment={caseStudy.logoTreatment ?? "monochrome"}
-                        loading="lazy"
-                        src={caseStudy.logo}
-                      />
-                    ) : (
-                      <span className="max-w-[180px] text-sm font-semibold leading-5 text-white/72">
-                        {caseStudy.client}
+            {detail.cases.map((caseStudy, index) => {
+              const isPortraitLogo = caseStudy.client === "Harrow International School";
+
+              return (
+                <Reveal key={caseStudy.client}>
+                  <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
+                    <div className="flex items-start gap-5 lg:col-span-3">
+                      <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
+                        0{index + 1}
                       </span>
-                    )}
-                  </div>
-                  <div className="lg:col-span-5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
-                      {caseStudy.category}
-                    </p>
-                    <h3 className="mt-3 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
-                      {caseStudy.client}
-                    </h3>
-                    <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
-                      {caseStudy.brief}
-                    </p>
-                  </div>
-                  <div className="lg:col-span-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-joto-green">
-                      {caseStudy.tag}
-                    </p>
-                    <ul className="mt-5 space-y-2.5">
-                      {caseStudy.scope.map((item) => (
-                        <li className="text-xs leading-5 text-white/52" key={item}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
-                </article>
-              </Reveal>
-            ))}
+                      {caseStudy.logo ? (
+                        <img
+                          alt={`${caseStudy.client} logo`}
+                          className={`object-contain object-left opacity-90 ${
+                            isPortraitLogo
+                              ? "h-24 w-[100px]"
+                              : "max-h-12 w-auto max-w-[150px]"
+                          } ${caseStudy.logoTreatment === "brand" ? "" : "brightness-0 invert"}`}
+                          data-case-logo-size={isPortraitLogo ? "portrait" : "standard"}
+                          data-logo-treatment={caseStudy.logoTreatment ?? "monochrome"}
+                          loading="lazy"
+                          src={caseStudy.logo}
+                        />
+                      ) : (
+                        <span className="max-w-[180px] text-sm font-semibold leading-5 text-white/72">
+                          {caseStudy.client}
+                        </span>
+                      )}
+                    </div>
+                    <div className="lg:col-span-5">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                        {caseStudy.category}
+                      </p>
+                      <h3 className="mt-3 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
+                        {caseStudy.client}
+                      </h3>
+                      <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
+                        {caseStudy.brief}
+                      </p>
+                    </div>
+                    <div className="lg:col-span-3">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-joto-green">
+                        {caseStudy.tag}
+                      </p>
+                      <ul className="mt-5 space-y-2.5">
+                        {caseStudy.scope.map((item) => (
+                          <li className="text-xs leading-5 text-white/52" key={item}>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
