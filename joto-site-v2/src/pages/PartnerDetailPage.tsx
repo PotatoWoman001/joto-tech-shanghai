@@ -101,7 +101,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                   <span className="text-2xl font-light text-white/28">×</span>
                   <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
                 </div>
-                <div className="basis-full lg:basis-auto">
+                <div className="basis-full">
                   <PartnershipBadge badge={detail.partnerBadge} />
                 </div>
               </div>

@@ -42,7 +42,8 @@ describe("PartnerDetailPage", () => {
       "data-partner-badge",
       "Gold Partner",
     );
-    expect(goldBadge.parentElement).toHaveClass("basis-full", "lg:basis-auto");
+    expect(goldBadge.parentElement).toHaveClass("basis-full");
+    expect(goldBadge.parentElement).not.toHaveClass("lg:basis-auto");
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
@@ -123,7 +124,8 @@ describe("PartnerDetailPage", () => {
       "data-partner-badge",
       "Platinum Partner",
     );
-    expect(platinumBadge.parentElement).toHaveClass("basis-full", "lg:basis-auto");
+    expect(platinumBadge.parentElement).toHaveClass("basis-full");
+    expect(platinumBadge.parentElement).not.toHaveClass("lg:basis-auto");
     expect(
       screen.getByRole("link", { name: /Explore Palo Alto Networks services/i }),
     ).toHaveAttribute("href", "#partner-services");
