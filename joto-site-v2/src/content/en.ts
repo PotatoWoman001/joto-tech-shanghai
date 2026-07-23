@@ -2,6 +2,7 @@ import arubaLogo from "../assets/logos/aruba.svg";
 import audioCodesLogo from "../assets/logos/audiocodes.png";
 import checkpointLogo from "../assets/logos/checkpoint.svg";
 import ciscoLogo from "../assets/logos/cisco.svg";
+import cyberDataLogo from "../assets/logos/cyberdata.png";
 import danaherLogo from "../assets/logos/danaher.svg";
 import dellLogo from "../assets/logos/dell.svg";
 import extremeLogo from "../assets/logos/extreme-networks.png";
@@ -9,22 +10,33 @@ import fortinetLogo from "../assets/logos/fortinet.svg";
 import harrowLogo from "../assets/logos/harrow.svg";
 import hikvisionLogo from "../assets/logos/hikvision.svg";
 import huaweiLogo from "../assets/logos/huawei.svg";
-import jdLogo from "../assets/logos/jd.png";
+import informaCastLogo from "../assets/logos/informacast.svg";
+import inspurLogo from "../assets/logos/inspur.svg";
+import jdLogo from "../assets/logos/jd-joy-chinese.png";
+import keykingLogo from "../assets/logos/keyking.png";
+import knowBe4Logo from "../assets/logos/knowbe4.svg";
+import oneLoginLogo from "../assets/logos/onelogin.svg";
 import paloAltoLogo from "../assets/logos/palo-alto.svg";
 import sangforLogo from "../assets/logos/sangfor.png";
 import starbucksLogo from "../assets/logos/starbucks.svg";
 import verkadaLogo from "../assets/logos/verkada.png";
-import collaborationVisual from "../assets/solutions/collaboration.webp";
-import networkVisual from "../assets/solutions/network.webp";
-import safeguardingVisual from "../assets/solutions/safeguarding.webp";
-import securityVisual from "../assets/solutions/security.webp";
-import serverStorageVisual from "../assets/solutions/server-storage.webp";
+import vodiaLogo from "../assets/logos/vodia.svg";
+import advisoryPlanningVisual from "../assets/services/advisory-planning.webp";
+import designIntegrationVisual from "../assets/services/design-integration.webp";
+import managedSupportVisual from "../assets/services/managed-support.webp";
+import securityComplianceVisual from "../assets/services/security-compliance.webp";
+import collaborationVisual from "../assets/solutions/collaboration-v2.jpg";
+import networkVisual from "../assets/solutions/network-v2.jpg";
+import safeguardingVisual from "../assets/solutions/safeguarding-v2.jpg";
+import securityVisual from "../assets/solutions/security-v2.jpg";
+import serverStorageVisual from "../assets/solutions/server-storage-v2.jpg";
 import type { SiteContent, Vendor } from "./types";
 
 const vendors: Record<string, Vendor> = {
   cisco: {
     name: "Cisco",
     tier: "Gold",
+    logoScale: "compact",
     description:
       "Enterprise networking across campus switching, wireless, routing and cloud-managed infrastructure.",
     logo: ciscoLogo,
@@ -32,6 +44,7 @@ const vendors: Record<string, Vendor> = {
   extreme: {
     name: "Extreme Networks",
     tier: "Gold",
+    logoScale: "wide",
     description:
       "Cloud-managed wired and wireless networking for distributed enterprise and campus environments.",
     logo: extremeLogo,
@@ -45,18 +58,22 @@ const vendors: Record<string, Vendor> = {
   sangforNetwork: {
     name: "Sangfor 深信服",
     tier: "Gold",
+    logoScale: "wide",
     description:
       "Secure networking capabilities for branch connectivity, application access and managed infrastructure.",
     logo: sangforLogo,
   },
   knowBe4: {
     name: "KnowBe4",
+    logo: knowBe4Logo,
+    logoScale: "wide",
     description:
       "Security-awareness training and simulated phishing designed to help organizations reduce human risk.",
   },
   paloAlto: {
     name: "Palo Alto Networks",
     tier: "Platinum",
+    logoScale: "wide",
     description:
       "Network-security and threat-prevention capabilities for users, applications and distributed environments.",
     logo: paloAltoLogo,
@@ -64,6 +81,7 @@ const vendors: Record<string, Vendor> = {
   fortinet: {
     name: "Fortinet",
     tier: "Gold",
+    logoScale: "wide",
     description:
       "Integrated networking and security capabilities spanning firewalls, secure access and branch environments.",
     logo: fortinetLogo,
@@ -76,50 +94,61 @@ const vendors: Record<string, Vendor> = {
   },
   checkpoint: {
     name: "Check Point",
+    logoScale: "wide",
     description:
       "Enterprise threat prevention and security management across networks, cloud environments and users.",
     logo: checkpointLogo,
   },
   oneLogin: {
     name: "OneLogin",
+    logo: oneLoginLogo,
+    logoScale: "wide",
     description:
       "Cloud-based identity and access management with single sign-on, multi-factor authentication and lifecycle controls.",
   },
   dell: {
     name: "Dell Technologies",
+    logoScale: "wide",
     description:
       "Enterprise compute and storage platforms for data-center, virtualization and workload requirements.",
     logo: dellLogo,
   },
   huawei: {
     name: "Huawei",
+    logoScale: "compact",
     description:
       "Enterprise compute and data-storage infrastructure for private cloud and business workloads.",
     logo: huaweiLogo,
   },
   inspur: {
     name: "Inspur 浪潮",
+    logo: inspurLogo,
+    logoScale: "wide",
     description:
       "Server and storage platforms for enterprise computing, cloud infrastructure and data-intensive workloads.",
   },
   audioCodes: {
     name: "AudioCodes",
+    logoScale: "compact",
     description:
       "Voice connectivity and communications infrastructure for enterprise calling and collaboration environments.",
     logo: audioCodesLogo,
   },
   vodia: {
     name: "Vodia",
+    logo: vodiaLogo,
     description:
       "Multi-tenant IP PBX software for hosted and enterprise voice communications across common server platforms.",
   },
   cyberData: {
     name: "CyberData",
+    logo: cyberDataLogo,
     description:
       "SIP paging, intercom and notification endpoints for IP-based communication and alerting systems.",
   },
   informaCast: {
     name: "InformaCast",
+    logo: informaCastLogo,
     description:
       "Mass-notification and incident-communication software for coordinated audio, text and visual alerts.",
   },
@@ -131,12 +160,15 @@ const vendors: Record<string, Vendor> = {
   },
   hikvision: {
     name: "Hikvision",
+    logoScale: "wide",
     description:
       "Video-security and access-control products for monitoring and safeguarding physical environments.",
     logo: hikvisionLogo,
   },
   keyking: {
     name: "Keyking",
+    logo: keykingLogo,
+    logoScale: "compact",
     description:
       "Access-control hardware and integrated physical-security management for connected facilities.",
   },
@@ -146,8 +178,8 @@ const nav = [
   { label: "SOLUTIONS", href: "#solutions" },
   { label: "SERVICES", href: "#services" },
   { label: "CASE STUDIES", href: "#case-studies" },
-  { label: "ABOUT", href: "#about" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "ABOUT", href: "/about" },
+  { label: "CONTACT", href: "/contact" },
 ];
 
 export const siteContent: SiteContent = {
@@ -161,6 +193,7 @@ export const siteContent: SiteContent = {
     eyebrow: "ENTERPRISE-READY IT SOLUTIONS",
     headline: "We Make",
     accent: "IT",
+    accentWords: ["IT", "Connections", "Resilience", "Progress"],
     headlineSecondLine: "Happen",
     description:
       "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
@@ -236,54 +269,58 @@ export const siteContent: SiteContent = {
     ],
   },
   services: {
-    eyebrow: "END-TO-END DELIVERY",
+    eyebrow: "END-TO-END SERVICES",
     title: "From the first workshop to steady-state operations.",
     description:
       "JOTO brings planning, integration and ongoing service together so multi-vendor environments remain coherent throughout their lifecycle.",
     items: [
       {
-        title: "Advisory & Planning",
+        icon: "planning",
+        title: "IT Planning & Consulting",
         description:
-          "Translate business, technical and compliance requirements into a practical architecture and roadmap.",
-        points: [
-          "Current-state assessment",
-          "Architecture and technology selection",
-          "Bill of materials and rollout planning",
-          "Budget and lifecycle considerations",
-        ],
+          "IT strategy, architecture design and cross-border data compliance consulting — before a single box is ordered.",
+        image: advisoryPlanningVisual,
+        imageAlt: "Technology team collaborating around laptops during a planning workshop",
       },
       {
-        title: "Design & Integration",
+        icon: "deployment",
+        title: "Design & Deployment",
         description:
-          "Coordinate products, deployment work and acceptance across connected infrastructure domains.",
-        points: [
-          "Detailed solution design",
-          "Multi-vendor procurement coordination",
-          "Installation, migration and testing",
-          "Documentation and handover",
-        ],
+          "Turnkey delivery from structured cabling to cloud: engineering, installation, migration and cut-over, on site.",
+        image: designIntegrationVisual,
+        imageAlt: "Network cabling and active equipment inside enterprise server racks",
       },
       {
-        title: "Security & Compliance",
+        icon: "support",
+        title: "24×7 Support & Maintenance",
         description:
-          "Strengthen technology and operating practices around access, protection and audit readiness.",
-        points: [
-          "Security architecture review",
-          "Network and identity controls",
-          "Security-awareness programs",
-          "Remediation planning and support",
-        ],
+          "Round-the-clock multilingual hotline, SLA-backed maintenance, spare parts and daily on-site helpdesk.",
+        image: managedSupportVisual,
+        imageAlt: "IT support team working across multiple desktop systems in an office",
       },
       {
-        title: "Managed Services & Support",
+        icon: "security",
+        title: "Managed Security Services",
         description:
-          "Maintain service continuity through coordinated monitoring, maintenance and user support.",
-        points: [
-          "Remote and on-site support",
-          "Incident and service coordination",
-          "Preventive maintenance",
-          "Vendor and lifecycle management",
-        ],
+          "MSS with SOC monitoring and Level-3 security operations — proven across a 15,000-server estate.",
+        image: securityComplianceVisual,
+        imageAlt: "Security operator monitoring multiple live systems in a control center",
+      },
+      {
+        icon: "staffing",
+        title: "Managed Outsourcing & Staffing",
+        description:
+          "Dedicated on-site IT and AI teams, personnel outsourcing and ITIL-based managed operations.",
+        image: managedSupportVisual,
+        imageAlt: "IT support team working across multiple desktop systems in an office",
+      },
+      {
+        icon: "procurement",
+        title: "IT Procurement",
+        description:
+          "One-stop sourcing of hardware, software and cloud services for organizations operating across global markets.",
+        image: designIntegrationVisual,
+        imageAlt: "Network cabling and active equipment inside enterprise server racks",
       },
     ],
   },
@@ -308,6 +345,7 @@ export const siteContent: SiteContent = {
           "Security-infrastructure reinforcement supporting large-scale business operations in China.",
         capabilities: ["Network security", "Endpoint protection", "Security operations"],
         logo: starbucksLogo,
+        logoTreatment: "original",
       },
       {
         client: "Danaher",
@@ -324,11 +362,12 @@ export const siteContent: SiteContent = {
           "Workplace infrastructure design and deployment supporting international business expansion.",
         capabilities: ["Global workplace design", "Network and security", "Site deployment"],
         logo: jdLogo,
+        logoTreatment: "original",
       },
     ],
   },
   about: {
-    eyebrow: "ABOUT JOTO",
+    eyebrow: "WHY JOTO",
     title: "A China-based technology partner with an international delivery view.",
     description:
       "Established in Shanghai in 2010, JOTO plans, integrates and supports enterprise IT and physical-security environments across multiple technology domains.",
@@ -345,15 +384,17 @@ export const siteContent: SiteContent = {
     eyebrow: "TECHNOLOGY PORTFOLIO",
     title: "A focused multi-vendor ecosystem.",
     description:
-      "Partnership tiers are shown only where supplied by JOTO for this release; all other brands are presented without a level claim.",
+      "A trusted network of technology leaders supporting secure, connected and resilient enterprise environments.",
     items: [
       vendors.cisco,
       vendors.extreme,
-      vendors.aruba,
       vendors.sangforNetwork,
-      vendors.knowBe4,
-      vendors.paloAlto,
       vendors.fortinet,
+      vendors.paloAlto,
+      vendors.knowBe4,
+      vendors.verkada,
+      vendors.hikvision,
+      vendors.aruba,
       vendors.checkpoint,
       vendors.oneLogin,
       vendors.dell,
@@ -363,8 +404,6 @@ export const siteContent: SiteContent = {
       vendors.vodia,
       vendors.cyberData,
       vendors.informaCast,
-      vendors.verkada,
-      vendors.hikvision,
       vendors.keyking,
     ],
   },

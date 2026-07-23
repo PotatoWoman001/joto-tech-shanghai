@@ -1,0 +1,14 @@
+{
+  "name": "joto-contact-function",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@alicloud/dm20151123": "^1.10.2",
+    "@alicloud/openapi-client": "^0.4.15"
+  }
+}

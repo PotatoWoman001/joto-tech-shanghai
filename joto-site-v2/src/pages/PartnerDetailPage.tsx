@@ -1,7 +1,10 @@
-import { ArrowDownRight, ArrowRight, Check, Compass, Headphones, Mail, Wrench } from "lucide-react";
+import { ArrowDownRight, ArrowRight, Check, Compass, Headphones, Wrench } from "lucide-react";
 import Header from "../components/Header";
+import NetworkTelemetryScreen, { NetworkTelemetryReadouts } from "../components/NetworkTelemetryScreen";
 import SectionHeading, { Reveal } from "../components/SectionHeading";
 import type { PartnerDetail } from "../content/partners";
+import { useI18n } from "../i18n/I18nProvider";
+import { pageHref } from "../lib/anchors";
 
 interface PartnerDetailPageProps {
   detail: PartnerDetail;
@@ -26,6 +29,7 @@ function GridLines() {
 }
 
 export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
+  const { t } = useI18n();
   return (
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
       <section
@@ -53,7 +57,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               <div className="mt-9 flex items-center gap-5">
                 <img
                   alt={`${detail.partnerName} logo`}
-                  className="h-8 w-auto max-w-[112px] brightness-0 invert"
+                  className="max-h-10 w-auto max-w-[180px] object-contain brightness-0 invert"
                   src={detail.partnerLogo}
                 />
                 <span className="text-2xl font-light text-white/28">×</span>
@@ -61,10 +65,14 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               </div>
 
               <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42">
-                Cisco × JOTO
+                {detail.partnerName} × JOTO
               </p>
               <h1
-                className="mt-5 max-w-[900px] text-[clamp(3.5rem,8.3vw,8.4rem)] font-medium leading-[0.84] tracking-[-0.072em]"
+                className={`mt-5 max-w-[900px] font-medium leading-[0.84] tracking-[-0.072em] ${
+                  detail.partnerName.length > 14
+                    ? "text-[clamp(2.7rem,6.7vw,7rem)]"
+                    : "text-[clamp(3.5rem,8.3vw,8.4rem)]"
+                }`}
                 id="partner-hero-title"
               >
                 {detail.title}
@@ -81,34 +89,62 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                   className="group inline-flex items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-[#070b0a] transition-transform hover:-translate-y-0.5"
                   href="#partner-case-studies"
                 >
-                  View Cisco case studies
+                  {detail.heroVisual.telemetry
+                    ? `${t("View")} ${detail.partnerName} ${t("case studies")}`
+                    : `${t("Explore")} ${detail.partnerName} ${t("use cases")}`}
                   <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                 </a>
                 <a
                   className="inline-flex items-center gap-3 rounded-full border border-white/20 px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors hover:border-white/50"
-                  href={`mailto:${detail.contactEmail}`}
+                  href={pageHref("/contact", true)}
                 >
-                  Contact JOTO
-                  <Mail className="h-4 w-4" />
+                  {t("Contact JOTO")}
                 </a>
               </div>
             </Reveal>
           </div>
 
-          <Reveal className="relative lg:col-span-5" delay={120}>
-            <div className="relative -mx-8 sm:mx-0 lg:-ml-20 lg:mr-[-3vw]">
+          <Reveal
+            className={`relative lg:col-span-5 ${detail.heroVisual.telemetry ? "lg:translate-y-14" : ""}`}
+            delay={120}
+          >
+            {detail.heroVisual.telemetry && (
+              <div data-network-telemetry>
+                <NetworkTelemetryReadouts />
+              </div>
+            )}
+            <div
+              className={`relative -mx-8 sm:mx-0 ${
+                detail.heroVisual.telemetry ? "lg:-ml-28 lg:mr-[-7vw]" : "lg:-ml-10"
+              }`}
+              data-cisco-device-stage={detail.heroVisual.telemetry ? "true" : undefined}
+            >
               <div
                 aria-hidden="true"
                 className="absolute inset-[12%] rounded-full bg-joto-green/10 blur-3xl"
               />
-              <img
-                alt={detail.heroVisual.alt}
-                className="relative z-10 w-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]"
-                src={detail.heroVisual.src}
-              />
-              <p className="relative z-10 mt-5 border-t border-white/12 pt-4 font-mono text-[9px] uppercase leading-5 tracking-[0.16em] text-white/38">
-                {detail.heroVisual.caption}
-              </p>
+              <div
+                className={`relative z-10 w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] ${
+                  detail.heroVisual.telemetry
+                    ? "aspect-[690/288]"
+                    : "aspect-[4/3] overflow-hidden rounded-[24px] border border-white/12"
+                }`}
+              >
+                <img
+                  alt={detail.heroVisual.alt}
+                  className={`absolute inset-0 h-full w-full ${
+                    detail.heroVisual.telemetry ? "object-contain" : "object-cover"
+                  }`}
+                  src={detail.heroVisual.src}
+                />
+                {!detail.heroVisual.telemetry && (
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-[#070b0a]/65 via-transparent to-transparent"
+                  />
+                )}
+                {detail.heroVisual.telemetry && <NetworkTelemetryScreen />}
+              </div>
             </div>
           </Reveal>
         </div>
@@ -117,7 +153,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
       <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-relationship">
         <div className={sectionShell}>
           <SectionHeading
-            eyebrow="Cisco × JOTO"
+            eyebrow={`${detail.partnerName} × JOTO`}
             index="02"
             title={detail.relationshipTitle}
             description={detail.relationshipDescription}
@@ -144,15 +180,15 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#070b0a] py-24 sm:py-28 lg:py-36" id="partner-services">
+      <section className="bg-[#070b0a] py-20 sm:py-24 lg:py-16" id="partner-services">
         <div className={sectionShell}>
           <SectionHeading
-            eyebrow="JOTO Cisco Services"
+            eyebrow={`JOTO ${detail.partnerName} ${t("Services")}`}
             index="03"
             title={detail.servicesTitle}
             description={detail.servicesDescription}
           />
-          <div className="mt-16 grid gap-4 lg:grid-cols-3">
+          <div className="mt-12 grid gap-4 lg:mt-10 lg:grid-cols-3">
             {detail.services.map((service, index) => {
               const ServiceIcon = serviceIcons[service.icon];
 
@@ -184,17 +220,17 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                       <span className="font-mono text-[10px] tracking-[0.2em] text-white/40">
                         0{index + 1}
                       </span>
-                      <h3 className="mt-7 text-2xl font-medium tracking-[-0.045em] sm:text-3xl">
+                      <h3 className="mt-5 text-2xl font-medium tracking-[-0.045em] sm:text-[1.7rem]">
                         {service.title}
                       </h3>
                       <p className="mt-4 text-sm leading-6 text-white/52">{service.description}</p>
-                      <ul className="mt-8 space-y-3 border-t border-white/12 pt-6 lg:mt-auto">
+                      <ul className="mt-6 space-y-2.5 border-t border-white/12 pt-5 lg:mt-7">
                         {service.capabilities.map((capability) => (
                           <li
                             className="flex items-start gap-3 text-xs leading-5 text-white/64"
                             key={capability}
                           >
-                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#7f9cff]" />
+                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-joto-green" />
                             {capability}
                           </li>
                         ))}
@@ -211,10 +247,10 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
       <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
         <div className={sectionShell}>
           <SectionHeading
-            eyebrow="Selected Deployments"
+            eyebrow={detail.casesEyebrow}
             index="04"
-            title="Cisco infrastructure, proven in the field."
-            description="Selected environments where JOTO has designed, deployed or supported Cisco technology as part of a wider business-critical solution."
+            title={detail.casesTitle}
+            description={detail.casesDescription}
           />
           <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
             {detail.cases.map((caseStudy, index) => (
@@ -224,12 +260,21 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                     <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
                       0{index + 1}
                     </span>
-                    <img
-                      alt={`${caseStudy.client} logo`}
-                      className="max-h-12 w-auto max-w-[150px] object-contain object-left brightness-0 invert opacity-85"
-                      loading="lazy"
-                      src={caseStudy.logo}
-                    />
+                    {caseStudy.logo ? (
+                      <img
+                        alt={`${caseStudy.client} logo`}
+                        className={`max-h-12 w-auto max-w-[150px] object-contain object-left opacity-90 ${
+                          caseStudy.logoTreatment === "brand" ? "" : "brightness-0 invert"
+                        }`}
+                        data-logo-treatment={caseStudy.logoTreatment ?? "monochrome"}
+                        loading="lazy"
+                        src={caseStudy.logo}
+                      />
+                    ) : (
+                      <span className="max-w-[180px] text-sm font-semibold leading-5 text-white/72">
+                        {caseStudy.client}
+                      </span>
+                    )}
                   </div>
                   <div className="lg:col-span-5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
@@ -267,7 +312,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         <div className={`${sectionShell} relative py-24 sm:py-28 lg:py-36`}>
           <Reveal className="grid gap-10 lg:grid-cols-12 lg:gap-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] lg:col-span-3">
-              05 / Start a project
+              05 / {t("Start a project")}
             </p>
             <div className="lg:col-span-9">
               <h2 className="max-w-5xl text-[clamp(3.2rem,7.5vw,8rem)] font-medium leading-[0.86] tracking-[-0.07em]">
@@ -278,9 +323,9 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               </p>
               <a
                 className="group mt-10 inline-flex items-center gap-4 rounded-full bg-[#070b0a] px-7 py-4 text-xs font-bold uppercase tracking-[0.1em] text-white transition-transform hover:-translate-y-0.5"
-                href={`mailto:${detail.contactEmail}`}
+                href={pageHref("/contact", true)}
               >
-                Start a conversation
+                {t("Start a conversation")}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
             </div>
@@ -290,11 +335,11 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
 
       <footer className="border-t border-white/10 bg-[#050807] px-5 py-8 text-white sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-5">
-          <a className="text-xl font-extrabold tracking-[-0.055em]" href="/#top">
+          <a className="text-xl font-extrabold tracking-[-0.055em]" href={pageHref("/#top", true)}>
             JOTO
           </a>
           <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">
-            Cisco solutions · designed, deployed and supported by JOTO
+            {detail.partnerName} {t("solutions · designed, deployed and supported by JOTO")}
           </p>
           <a className="text-xs text-white/55 transition-colors hover:text-joto-green" href={`mailto:${detail.contactEmail}`}>
             {detail.contactEmail}

@@ -1,12 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import { siteContent } from "../content/en";
+import { useI18n } from "../i18n/I18nProvider";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
 export default function CaseStudies() {
+  const { siteContent } = useI18n();
   const { caseStudies } = siteContent;
 
   return (
-    <section id="case-studies" className="scroll-mt-20 bg-[#090e0d] px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
+    <section id="case-studies" className="scroll-mt-20 bg-[#090e0d] px-5 py-12 sm:px-8 md:py-16 lg:px-12 lg:py-20">
       <div className="mx-auto max-w-[1440px]">
         <SectionHeading
           index="03"
@@ -36,7 +37,9 @@ export default function CaseStudies() {
                       src={item.logo}
                       alt={`${item.client} logo`}
                       loading="lazy"
-                      className="max-h-20 w-auto max-w-full object-contain object-left brightness-0 invert sm:max-h-24 sm:max-w-[260px]"
+                      className={`max-h-20 w-auto max-w-full object-contain object-left sm:max-h-24 sm:max-w-[260px] ${
+                        item.logoTreatment === "original" ? "" : "brightness-0 invert"
+                      }`}
                     />
                   </div>
                 ) : (

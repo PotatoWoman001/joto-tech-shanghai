@@ -1,12 +1,13 @@
-import { siteContent } from "../content/en";
+import { useI18n } from "../i18n/I18nProvider";
 import { vendorId } from "../lib/anchors";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
 export default function Solutions() {
+  const { siteContent } = useI18n();
   const { solutions } = siteContent;
 
   return (
-    <section id="solutions" className="scroll-mt-20 bg-[#070b0a] px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
+    <section id="solutions" className="scroll-mt-20 bg-[#070b0a] px-5 py-12 sm:px-8 md:py-16 lg:px-12 lg:py-20">
       <div className="mx-auto max-w-[1440px]">
         <SectionHeading
           index="01"

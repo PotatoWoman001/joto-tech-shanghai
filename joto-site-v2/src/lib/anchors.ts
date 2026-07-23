@@ -8,19 +8,25 @@ export function vendorId(categoryId: string, vendorName: string) {
 }
 
 export function vendorAnchor(categoryId: string, vendorName: string) {
-  const id = vendorId(categoryId, vendorName);
-
-  if (id === "solution-network-cisco") {
-    return "/solutions/network/cisco";
-  }
-
-  return `#${id}`;
+  return `/solutions/${categoryId}/${vendorId(categoryId, vendorName).replace(
+    `solution-${categoryId}-`,
+    "",
+  )}`;
 }
 
 export function homeAnchor(anchor: string, fromDetailPage: boolean) {
-  return `${fromDetailPage ? "/" : ""}#${anchor}`;
+  const home = localizedHref("/", currentLocale());
+  return `${fromDetailPage ? home : ""}#${anchor}`;
 }
 
 export function pageHref(href: string, fromDetailPage: boolean) {
-  return fromDetailPage && href.startsWith("#") ? `/${href}` : href;
+  if (href.startsWith("#")) {
+    return fromDetailPage ? `${localizedHref("/", currentLocale())}${href}` : href;
+  }
+  return localizedHref(href, currentLocale());
+}
+import { localizedHref, parseLocalizedPath } from "../i18n/routing";
+
+function currentLocale() {
+  return parseLocalizedPath(typeof window === "undefined" ? "/" : window.location.pathname).locale;
 }

@@ -13,7 +13,7 @@
 - 首页前八个品牌顺序固定为 Cisco、Extreme Networks、Sangfor、Fortinet、Palo Alto Networks、KnowBe4、Verkada、Hikvision。
 - 首页 Logo 卡片不显示 Partner、Gold Partner、Platinum Partner、品牌名称或说明文字。
 - 不删除解决方案数据中的 `tier`，不改变菜单或解决方案区块的等级表现。
-- 响应式网格为手机 2 列、平板 3 列、普通桌面 4 列、宽桌面 5 列。
+- 响应式网格为手机和平板 3 列、普通桌面 4 列、宽桌面 5 列。
 
 ---
 
@@ -103,7 +103,7 @@ Expected: FAIL，现有组件仍显示等级、名称和说明，且没有卡片
 
 - [ ] **Step 3: 实现 Logo 卡片和响应式网格**
 
-抽出内部 `PartnerLogoCard` 管理图片失败状态；使用 `grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5`。卡片高度 `h-24 md:h-28`，Logo 通过三档类控制最大尺寸，保留居中、低饱和默认态和悬停提亮。
+抽出内部 `PartnerLogoCard` 管理图片失败状态；使用 `grid-cols-3 lg:grid-cols-4 xl:grid-cols-5`。手机卡片高度 `h-20`，平板为 `h-24`，桌面为 `h-28`；Logo 通过三档类控制最大尺寸，保留居中、低饱和默认态和悬停提亮。
 
 - [ ] **Step 4: 压缩区块留白**
 
@@ -140,7 +140,7 @@ Expected: 全部测试通过，生产构建成功。
 
 - [ ] **Step 4: 手机验证**
 
-在 390px 宽度确认 2 列布局、Logo 不溢出且卡片高度紧凑，并保存手机截图。
+在 390px 宽度确认 3 列布局、Logo 不溢出且卡片高度紧凑，并保存手机截图。
 
 - [ ] **Step 5: 最终检查**
 

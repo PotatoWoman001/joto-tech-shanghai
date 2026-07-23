@@ -1,7 +1,16 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
+import { I18nProvider } from "../i18n/I18nProvider";
 import Header, { NAV_LINKS } from "./Header";
+
+function renderHeader() {
+  return render(
+    <I18nProvider>
+      <Header />
+    </I18nProvider>,
+  );
+}
 
 describe("Header", () => {
   afterEach(() => {
@@ -10,7 +19,7 @@ describe("Header", () => {
   });
 
   it("renders the approved navigation destinations", () => {
-    render(<Header />);
+    renderHeader();
     const desktopNavigation = screen.getByRole("navigation", {
       name: "Primary navigation",
     });
@@ -34,7 +43,7 @@ describe("Header", () => {
 
   it("opens the desktop solution directory on click without the redundant hierarchy label", async () => {
     const user = userEvent.setup();
-    render(<Header />);
+    renderHeader();
 
     const desktopNavigation = screen.getByRole("navigation", {
       name: "Primary navigation",
@@ -49,7 +58,7 @@ describe("Header", () => {
 
   it("opens a full-screen mobile menu and closes it from a link", async () => {
     const user = userEvent.setup();
-    render(<Header />);
+    renderHeader();
 
     const toggle = screen.getByRole("button", { name: "Open menu" });
     await user.click(toggle);
@@ -74,7 +83,7 @@ describe("Header", () => {
 
   it("closes the mobile menu with Escape", async () => {
     const user = userEvent.setup();
-    render(<Header />);
+    renderHeader();
 
     await user.click(screen.getByRole("button", { name: "Open menu" }));
     await user.keyboard("{Escape}");
@@ -87,7 +96,7 @@ describe("Header", () => {
 
   it("opens the mobile solution hierarchy and links to a vendor anchor", async () => {
     const user = userEvent.setup();
-    render(<Header />);
+    renderHeader();
 
     await user.click(screen.getByRole("button", { name: "Open menu" }));
     await user.click(screen.getByRole("button", { name: "Open solution branches" }));
@@ -109,13 +118,13 @@ describe("Header", () => {
     );
     expect(within(mobileNavigation).getByRole("link", { name: "KnowBe4" })).toHaveAttribute(
       "href",
-      "#solution-security-knowbe4",
+      "/solutions/security/knowbe4",
     );
   });
 
   it("returns detail-page navigation to the corresponding home sections", () => {
     window.history.replaceState({}, "", "/solutions/network/cisco");
-    render(<Header />);
+    renderHeader();
 
     const desktopNavigation = screen.getByRole("navigation", {
       name: "Primary navigation",
@@ -128,6 +137,47 @@ describe("Header", () => {
     );
     expect(
       within(desktopNavigation).getByRole("link", { name: "Aruba", hidden: true }),
-    ).toHaveAttribute("href", "/#solution-network-aruba");
+    ).toHaveAttribute("href", "/solutions/network/aruba");
+  });
+
+  it("links representative vendors in every category to public detail routes", () => {
+    renderHeader();
+    const desktopNavigation = screen.getByRole("navigation", { name: "Primary navigation" });
+
+    const expectedLinks = [
+      ["Extreme Networks", "/solutions/network/extreme-networks"],
+      ["Palo Alto Networks", "/solutions/security/palo-alto-networks"],
+      ["Dell Technologies", "/solutions/server-storage/dell-technologies"],
+      ["AudioCodes", "/solutions/collaboration/audiocodes"],
+      ["Verkada", "/solutions/safeguarding/verkada"],
+    ];
+
+    for (const [name, href] of expectedLinks) {
+      expect(within(desktopNavigation).getByRole("link", { name, hidden: true })).toHaveAttribute(
+        "href",
+        href,
+      );
+    }
+  });
+
+  it("returns About-page section links to the home page while keeping page routes direct", () => {
+    window.history.replaceState({}, "", "/about");
+    renderHeader();
+
+    const desktopNavigation = screen.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    expect(within(desktopNavigation).getByRole("link", { name: "SERVICES" })).toHaveAttribute(
+      "href",
+      "/#services",
+    );
+    expect(within(desktopNavigation).getByRole("link", { name: "ABOUT" })).toHaveAttribute(
+      "href",
+      "/about",
+    );
+    expect(within(desktopNavigation).getByRole("link", { name: "CONTACT" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
   });
 });

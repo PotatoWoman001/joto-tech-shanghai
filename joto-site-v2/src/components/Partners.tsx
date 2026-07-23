@@ -1,11 +1,46 @@
-import { siteContent } from "../content/en";
+import { useState } from "react";
+import { useI18n } from "../i18n/I18nProvider";
+import type { Vendor } from "../content/types";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
+const logoScaleClasses: Record<NonNullable<Vendor["logoScale"]>, string> = {
+  compact: "max-h-10 max-w-[5rem] sm:max-h-12 sm:max-w-[8.5rem]",
+  standard: "max-h-8 max-w-[5.5rem] sm:max-h-10 sm:max-w-[10rem]",
+  wide: "max-h-7 max-w-[5.75rem] sm:max-h-9 sm:max-w-[11rem]",
+};
+
+function PartnerLogoCard({ partner }: { partner: Vendor }) {
+  const [failed, setFailed] = useState(false);
+  const scale = partner.logoScale ?? "standard";
+
+  return (
+    <div
+      className="group flex h-20 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.025] px-2 transition-[border-color,background-color] duration-300 hover:border-white/20 hover:bg-white/[0.045] sm:h-24 sm:px-4 md:h-28 md:px-5"
+      data-partner-logo-card
+    >
+      {partner.logo && !failed ? (
+        <img
+          alt={`${partner.name} logo`}
+          className={`${logoScaleClasses[scale]} w-auto object-contain brightness-0 invert opacity-65 transition-[filter,opacity,transform] duration-300 group-hover:scale-[1.025] group-hover:opacity-100`}
+          data-logo-scale={scale}
+          decoding="async"
+          loading="eager"
+          onError={() => setFailed(true)}
+          src={partner.logo}
+        />
+      ) : (
+        <span className="text-center text-sm font-semibold text-white/75">{partner.name}</span>
+      )}
+    </div>
+  );
+}
+
 export default function Partners() {
+  const { siteContent } = useI18n();
   const { partners } = siteContent;
 
   return (
-    <section id="partners" className="bg-[#090e0d] px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
+    <section id="partners" className="bg-[#090e0d] px-5 py-20 sm:px-8 sm:py-24 md:py-28 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[1440px]">
         <SectionHeading
           index="05"
@@ -14,36 +49,13 @@ export default function Partners() {
           description={partners.description}
         />
 
-        <div className="mt-16 grid border-l border-t border-white/15 sm:grid-cols-2 md:mt-24 lg:grid-cols-4">
+        <div
+          className="mt-10 grid grid-cols-3 gap-2 sm:gap-3 md:mt-14 lg:grid-cols-4 xl:grid-cols-5"
+          data-partner-logo-grid
+        >
           {partners.items.map((partner, index) => (
-            <Reveal
-              key={partner.name}
-              delay={(index % 4) * 55}
-              className="group relative flex min-h-40 flex-col justify-between border-b border-r border-white/15 p-5 transition-colors duration-500 hover:bg-white/[0.035] sm:min-h-44 lg:p-6"
-            >
-              <div className="flex items-start justify-between gap-4">
-                {partner.logo ? (
-                  <img
-                    src={partner.logo}
-                    alt={`${partner.name} logo`}
-                    loading="lazy"
-                    className="h-8 w-auto max-w-[150px] object-contain object-left brightness-0 invert opacity-80 transition-opacity duration-300 group-hover:opacity-100"
-                  />
-                ) : (
-                  <span className="text-sm font-semibold text-white/85">{partner.name}</span>
-                )}
-                {partner.tier && (
-                  <span className="shrink-0 rounded-full border border-[#5ed29c]/40 px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#7ee2af]">
-                    {partner.tier}
-                  </span>
-                )}
-              </div>
-              <div>
-                {partner.logo && <p className="text-xs font-medium text-white/75">{partner.name}</p>}
-                <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-white/38">
-                  {partner.description}
-                </p>
-              </div>
+            <Reveal key={partner.name} delay={(index % 5) * 45}>
+              <PartnerLogoCard partner={partner} />
             </Reveal>
           ))}
         </div>

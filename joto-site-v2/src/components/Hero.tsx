@@ -1,7 +1,8 @@
 import { ArrowRight } from "lucide-react";
-import { siteContent } from "../content/en";
+import { useI18n } from "../i18n/I18nProvider";
 import Header from "./Header";
 import HlsBackgroundVideo from "./HlsBackgroundVideo";
+import TypewriterWords from "./TypewriterWords";
 
 function HeroGlow() {
   return (
@@ -48,6 +49,7 @@ function DesktopGrid() {
 }
 
 export default function Hero() {
+  const { siteContent } = useI18n();
   const { hero } = siteContent;
 
   return (
@@ -65,7 +67,7 @@ export default function Hero() {
       <DesktopGrid />
       <Header />
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-center px-5 pb-12 pt-36 sm:px-8 sm:pb-16 lg:items-end lg:px-12 lg:pb-20">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1440px] items-end px-5 pb-6 pt-36 sm:px-8 sm:pb-8 lg:px-12 lg:pb-10">
         <div className="w-full">
           <div className="liquid-glass mb-[-20px] h-[200px] w-[200px] translate-y-[-50px] rounded-[2px] p-5 sm:mb-[-12px] lg:absolute lg:right-[12.5%] lg:top-[20%] lg:m-0 lg:translate-y-0">
             <div className="flex h-full flex-col">
@@ -89,13 +91,13 @@ export default function Hero() {
           </p>
           <h1
             aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
-            className="max-w-[1100px] font-sans text-[clamp(3rem,14vw,5rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(7rem,11vw,10.5rem)]"
+            className="max-w-[1100px] font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
             id="hero-title"
           >
             <span className="block whitespace-nowrap">
               {hero.headline}{" "}
-              <span className="font-serif font-normal italic tracking-[-0.04em]">
-                {hero.accent}
+              <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
+                <TypewriterWords words={hero.accentWords} />
               </span>
             </span>
             <span className="block text-white/78 sm:pl-[0.65em]">

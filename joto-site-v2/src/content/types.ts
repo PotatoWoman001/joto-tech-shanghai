@@ -10,6 +10,7 @@ export interface Vendor {
   description: string;
   tier?: PartnerTier;
   logo?: string;
+  logoScale?: "compact" | "standard" | "wide";
 }
 
 export interface SolutionCategory {
@@ -21,10 +22,20 @@ export interface SolutionCategory {
   vendors: Vendor[];
 }
 
+export type ServiceIcon =
+  | "planning"
+  | "deployment"
+  | "support"
+  | "security"
+  | "staffing"
+  | "procurement";
+
 export interface ServiceItem {
+  icon: ServiceIcon;
   title: string;
   description: string;
-  points: string[];
+  image: string;
+  imageAlt: string;
 }
 
 export interface CaseStudy {
@@ -33,6 +44,7 @@ export interface CaseStudy {
   summary: string;
   capabilities: string[];
   logo?: string;
+  logoTreatment?: "original" | "monochrome";
 }
 
 export interface Stat {
@@ -61,6 +73,7 @@ export interface SiteContent {
     eyebrow: string;
     headline: string;
     accent: string;
+    accentWords: string[];
     headlineSecondLine: string;
     description: string;
     card: {

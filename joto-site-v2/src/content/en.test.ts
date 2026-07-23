@@ -14,6 +14,8 @@ describe("English site content", () => {
     expect(
       `${siteContent.hero.headline} ${siteContent.hero.accent} ${siteContent.hero.headlineSecondLine}.`,
     ).toBe("We Make IT Happen.");
+    expect(siteContent.nav.find(({ label }) => label === "ABOUT")?.href).toBe("/about");
+    expect(siteContent.nav.find(({ label }) => label === "CONTACT")?.href).toBe("/contact");
   });
 
   it("contains the five approved solution categories and exact vendor order", () => {
@@ -47,6 +49,24 @@ describe("English site content", () => {
     }
   });
 
+  it("uses the colored JOY and Chinese JD logo without inversion", () => {
+    const jd = siteContent.caseStudies.items.find(
+      ({ client }) => client === "JD International",
+    );
+
+    expect(jd?.logo).toMatch(/jd-joy-chinese\.png$/i);
+    expect(jd?.logoTreatment).toBe("original");
+  });
+
+  it("preserves the Starbucks brand colors on its dark case-study card", () => {
+    const starbucks = siteContent.caseStudies.items.find(
+      ({ client }) => client === "Starbucks China",
+    );
+
+    expect(starbucks?.logo).toMatch(/starbucks\.svg$/i);
+    expect(starbucks?.logoTreatment).toBe("original");
+  });
+
   it("shows only the partnership levels supplied for each category", () => {
     const tiers = Object.fromEntries(
       siteContent.solutions.categories.flatMap((category) =>
@@ -63,6 +83,21 @@ describe("English site content", () => {
       "Security/Palo Alto Networks": "Platinum",
       "Security/Fortinet": "Gold",
     });
+  });
+
+  it("prioritizes the partner logo wall and provides artwork for every brand", () => {
+    expect(siteContent.partners.items.slice(0, 8).map(({ name }) => name)).toEqual([
+      "Cisco",
+      "Extreme Networks",
+      "Sangfor 深信服",
+      "Fortinet",
+      "Palo Alto Networks",
+      "KnowBe4",
+      "Verkada",
+      "Hikvision",
+    ]);
+    expect(siteContent.partners.items).toHaveLength(19);
+    expect(siteContent.partners.items.every(({ logo }) => Boolean(logo))).toBe(true);
   });
 
   it("does not include excluded business or template content", () => {
