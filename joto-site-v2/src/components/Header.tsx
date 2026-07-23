@@ -5,7 +5,11 @@ import { homeAnchor, pageHref, vendorAnchor } from "../lib/anchors";
 
 export const NAV_LINKS = siteContent.nav;
 
-export default function Header() {
+interface HeaderProps {
+  contactHref?: string;
+}
+
+export default function Header({ contactHref }: HeaderProps = {}) {
   const fromDetailPage =
     typeof window !== "undefined" && window.location.pathname.startsWith("/solutions/");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -135,7 +139,11 @@ export default function Header() {
           {NAV_LINKS.slice(1).map((link) => (
             <a
               className="font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green"
-              href={pageHref(link.href, fromDetailPage)}
+              href={
+                link.label === "CONTACT" && contactHref
+                  ? contactHref
+                  : pageHref(link.href, fromDetailPage)
+              }
               key={link.href}
             >
               {link.label}
@@ -249,7 +257,11 @@ export default function Header() {
               className={`border-b border-white/10 pb-5 font-sans text-[clamp(2rem,10vw,4rem)] font-extrabold leading-none tracking-[-0.04em] text-white transition-[color,transform,opacity] duration-500 hover:translate-x-2 hover:text-joto-green ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
-              href={pageHref(link.href, fromDetailPage)}
+              href={
+                link.label === "CONTACT" && contactHref
+                  ? contactHref
+                  : pageHref(link.href, fromDetailPage)
+              }
               key={link.href}
               onClick={closeMenu}
               style={{ transitionDelay: menuOpen ? `${145 + index * 45}ms` : "0ms" }}

@@ -37,7 +37,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
           className="absolute inset-0 bg-[radial-gradient(circle_at_76%_43%,rgba(94,210,156,0.15),transparent_34%),linear-gradient(180deg,transparent_55%,#070b0a_100%)]"
         />
         <GridLines />
-        <Header />
+        <Header contactHref={detail.partnerName === "Cisco" ? undefined : "/contact"} />
 
         <div className={`${sectionShell} relative z-10 grid min-h-[900px] gap-12 pb-14 pt-32 lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-8 lg:pb-16 lg:pt-28`}>
           <div className="lg:col-span-7">
@@ -84,7 +84,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                 >
                   {detail.heroVisual.telemetry
                     ? `View ${detail.partnerName} case studies`
-                    : `Explore ${detail.partnerName} use cases`}
+                    : "Representative Projects"}
                   <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                 </a>
                 <a
@@ -238,55 +238,57 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
             title={detail.casesTitle}
             description={detail.casesDescription}
           />
-          <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
-            {detail.cases.map((caseStudy, index) => (
-              <Reveal key={caseStudy.client}>
-                <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
-                  <div className="flex items-start gap-5 lg:col-span-3">
-                    <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
-                      0{index + 1}
-                    </span>
-                    {caseStudy.logo ? (
-                      <img
-                        alt={`${caseStudy.client} logo`}
-                        className="max-h-12 w-auto max-w-[150px] object-contain object-left brightness-0 invert opacity-85"
-                        loading="lazy"
-                        src={caseStudy.logo}
-                      />
-                    ) : (
-                      <span className="max-w-[180px] text-sm font-semibold leading-5 text-white/72">
-                        {caseStudy.client}
+          {detail.cases.length > 0 && (
+            <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
+              {detail.cases.map((caseStudy, index) => (
+                <Reveal key={caseStudy.client}>
+                  <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
+                    <div className="flex items-start gap-5 lg:col-span-3">
+                      <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
+                        0{index + 1}
                       </span>
-                    )}
-                  </div>
-                  <div className="lg:col-span-5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
-                      {caseStudy.category}
-                    </p>
-                    <h3 className="mt-3 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
-                      {caseStudy.client}
-                    </h3>
-                    <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
-                      {caseStudy.brief}
-                    </p>
-                  </div>
-                  <div className="lg:col-span-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-joto-green">
-                      {caseStudy.tag}
-                    </p>
-                    <ul className="mt-5 space-y-2.5">
-                      {caseStudy.scope.map((item) => (
-                        <li className="text-xs leading-5 text-white/52" key={item}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
-                </article>
-              </Reveal>
-            ))}
-          </div>
+                      {caseStudy.logo ? (
+                        <img
+                          alt={`${caseStudy.client} logo`}
+                          className="max-h-12 w-auto max-w-[150px] object-contain object-left brightness-0 invert opacity-85"
+                          loading="lazy"
+                          src={caseStudy.logo}
+                        />
+                      ) : (
+                        <span className="max-w-[180px] text-sm font-semibold leading-5 text-white/72">
+                          {caseStudy.client}
+                        </span>
+                      )}
+                    </div>
+                    <div className="lg:col-span-5">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                        {caseStudy.category}
+                      </p>
+                      <h3 className="mt-3 text-3xl font-medium tracking-[-0.045em] sm:text-4xl">
+                        {caseStudy.client}
+                      </h3>
+                      <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
+                        {caseStudy.brief}
+                      </p>
+                    </div>
+                    <div className="lg:col-span-3">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-joto-green">
+                        {caseStudy.tag}
+                      </p>
+                      <ul className="mt-5 space-y-2.5">
+                        {caseStudy.scope.map((item) => (
+                          <li className="text-xs leading-5 text-white/52" key={item}>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

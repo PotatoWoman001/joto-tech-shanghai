@@ -103,7 +103,10 @@ describe("JOTO TECH single-page website", () => {
     render(<App />);
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Palo Alto Networks integrated protection, carry consistent policy across every business boundary/i,
+      }),
     ).toBeInTheDocument();
     expect(screen.queryByText(/Cisco × JOTO/)).not.toBeInTheDocument();
   });

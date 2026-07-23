@@ -62,17 +62,31 @@ describe("PartnerDetailPage", () => {
     expect(screen.queryByText(detail!.heroVisual.caption)).not.toBeInTheDocument();
   });
 
-  it("renders vendor-specific copy and a category visual without Cisco telemetry", () => {
-    renderDetail("/solutions/security/palo-alto-networks");
+  it("renders approved vendor-specific copy and an empty representative-project section", () => {
+    const { container } = renderDetail("/solutions/security/palo-alto-networks");
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Palo Alto Networks integrated protection, carry consistent policy across every business boundary/i,
+      }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
-    expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Representative Projects/i })).toHaveAttribute(
       "href",
       "#partner-case-studies",
     );
+    expect(screen.getAllByText("Representative Projects")).toHaveLength(2);
+    const projects = container.querySelector("#partner-case-studies");
+    expect(projects).not.toBeNull();
+    expect(within(projects as HTMLElement).queryAllByRole("article")).toHaveLength(0);
+    const navigationContactLinks = Array.from(container.querySelectorAll("a")).filter(
+      (link) => link.textContent?.trim() === "CONTACT",
+    );
+    expect(navigationContactLinks).toHaveLength(2);
+    for (const link of navigationContactLinks) {
+      expect(link).toHaveAttribute("href", "/contact");
+    }
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
   });
 });
