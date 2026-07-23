@@ -37,12 +37,12 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
-    const partnershipBadge = screen.getByText("Gold Partner");
-    expect(partnershipBadge).toHaveAttribute(
+    const goldBadge = screen.getByText("Gold Partner");
+    expect(goldBadge).toHaveAttribute(
       "data-partner-badge",
       "Gold Partner",
     );
-    expect(partnershipBadge.parentElement).toHaveClass("basis-full");
+    expect(goldBadge.parentElement).toHaveClass("basis-full", "lg:basis-auto");
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
@@ -118,10 +118,12 @@ describe("PartnerDetailPage", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
-    expect(screen.getByText("Platinum Partner")).toHaveAttribute(
+    const platinumBadge = screen.getByText("Platinum Partner");
+    expect(platinumBadge).toHaveAttribute(
       "data-partner-badge",
       "Platinum Partner",
     );
+    expect(platinumBadge.parentElement).toHaveClass("basis-full", "lg:basis-auto");
     expect(
       screen.getByRole("link", { name: /Explore Palo Alto Networks services/i }),
     ).toHaveAttribute("href", "#partner-services");
