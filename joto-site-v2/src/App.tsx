@@ -8,8 +8,10 @@ import Partners from "./components/Partners";
 import Services from "./components/Services";
 import Solutions from "./components/Solutions";
 import { featureFlags } from "./config/features";
+import { getBlogArticle } from "./content/blog";
 import { getPartnerDetail } from "./content/partners";
 import AboutPage from "./pages/AboutPage";
+import BlogArticlePage from "./pages/BlogArticlePage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
@@ -38,6 +40,11 @@ export default function App() {
 
   if (pathname === "/blog" || pathname === "/blog/") {
     return <BlogPage />;
+  }
+
+  const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
+  if (blogSlug) {
+    return <BlogArticlePage article={getBlogArticle(blogSlug)} />;
   }
 
   if (pathname === "/contact" || pathname === "/contact/") {
