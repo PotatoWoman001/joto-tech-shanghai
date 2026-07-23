@@ -18,6 +18,15 @@ describe("Header", () => {
     window.history.replaceState({}, "", "/");
   });
 
+  it("keeps the navigation fixed and readable while the page scrolls", () => {
+    const { container } = renderHeader();
+    const header = container.querySelector("header");
+
+    expect(header).toHaveClass("fixed", "inset-x-0", "top-0", "z-50");
+    expect(header).toHaveClass("bg-[#070b0a]/90", "backdrop-blur-md");
+    expect(header).not.toHaveClass("absolute");
+  });
+
   it("renders the approved navigation destinations", () => {
     renderHeader();
     const desktopNavigation = screen.getByRole("navigation", {

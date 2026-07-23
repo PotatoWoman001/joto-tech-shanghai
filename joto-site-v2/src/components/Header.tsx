@@ -53,7 +53,10 @@ export default function Header() {
   };
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10" dir="ltr">
+    <header
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070b0a]/90 shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-md"
+      dir="ltr"
+    >
       <div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
         <a
           aria-label="JOTO TECH home"

@@ -51,14 +51,30 @@ describe("JOTO TECH single-page website", () => {
     const description = region.getByText(
       "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",
     );
+    const accentWord = hero?.querySelector(".hero-accent-word");
 
     expect(heading).toBeInTheDocument();
+    expect(accentWord).toHaveClass("text-joto-green");
     expect(eyebrow.compareDocumentPosition(heading)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(heading.compareDocumentPosition(description)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+  });
+
+  it("uses the tailored Chinese hero alignment and natural case-study copy", () => {
+    window.history.replaceState({}, "", "/zh/");
+
+    const { container } = renderApp();
+    const primaryLine = container.querySelector('[data-hero-line="primary"]');
+    const secondaryLine = container.querySelector('[data-hero-line="secondary"]');
+
+    expect(primaryLine).toHaveClass("pl-[0.5em]");
+    expect(secondaryLine).not.toHaveClass("sm:pl-[0.65em]");
+    expect(
+      screen.getByText("跨越不同行业，让复杂的技术项目稳定落地、持续运行。"),
+    ).toBeInTheDocument();
   });
 
   it("renders every primary navigation target", () => {

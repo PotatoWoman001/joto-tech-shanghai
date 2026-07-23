@@ -49,8 +49,9 @@ function DesktopGrid() {
 }
 
 export default function Hero() {
-  const { siteContent } = useI18n();
+  const { locale, siteContent } = useI18n();
   const { hero } = siteContent;
+  const isChinese = locale === "zh-CN";
 
   return (
     <section
@@ -94,13 +95,19 @@ export default function Hero() {
             className="max-w-[1100px] font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
             id="hero-title"
           >
-            <span className="block whitespace-nowrap">
+            <span
+              className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
+              data-hero-line="primary"
+            >
               {hero.headline}{" "}
               <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
                 <TypewriterWords words={hero.accentWords} />
               </span>
             </span>
-            <span className="block text-white/78 sm:pl-[0.65em]">
+            <span
+              className={`block text-white/78 ${isChinese ? "" : "sm:pl-[0.65em]"}`}
+              data-hero-line="secondary"
+            >
               {hero.headlineSecondLine}
               <span className="text-joto-green">.</span>
             </span>
