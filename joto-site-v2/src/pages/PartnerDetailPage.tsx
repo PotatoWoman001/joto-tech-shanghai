@@ -19,41 +19,6 @@ const serviceIcons = {
   headphones: Headphones,
 };
 
-const partnerBadgeStyles: Record<
-  PartnerDetail["partnerBadge"],
-  { dot: string; pill: string }
-> = {
-  "Gold Partner": {
-    pill:
-      "border-[#f2cf5b]/55 bg-[#f2cf5b]/10 text-[#ffe481] shadow-[0_0_24px_rgba(242,207,91,0.12)]",
-    dot: "bg-[#ffd447] shadow-[0_0_10px_rgba(255,212,71,0.9)]",
-  },
-  "Platinum Partner": {
-    pill:
-      "border-white/35 bg-white/[0.06] text-white/85 shadow-[0_0_22px_rgba(220,235,232,0.1)]",
-    dot: "bg-white/90 shadow-[0_0_9px_rgba(230,242,239,0.7)]",
-  },
-  Partner: {
-    pill:
-      "border-joto-green/35 bg-joto-green/[0.08] text-joto-green shadow-[0_0_20px_rgba(94,210,156,0.08)]",
-    dot: "bg-joto-green shadow-[0_0_9px_rgba(94,210,156,0.65)]",
-  },
-};
-
-function PartnershipBadge({ badge }: { badge: PartnerDetail["partnerBadge"] }) {
-  const styles = partnerBadgeStyles[badge];
-
-  return (
-    <span
-      className={`inline-flex w-fit basis-full items-center gap-2 rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.04em] sm:basis-auto ${styles.pill}`}
-      data-partner-badge={badge}
-    >
-      <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${styles.dot}`} />
-      {badge}
-    </span>
-  );
-}
-
 function GridLines() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
@@ -90,18 +55,15 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                 <p className="font-mono text-[10px] tracking-[0.18em] text-white/40">01 / 05</p>
               </div>
 
-              <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
-                <div className="flex items-center gap-4">
-                  <img
-                    alt={`${detail.partnerName} logo`}
-                    className="max-h-7 w-auto max-w-[132px] object-contain brightness-0 invert"
-                    data-partner-lockup-logo
-                    src={detail.partnerLogo}
-                  />
-                  <span className="text-2xl font-light text-white/28">×</span>
-                  <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
-                </div>
-                <PartnershipBadge badge={detail.partnerBadge} />
+              <div className="mt-9 flex items-center gap-4">
+                <img
+                  alt={`${detail.partnerName} logo`}
+                  className="max-h-7 w-auto max-w-[132px] object-contain brightness-0 invert"
+                  data-partner-lockup-logo
+                  src={detail.partnerLogo}
+                />
+                <span className="text-2xl font-light text-white/28">×</span>
+                <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
               </div>
 
               <h1

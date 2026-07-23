@@ -37,11 +37,6 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
-    expect(screen.getByText("Gold Partner")).toHaveClass(
-      "rounded-full",
-      "border-[#f2cf5b]/55",
-      "text-[#ffe481]",
-    );
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
@@ -118,22 +113,7 @@ describe("PartnerDetailPage", () => {
       "href",
       "#partner-case-studies",
     );
-    expect(screen.getByText("Platinum Partner")).toHaveClass(
-      "rounded-full",
-      "border-white/35",
-      "text-white/85",
-    );
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
-  });
-
-  it("shows the standard partner badge on every non-tiered detail page", () => {
-    renderDetail("/solutions/network/aruba");
-
-    expect(screen.getByText("Partner")).toHaveClass(
-      "rounded-full",
-      "border-joto-green/35",
-      "text-joto-green",
-    );
   });
 });
