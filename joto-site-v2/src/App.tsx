@@ -10,6 +10,7 @@ import Solutions from "./components/Solutions";
 import { featureFlags } from "./config/features";
 import { getPartnerDetail } from "./content/partners";
 import AboutPage from "./pages/AboutPage";
+import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
 import { useI18n } from "./i18n/I18nProvider";
@@ -33,6 +34,10 @@ export default function App() {
 
   if (pathname === "/about" || pathname === "/about/") {
     return <AboutPage />;
+  }
+
+  if (pathname === "/blog" || pathname === "/blog/") {
+    return <BlogPage />;
   }
 
   if (pathname === "/contact" || pathname === "/contact/") {
