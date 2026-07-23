@@ -8,9 +8,13 @@ describe("SiteFooter", () => {
   });
 
   it("renders the reference-inspired four-column footer content", () => {
-    render(<SiteFooter />);
+    const { container } = render(<SiteFooter />);
 
-    expect(screen.getByText("We make IT happen.")).toBeInTheDocument();
+    expect(container.querySelector("[data-footer-tagline]")).toHaveTextContent(
+      "We make IT happen.",
+    );
+    expect(screen.getByText("IT")).toHaveClass("text-joto-green");
+    expect(screen.getByRole("link", { name: "JOTO TECH home" })).toHaveTextContent(/^JOTO$/);
     expect(screen.getByRole("navigation", { name: "Footer solutions" })).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Footer company" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();

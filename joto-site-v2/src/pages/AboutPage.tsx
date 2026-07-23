@@ -26,7 +26,7 @@ const deliverySteps = [
 ];
 
 export default function AboutPage() {
-  const { siteContent, t } = useI18n();
+  const { locale, siteContent, t } = useI18n();
   const { about, contact, globalPresence } = siteContent;
   const localizedDeliverySteps = deliverySteps.map((step) => ({ title: t(step.title), description: t(step.description) }));
 
@@ -35,11 +35,26 @@ export default function AboutPage() {
       <InteriorPageHero
         eyebrow={t("ABOUT US")}
         title={
-          <>
-            {t("Built to make")}
-            <br />
-            {t("complex")} <em className="font-serif font-normal text-joto-green">IT</em> {t("happen.")}
-          </>
+          locale === "zh-CN" ? (
+            <>
+              <span
+                className="block whitespace-nowrap text-[0.82em] sm:text-[1em]"
+                data-about-title-line
+              >
+                让复杂 <em className="font-serif font-normal text-joto-green">IT</em> 项目
+              </span>
+              <span className="block whitespace-nowrap" data-about-title-line>
+                顺利落地。
+              </span>
+            </>
+          ) : (
+            <>
+              {t("Built to make")}
+              <br />
+              {t("complex")} <em className="font-serif font-normal text-joto-green">IT</em>{" "}
+              {t("happen.")}
+            </>
+          )
         }
         description={t("A customer-oriented technology company turning demanding enterprise requirements into reliable, connected systems since 2010.")}
         narrowRail
@@ -65,7 +80,15 @@ export default function AboutPage() {
                 <p>{about.secondary}</p>
               </div>
               <blockquote className="mt-10 border-l-2 border-joto-green pl-6 font-serif text-3xl italic leading-tight text-white md:text-4xl">
-                “{t("Professional service. Innovation first. Customer success always.")}”
+                {locale === "zh-CN" ? (
+                  <>
+                    “专业服务，持续创新，
+                    <br />
+                    以客户成功为目标。”
+                  </>
+                ) : (
+                  <>“{t("Professional service. Innovation first. Customer success always.")}”</>
+                )}
               </blockquote>
             </Reveal>
             <div className="grid grid-cols-2 border-l border-t border-white/15">
@@ -84,7 +107,10 @@ export default function AboutPage() {
                   >
                     {stat.value}
                   </p>
-                  <p className="mt-12 text-[10px] uppercase leading-5 tracking-[0.16em] text-white/42">
+                  <p
+                    className="mt-12 text-xs uppercase leading-6 tracking-[0.12em] text-white/48 md:text-sm"
+                    data-about-stat-label
+                  >
                     {stat.label}
                   </p>
                 </Reveal>

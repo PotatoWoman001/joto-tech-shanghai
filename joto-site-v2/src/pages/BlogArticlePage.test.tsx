@@ -27,7 +27,9 @@ describe("BlogArticlePage", () => {
       "href",
       "/blog/enterprise-network-growth",
     );
-    expect(screen.getByRole("heading", { name: "先明确网络如何被使用和管理" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "问题通常从一个看似很小的需求开始" }),
+    ).toBeInTheDocument();
   });
 
   it("renders an article-not-found state for an unknown slug", () => {

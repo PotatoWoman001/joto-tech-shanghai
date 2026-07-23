@@ -1,6 +1,6 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import ContactForm from "../components/ContactForm";
-import InteriorPageHero from "../components/InteriorPageHero";
+import Header from "../components/Header";
 import { Reveal } from "../components/SectionHeading";
 import SiteFooter from "../components/SiteFooter";
 import { useI18n } from "../i18n/I18nProvider";
@@ -38,20 +38,12 @@ export default function ContactPage() {
 
   return (
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
-      <InteriorPageHero
-        eyebrow={t("CONTACT US")}
-        title={
-          <>
-            {t("Tell us what")}
-            <br />
-            {t("you’re")} <em className="font-serif font-normal text-joto-green">{t("building.")}</em>
-          </>
-        }
-        description={t("A new office, a security program or a global rollout — share the challenge and we’ll come back with a practical plan, usually within one business day.")}
-        titleId="contact-page-title"
-      />
+      <Header />
 
-      <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
+      <section
+        className="px-5 pb-24 pt-32 sm:px-8 sm:pt-36 md:pb-32 lg:px-12 lg:pb-40 lg:pt-40"
+        data-contact-form-section
+      >
         <div className="mx-auto grid max-w-[1440px] gap-12 border-t border-white/15 pt-6 lg:grid-cols-12 lg:gap-6">
           <Reveal className="lg:col-span-4">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-joto-green">

@@ -1,10 +1,11 @@
 import type { Locale } from "../i18n/routing";
-import networkImage from "../assets/solutions/network-v2.jpg";
-import securityImage from "../assets/solutions/security-v2.jpg";
-import safeguardingImage from "../assets/solutions/safeguarding-v2.jpg";
-import advisoryImage from "../assets/services/advisory-planning.webp";
-import integrationImage from "../assets/services/design-integration.webp";
-import supportImage from "../assets/services/managed-support.webp";
+import operationsImage from "../assets/blog/china-operations.jpg";
+import safeguardingImage from "../assets/blog/connected-safeguarding.jpg";
+import campusImage from "../assets/blog/five-campus.jpg";
+import rolloutImage from "../assets/blog/multi-site-rollout.jpg";
+import networkImage from "../assets/blog/network-growth.jpg";
+import securityImage from "../assets/blog/security-response.jpg";
+import { blogArticleExpansions } from "./blogExpansions";
 
 export type BlogBodyBlock =
   | { type: "heading"; text: string }
@@ -47,9 +48,9 @@ export interface BlogPageCopy {
 export const blogPageCopy: Record<Locale, BlogPageCopy> = {
   en: {
     eyebrow: "JOTO TECH / INSIGHTS",
-    title: "Insights for connected enterprises.",
+    title: "Enterprise insights.",
     description:
-      "Practical perspectives on enterprise networks, security, operations and technology delivery — shaped by the environments JOTO plans, builds and supports.",
+      "Field notes on networks, security, operations and delivery — drawn from the environments JOTO plans, builds and supports.",
     featured: "FEATURED INSIGHT",
     latest: "LATEST ARTICLES",
     readArticle: "Read article",
@@ -62,9 +63,9 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
   },
   "zh-CN": {
     eyebrow: "JOTO TECH / 最新资讯",
-    title: "面向互联企业的实践洞察。",
+    title: "企业实践洞察。",
     description:
-      "分享企业网络、安全、运维与技术交付中的实践观察，来自 JOTO 长期规划、建设与支持的真实环境。",
+      "来自 JOTO 真实项目与运维环境的网络、安全、运营和交付观察。",
     featured: "重点资讯",
     latest: "最新文章",
     readArticle: "阅读文章",
@@ -76,9 +77,9 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
   },
   "fa-IR": {
     eyebrow: "JOTO TECH / دیدگاه‌ها",
-    title: "دیدگاه‌هایی برای سازمان‌های متصل.",
+    title: "دیدگاه‌های سازمانی.",
     description:
-      "نگاهی عملی به شبکه سازمانی، امنیت، عملیات و تحویل فناوری؛ برآمده از محیط‌هایی که JOTO طراحی، اجرا و پشتیبانی می‌کند.",
+      "یادداشت‌هایی درباره شبکه، امنیت، عملیات و تحویل از محیط‌هایی که JOTO طراحی و پشتیبانی می‌کند.",
     featured: "دیدگاه منتخب",
     latest: "تازه‌ترین مقاله‌ها",
     readArticle: "مطالعه مقاله",
@@ -91,7 +92,7 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
   },
 };
 
-export const blogArticles: BlogArticle[] = [
+const baseBlogArticles: BlogArticle[] = [
   {
     slug: "enterprise-network-growth",
     publishedAt: "2026-07-22",
@@ -105,7 +106,7 @@ export const blogArticles: BlogArticle[] = [
           "A resilient network starts with business priorities, site realities and operating responsibilities — not a hardware list.",
         imageAlt: "Enterprise network infrastructure in a modern technical environment",
         dateLabel: "22 July 2026",
-        readingTime: "6 min read",
+        readingTime: "8 min read",
         body: [
           {
             type: "paragraph",
@@ -142,7 +143,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "可靠的网络应从业务优先级、站点现实和运维责任出发，而不是从设备清单出发。",
         imageAlt: "现代技术环境中的企业网络基础设施",
         dateLabel: "2026 年 7 月 22 日",
-        readingTime: "阅读约 6 分钟",
+        readingTime: "阅读约 8 分钟",
         body: [
           {
             type: "paragraph",
@@ -180,7 +181,7 @@ export const blogArticles: BlogArticle[] = [
           "شبکه پایدار از اولویت‌های کسب‌وکار، واقعیت سایت‌ها و مسئولیت‌های عملیاتی آغاز می‌شود، نه از فهرست تجهیزات.",
         imageAlt: "زیرساخت شبکه سازمانی در یک محیط فنی مدرن",
         dateLabel: "۲۲ ژوئیه ۲۰۲۶",
-        readingTime: "۶ دقیقه مطالعه",
+        readingTime: "۸ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -217,7 +218,7 @@ export const blogArticles: BlogArticle[] = [
     slug: "multi-site-network-rollout",
     publishedAt: "2026-07-18",
     featured: false,
-    image: integrationImage,
+    image: rolloutImage,
     translations: {
       en: {
         category: "DELIVERY",
@@ -226,7 +227,7 @@ export const blogArticles: BlogArticle[] = [
           "Repeatable standards matter, but every location still needs disciplined discovery, local coordination and evidence-based acceptance.",
         imageAlt: "Engineers coordinating enterprise technology deployment",
         dateLabel: "18 July 2026",
-        readingTime: "5 min read",
+        readingTime: "8 min read",
         body: [
           {
             type: "paragraph",
@@ -263,7 +264,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "统一标准很重要，但每个站点仍需要严谨勘察、本地协调和以证据为基础的验收。",
         imageAlt: "工程师协同开展企业技术部署",
         dateLabel: "2026 年 7 月 18 日",
-        readingTime: "阅读约 5 分钟",
+        readingTime: "阅读约 8 分钟",
         body: [
           {
             type: "paragraph",
@@ -301,7 +302,7 @@ export const blogArticles: BlogArticle[] = [
           "استانداردهای تکرارپذیر مهم‌اند، اما هر محل همچنان به بررسی دقیق، هماهنگی محلی و پذیرش مبتنی بر مدرک نیاز دارد.",
         imageAlt: "هماهنگی مهندسان برای استقرار فناوری سازمانی",
         dateLabel: "۱۸ ژوئیه ۲۰۲۶",
-        readingTime: "۵ دقیقه مطالعه",
+        readingTime: "۸ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -347,7 +348,7 @@ export const blogArticles: BlogArticle[] = [
           "Security improves when identity, network, endpoint and operational context converge into clear priorities and owned actions.",
         imageAlt: "Enterprise security operations and monitoring environment",
         dateLabel: "14 July 2026",
-        readingTime: "6 min read",
+        readingTime: "9 min read",
         body: [
           {
             type: "paragraph",
@@ -384,7 +385,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "当身份、网络、终端与运维信息汇聚成明确优先级和责任动作时，安全能力才真正提升。",
         imageAlt: "企业安全运营与监控环境",
         dateLabel: "2026 年 7 月 14 日",
-        readingTime: "阅读约 6 分钟",
+        readingTime: "阅读约 9 分钟",
         body: [
           {
             type: "paragraph",
@@ -422,7 +423,7 @@ export const blogArticles: BlogArticle[] = [
           "امنیت زمانی بهتر می‌شود که هویت، شبکه، نقطه پایانی و زمینه عملیاتی به اولویت و اقدام روشن تبدیل شوند.",
         imageAlt: "محیط عملیات و پایش امنیت سازمانی",
         dateLabel: "۱۴ ژوئیه ۲۰۲۶",
-        readingTime: "۶ دقیقه مطالعه",
+        readingTime: "۹ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -459,7 +460,7 @@ export const blogArticles: BlogArticle[] = [
     slug: "it-operations-in-china",
     publishedAt: "2026-07-10",
     featured: false,
-    image: supportImage,
+    image: operationsImage,
     translations: {
       en: {
         category: "OPERATIONS",
@@ -468,7 +469,7 @@ export const blogArticles: BlogArticle[] = [
           "Clear standards, local execution and shared operational evidence help global and China teams work as one service organization.",
         imageAlt: "Technical support team operating enterprise infrastructure",
         dateLabel: "10 July 2026",
-        readingTime: "5 min read",
+        readingTime: "8 min read",
         body: [
           {
             type: "paragraph",
@@ -505,7 +506,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "清晰标准、本地执行和共享运维证据，能够让全球团队与中国团队像一个服务组织一样协同。",
         imageAlt: "技术支持团队维护企业基础设施",
         dateLabel: "2026 年 7 月 10 日",
-        readingTime: "阅读约 5 分钟",
+        readingTime: "阅读约 8 分钟",
         body: [
           {
             type: "paragraph",
@@ -543,7 +544,7 @@ export const blogArticles: BlogArticle[] = [
           "استاندارد روشن، اجرای محلی و شواهد مشترک عملیاتی، تیم‌های جهانی و چین را به یک سازمان خدماتی تبدیل می‌کند.",
         imageAlt: "تیم پشتیبانی فنی در حال اداره زیرساخت سازمانی",
         dateLabel: "۱۰ ژوئیه ۲۰۲۶",
-        readingTime: "۵ دقیقه مطالعه",
+        readingTime: "۸ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -580,7 +581,7 @@ export const blogArticles: BlogArticle[] = [
     slug: "five-campus-standardisation",
     publishedAt: "2026-07-06",
     featured: false,
-    image: advisoryImage,
+    image: campusImage,
     translations: {
       en: {
         category: "CASE STUDY",
@@ -589,7 +590,7 @@ export const blogArticles: BlogArticle[] = [
           "A shared Cisco DNA architecture, coordinated rollout and ongoing on-site support created a consistent foundation across five new international-school campuses.",
         imageAlt: "Collaborative planning for a multi-campus technology programme",
         dateLabel: "6 July 2026",
-        readingTime: "5 min read",
+        readingTime: "9 min read",
         body: [
           {
             type: "paragraph",
@@ -626,7 +627,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "统一的 Cisco DNA 架构、协同部署与持续驻场支持，为五个新建国际学校园区建立一致基础。",
         imageAlt: "多园区技术项目的协同规划",
         dateLabel: "2026 年 7 月 6 日",
-        readingTime: "阅读约 5 分钟",
+        readingTime: "阅读约 9 分钟",
         body: [
           {
             type: "paragraph",
@@ -664,7 +665,7 @@ export const blogArticles: BlogArticle[] = [
           "معماری مشترک Cisco DNA، استقرار هماهنگ و پشتیبانی مستمر حضوری، پایه‌ای یکپارچه برای پنج پردیس جدید ایجاد کرد.",
         imageAlt: "برنامه‌ریزی مشترک برای یک برنامه فناوری چندپردیسی",
         dateLabel: "۶ ژوئیه ۲۰۲۶",
-        readingTime: "۵ دقیقه مطالعه",
+        readingTime: "۹ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -710,7 +711,7 @@ export const blogArticles: BlogArticle[] = [
           "Networks, identity, video, access control and emergency communications increasingly share infrastructure, operational context and response workflows.",
         imageAlt: "Integrated physical-security and connected-facility environment",
         dateLabel: "2 July 2026",
-        readingTime: "6 min read",
+        readingTime: "8 min read",
         body: [
           {
             type: "paragraph",
@@ -747,7 +748,7 @@ export const blogArticles: BlogArticle[] = [
         excerpt: "网络、身份、视频、门禁和应急通信正在共享基础设施、运维信息与响应流程。",
         imageAlt: "一体化物理安全与互联设施环境",
         dateLabel: "2026 年 7 月 2 日",
-        readingTime: "阅读约 6 分钟",
+        readingTime: "阅读约 8 分钟",
         body: [
           {
             type: "paragraph",
@@ -785,7 +786,7 @@ export const blogArticles: BlogArticle[] = [
           "شبکه، هویت، ویدئو، کنترل دسترسی و ارتباط اضطراری بیش از پیش زیرساخت، زمینه عملیاتی و گردش پاسخ مشترک دارند.",
         imageAlt: "محیط یکپارچه امنیت فیزیکی و تأسیسات متصل",
         dateLabel: "۲ ژوئیه ۲۰۲۶",
-        readingTime: "۶ دقیقه مطالعه",
+        readingTime: "۸ دقیقه مطالعه",
         body: [
           {
             type: "paragraph",
@@ -819,6 +820,34 @@ export const blogArticles: BlogArticle[] = [
     },
   },
 ];
+
+function expandTranslation(
+  article: BlogArticle,
+  locale: Locale,
+): BlogArticleTranslation {
+  const translation = article.translations[locale];
+  const closingQuotes = translation.body.filter((block) => block.type === "quote");
+  const coreBody = translation.body.filter((block) => block.type !== "quote");
+  const openingParagraph = coreBody.find((block) => block.type === "paragraph");
+
+  return {
+    ...translation,
+    body: [
+      ...(openingParagraph ? [openingParagraph] : []),
+      ...(blogArticleExpansions[article.slug]?.[locale] ?? []),
+      ...closingQuotes,
+    ],
+  };
+}
+
+export const blogArticles: BlogArticle[] = baseBlogArticles.map((article) => ({
+  ...article,
+  translations: {
+    en: expandTranslation(article, "en"),
+    "zh-CN": expandTranslation(article, "zh-CN"),
+    "fa-IR": expandTranslation(article, "fa-IR"),
+  },
+}));
 
 export function getBlogArticle(slug: string): BlogArticle | undefined {
   return blogArticles.find((article) => article.slug === slug);

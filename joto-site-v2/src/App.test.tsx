@@ -190,12 +190,47 @@ describe("JOTO TECH single-page website", () => {
   it("renders the Contact page and optional Phone or WeChat field", () => {
     window.history.replaceState({}, "", "/contact");
 
-    renderApp();
+    const { container } = renderApp();
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Tell us what you’re building/i }),
+      screen.queryByRole("heading", { level: 1, name: /Tell us what you’re building/i }),
+    ).not.toBeInTheDocument();
+    expect(container.querySelector("[data-contact-form-section]")).toHaveClass(
+      "pt-32",
+      "sm:pt-36",
+      "lg:pt-40",
+    );
+    expect(
+      within(container.querySelector("header") as HTMLElement).getByRole("link", {
+        name: "JOTO TECH home",
+      }),
     ).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "Phone / WeChat" })).not.toBeRequired();
     expect(screen.getByRole("heading", { name: /Find JOTO nearby/i })).toBeInTheDocument();
+  });
+
+  it("uses the approved two-line Chinese About title and larger stat labels", () => {
+    window.history.replaceState({}, "", "/zh/about");
+
+    const { container } = renderApp();
+    const title = screen.getByRole("heading", {
+      level: 1,
+      name: "让复杂 IT 项目 顺利落地。",
+    });
+    const titleLines = title.querySelectorAll("[data-about-title-line]");
+    const quote = screen.getByText((_, element) =>
+      element?.tagName === "BLOCKQUOTE"
+        ? element.textContent === "“专业服务，持续创新，以客户成功为目标。”"
+        : false,
+    );
+
+    expect(titleLines).toHaveLength(2);
+    expect(titleLines[0]).toHaveTextContent("让复杂 IT 项目");
+    expect(titleLines[1]).toHaveTextContent("顺利落地。");
+    expect(quote.querySelector("br")).toBeInTheDocument();
+    expect(container.querySelector("[data-about-stat-label]")).toHaveClass(
+      "text-xs",
+      "md:text-sm",
+    );
   });
 });

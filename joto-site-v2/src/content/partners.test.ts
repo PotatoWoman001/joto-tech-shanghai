@@ -65,4 +65,23 @@ describe("partner detail content", () => {
       expect(getPartnerDetail(`${detail.pathname}/`)?.partnerName).toBe(detail.partnerName);
     }
   });
+
+  it("assigns a partnership badge to every detail route", () => {
+    expect(partnerDetails.every((detail) => detail.partnerBadge)).toBe(true);
+    expect(
+      partnerDetails
+        .filter((detail) => detail.partnerBadge === "Gold Partner")
+        .map((detail) => detail.pathname),
+    ).toEqual([
+      "/solutions/network/cisco",
+      "/solutions/network/extreme-networks",
+      "/solutions/network/sangfor",
+      "/solutions/security/fortinet",
+      "/solutions/security/sangfor",
+    ]);
+    expect(getPartnerDetail("/solutions/security/palo-alto-networks")?.partnerBadge).toBe(
+      "Platinum Partner",
+    );
+    expect(getPartnerDetail("/solutions/network/aruba")?.partnerBadge).toBe("Partner");
+  });
 });

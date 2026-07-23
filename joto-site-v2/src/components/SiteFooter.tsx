@@ -14,7 +14,7 @@ function telephoneHref(value: string) {
 }
 
 export default function SiteFooter() {
-  const { pathname, siteContent, t } = useI18n();
+  const { locale, pathname, siteContent, t } = useI18n();
   const { brand, contact, footer, solutions } = siteContent;
   const fromInteriorPage =
     pathname !== "/" ||
@@ -32,11 +32,22 @@ export default function SiteFooter() {
               href={homeAnchor("top", fromInteriorPage)}
             >
               <span className="text-2xl font-semibold">JOTO</span>
-              <span className="text-2xl font-semibold text-joto-green">·</span>
-              <span className="text-2xl font-light">TECH</span>
             </a>
-            <p className="mt-5 font-serif text-xl italic text-white/65">
-              {t("We make IT happen.")}
+            <p
+              className="mt-5 font-serif text-xl italic text-white/65"
+              data-footer-tagline
+            >
+              {locale === "zh-CN" ? (
+                <>
+                  让 <span className="text-joto-green">IT</span> 真正发生。
+                </>
+              ) : locale === "en" ? (
+                <>
+                  We make <span className="text-joto-green">IT</span> happen.
+                </>
+              ) : (
+                t("We make IT happen.")
+              )}
             </p>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/42">
               {t("A customer-oriented systems integrator delivering comprehensive IT solutions since 2010.")}

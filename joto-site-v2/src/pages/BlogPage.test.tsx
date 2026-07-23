@@ -17,11 +17,11 @@ describe("BlogPage", () => {
     window.history.replaceState({}, "", "/");
   });
 
-  it("renders one featured story and all six articles", () => {
+  it("renders a compact index with all six articles", () => {
     renderApp("/blog");
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "Insights for connected enterprises." }),
+      screen.getByRole("heading", { level: 1, name: "Enterprise insights." }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("article")).toHaveLength(6);
     expect(
@@ -35,7 +35,7 @@ describe("BlogPage", () => {
     renderApp("/zh/blog");
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "面向互联企业的实践洞察。" }),
+      screen.getByRole("heading", { level: 1, name: "企业实践洞察。" }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("article")).toHaveLength(6);
     expect(screen.getByRole("link", { name: /构建能够随业务增长的企业网络/ })).toHaveAttribute(

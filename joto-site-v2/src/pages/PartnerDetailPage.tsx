@@ -45,7 +45,7 @@ function PartnershipBadge({ badge }: { badge: PartnerDetail["partnerBadge"] }) {
 
   return (
     <span
-      className={`inline-flex w-fit basis-full items-center gap-2 rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.04em] sm:basis-auto ${styles.pill}`}
+      className={`inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.04em] ${styles.pill}`}
       data-partner-badge={badge}
     >
       <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${styles.dot}`} />
@@ -101,7 +101,9 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                   <span className="text-2xl font-light text-white/28">×</span>
                   <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
                 </div>
-                <PartnershipBadge badge={detail.partnerBadge} />
+                <div className="basis-full">
+                  <PartnershipBadge badge={detail.partnerBadge} />
+                </div>
               </div>
 
               <h1
