@@ -23,7 +23,11 @@ describe("PartnerDetailPage", () => {
     expect(screen.getByText("delivered by JOTO.")).toHaveClass(
       "text-[clamp(2.8rem,6.64vw,6.72rem)]",
     );
-    expect(screen.getAllByText("Cisco × JOTO")).toHaveLength(2);
+    expect(screen.getAllByText("Cisco × JOTO")).toHaveLength(1);
+    expect(screen.getByRole("img", { name: "Cisco logo" })).toHaveClass(
+      "max-h-8",
+      "max-w-[140px]",
+    );
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
 
     const services = container.querySelector("#partner-services");
@@ -64,7 +68,7 @@ describe("PartnerDetailPage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(2);
+    expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
       "href",
       "#partner-case-studies",

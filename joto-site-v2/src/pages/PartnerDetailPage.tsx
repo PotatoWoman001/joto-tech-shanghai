@@ -53,18 +53,15 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               <div className="mt-9 flex items-center gap-5">
                 <img
                   alt={`${detail.partnerName} logo`}
-                  className="max-h-10 w-auto max-w-[180px] object-contain brightness-0 invert"
+                  className="max-h-8 w-auto max-w-[140px] object-contain brightness-0 invert"
                   src={detail.partnerLogo}
                 />
                 <span className="text-2xl font-light text-white/28">×</span>
                 <span className="text-xl font-extrabold tracking-[-0.055em] text-white">JOTO</span>
               </div>
 
-              <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42">
-                {detail.partnerName} × JOTO
-              </p>
               <h1
-                className={`mt-5 max-w-[900px] font-medium leading-[0.84] tracking-[-0.072em] ${
+                className={`mt-10 max-w-[900px] font-medium leading-[0.84] tracking-[-0.072em] ${
                   detail.partnerName.length > 14
                     ? "text-[clamp(2.7rem,6.7vw,7rem)]"
                     : "text-[clamp(3.5rem,8.3vw,8.4rem)]"
