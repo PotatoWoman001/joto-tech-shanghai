@@ -24,6 +24,7 @@ export default function About() {
           <div className="grid border-l border-t border-white/15 sm:grid-cols-2 lg:col-span-12 lg:mt-16 lg:grid-cols-4">
             {about.stats.map((stat, index) => {
               const isLongValue = stat.value.length > 7;
+              const keepOnOneLine = stat.value === "MULTI-VENDOR";
 
               return (
                 <Reveal
@@ -33,7 +34,9 @@ export default function About() {
                 >
                   <p
                     className={`min-w-0 break-words font-medium leading-[0.96] tracking-[-0.06em] text-[#5ed29c] [overflow-wrap:anywhere] ${
-                      isLongValue
+                      keepOnOneLine
+                        ? "whitespace-nowrap text-[clamp(1.25rem,2.35vw,2.4rem)] tracking-[-0.07em]"
+                        : isLongValue
                         ? "text-[clamp(1.65rem,2.8vw,2.75rem)]"
                         : "text-[clamp(2.75rem,5vw,5rem)]"
                     }`}

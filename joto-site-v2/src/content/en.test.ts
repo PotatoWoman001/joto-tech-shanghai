@@ -49,12 +49,12 @@ describe("English site content", () => {
     }
   });
 
-  it("uses the colored JOY and Chinese JD logo without inversion", () => {
+  it("uses the international JD.com logo without inversion", () => {
     const jd = siteContent.caseStudies.items.find(
       ({ client }) => client === "JD International",
     );
 
-    expect(jd?.logo).toMatch(/jd-joy-chinese\.png$/i);
+    expect(jd?.logo).toMatch(/jingdong-international\.png$/i);
     expect(jd?.logoTreatment).toBe("original");
   });
 

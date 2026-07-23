@@ -67,24 +67,24 @@ export default function GlobalMap({
 
   return (
     <div
-      className="global-map relative h-full min-h-[390px] overflow-hidden bg-[#07100d] lg:min-h-[560px]"
+      className="global-map relative h-full min-h-[390px] overflow-hidden bg-[#07100d] lg:aspect-[99/62] lg:min-h-0"
       onPointerLeave={() => setOffset({ x: 0, y: 0 })}
       onPointerMove={handlePointerMove}
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(circle_at_65%_38%,rgba(94,210,156,0.13),transparent_45%)]"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_65%_38%,rgba(94,210,156,0.13),transparent_46%)]"
       />
 
-      <p className="absolute left-6 top-6 z-30 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42 sm:left-8 sm:top-8 lg:left-12 lg:top-12">
+      <p className="absolute left-6 top-6 z-30 font-mono text-[10px] uppercase tracking-[0.2em] text-white/42 sm:left-8 sm:top-8 lg:left-10 lg:top-9">
         {t("Global delivery network")}
       </p>
 
       <div
-        className="global-map__canvas absolute inset-x-0 top-16 z-10 aspect-[16/10] origin-center sm:top-14 lg:top-10"
+        className="global-map__canvas absolute inset-0 z-10 origin-center"
         style={
           {
-            transform: `translate3d(${offset.x}px, ${offset.y}px, 0) scale(1.018)`,
+            transform: `translate3d(${offset.x}px, ${offset.y}px, 0) scale(0.985)`,
           } as CSSProperties
         }
       >
@@ -92,7 +92,7 @@ export default function GlobalMap({
           src={worldMap}
           alt={t("World map showing JOTO's international delivery footprint")}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-contain opacity-70"
+          className="absolute inset-0 h-full w-full object-contain opacity-78"
         />
 
         <svg
@@ -185,11 +185,11 @@ export default function GlobalMap({
         })}
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#07100d] via-[#07100d]/95 to-transparent px-6 pb-7 pt-16 sm:px-8 sm:pb-8 lg:px-12 lg:pb-12 lg:pt-24">
-        <p className="text-[clamp(2.75rem,7vw,4.5rem)] font-medium leading-none tracking-[-0.06em] text-white">
+      <div className="absolute bottom-5 left-5 z-20 max-w-[17rem] rounded-sm border border-white/12 bg-[#07100d]/72 px-4 py-3 shadow-2xl backdrop-blur-md sm:bottom-7 sm:left-7 sm:px-5 sm:py-4 lg:bottom-8 lg:left-9">
+        <p className="font-serif text-[clamp(2.65rem,5vw,4rem)] font-normal italic leading-none tracking-[-0.045em] text-white">
           24×7
         </p>
-        <p className="mt-3 max-w-xs text-sm leading-6 text-white/52">
+        <p className="mt-2 text-[11px] leading-5 text-white/52 sm:text-xs">
           {t("Connected teams supporting international operations across time zones.")}
         </p>
       </div>

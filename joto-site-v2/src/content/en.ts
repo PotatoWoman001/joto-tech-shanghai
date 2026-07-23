@@ -12,7 +12,7 @@ import hikvisionLogo from "../assets/logos/hikvision.svg";
 import huaweiLogo from "../assets/logos/huawei.svg";
 import informaCastLogo from "../assets/logos/informacast.svg";
 import inspurLogo from "../assets/logos/inspur.svg";
-import jdLogo from "../assets/logos/jd-joy-chinese.png";
+import jdLogo from "../assets/logos/jingdong-international.png";
 import keykingLogo from "../assets/logos/keyking.png";
 import knowBe4Logo from "../assets/logos/knowbe4.svg";
 import oneLoginLogo from "../assets/logos/onelogin.svg";

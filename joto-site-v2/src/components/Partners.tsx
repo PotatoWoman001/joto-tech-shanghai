@@ -15,13 +15,13 @@ function PartnerLogoCard({ partner }: { partner: Vendor }) {
 
   return (
     <div
-      className="group flex h-20 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.025] px-2 transition-[border-color,background-color] duration-300 hover:border-white/20 hover:bg-white/[0.045] sm:h-24 sm:px-4 md:h-28 md:px-5"
+      className="group flex h-20 items-center justify-center overflow-hidden rounded-lg border border-white/12 bg-[#f2f4f3] px-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.82)] transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white sm:h-24 sm:px-4 md:h-28 md:px-5"
       data-partner-logo-card
     >
       {partner.logo && !failed ? (
         <img
           alt={`${partner.name} logo`}
-          className={`${logoScaleClasses[scale]} w-auto object-contain brightness-0 invert opacity-65 transition-[filter,opacity,transform] duration-300 group-hover:scale-[1.025] group-hover:opacity-100`}
+          className={`${logoScaleClasses[scale]} w-auto object-contain opacity-90 transition-[opacity,transform] duration-300 group-hover:scale-[1.025] group-hover:opacity-100`}
           data-logo-scale={scale}
           decoding="async"
           loading="eager"
@@ -29,7 +29,7 @@ function PartnerLogoCard({ partner }: { partner: Vendor }) {
           src={partner.logo}
         />
       ) : (
-        <span className="text-center text-sm font-semibold text-white/75">{partner.name}</span>
+        <span className="text-center text-sm font-semibold text-[#17201d]">{partner.name}</span>
       )}
     </div>
   );

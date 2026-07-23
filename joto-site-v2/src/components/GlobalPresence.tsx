@@ -27,7 +27,7 @@ const REGION_PRESENTATION: readonly RegionPresentation[] = [
 ];
 
 export default function GlobalPresence() {
-  const { siteContent, t } = useI18n();
+  const { siteContent } = useI18n();
   const { globalPresence } = siteContent;
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
 
@@ -41,20 +41,19 @@ export default function GlobalPresence() {
           description={globalPresence.description}
         />
 
-        <div className="mt-16 overflow-hidden border border-white/15 md:mt-24">
-          <Reveal className="overflow-hidden border-b border-white/15">
+        <div className="mt-16 overflow-hidden border border-white/15 md:mt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_17rem]">
+          <Reveal className="h-full overflow-hidden border-b border-white/15 lg:border-b-0 lg:border-r">
             <GlobalMap activeRegion={activeRegion} onActiveRegionChange={setActiveRegion} />
           </Reveal>
 
           <div
-            className="grid gap-px bg-white/15 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6"
+            className="grid gap-px bg-white/15 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-6"
             data-region-grid
           >
             {globalPresence.regions.map((region, index) => {
               const presentation = REGION_PRESENTATION[index];
               const Icon = presentation.icon;
               const isActive = activeRegion === presentation.key;
-              const locationLabel = region.cities.length === 1 ? "LOCATION" : "LOCATIONS";
 
               return (
                 <Reveal
@@ -65,7 +64,7 @@ export default function GlobalPresence() {
                   <button
                     aria-label={`${region.region}. ${region.cities.join(" · ")}`}
                     aria-pressed={isActive}
-                    className="global-region-card group relative flex min-h-[205px] w-full flex-col overflow-hidden p-5 text-start outline-none sm:min-h-[220px] sm:p-6"
+                    className="global-region-card group relative flex min-h-[112px] w-full items-center gap-3 overflow-hidden p-4 text-start outline-none lg:h-full lg:min-h-0 lg:px-4 lg:py-3"
                     data-active={isActive ? "true" : "false"}
                     data-region-card
                     data-region-key={presentation.key}
@@ -75,28 +74,23 @@ export default function GlobalPresence() {
                     onMouseLeave={() => setActiveRegion(null)}
                     type="button"
                   >
-                    <span className="relative z-10 flex items-start justify-between gap-4">
-                      <span
-                        aria-hidden="true"
-                        className="global-region-card__orb grid h-12 w-12 shrink-0 place-items-center rounded-full"
-                        data-region-icon
-                        style={{
-                          animationDelay: `${index * -0.72}s`,
-                          animationDuration: `${5.2 + index * 0.32}s`,
-                        }}
-                      >
-                        <Icon className="h-5 w-5" strokeWidth={1.45} />
-                      </span>
-                      <span className="pt-1 font-mono text-[9px] uppercase tracking-[0.16em] text-white/36 transition-colors duration-300 group-hover:text-[#8ae7bb]/72 group-focus-visible:text-[#8ae7bb]/72">
-                        {String(region.cities.length).padStart(2, "0")} {t(locationLabel)}
-                      </span>
+                    <span
+                      aria-hidden="true"
+                      className="global-region-card__orb relative z-10 grid h-9 w-9 shrink-0 place-items-center rounded-full"
+                      data-region-icon
+                      style={{
+                        animationDelay: `${index * -0.72}s`,
+                        animationDuration: `${5.2 + index * 0.32}s`,
+                      }}
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={1.45} />
                     </span>
 
-                    <span className="relative z-10 mt-auto block pt-10">
-                      <span className="block text-base font-medium tracking-[-0.02em] text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5">
+                    <span className="relative z-10 min-w-0 flex-1">
+                      <span className="block truncate text-sm font-medium tracking-[-0.02em] text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5">
                         {region.region}
                       </span>
-                      <span className="mt-2 block text-xs leading-5 text-white/48 transition-colors duration-300 group-hover:text-white/66 group-focus-visible:text-white/66">
+                      <span className="mt-1 line-clamp-2 block text-[10px] leading-4 text-white/48 transition-colors duration-300 group-hover:text-white/66 group-focus-visible:text-white/66">
                         {region.cities.join(" · ")}
                       </span>
                     </span>
