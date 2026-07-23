@@ -102,11 +102,12 @@ export default function Header() {
             </button>
             <div
               aria-hidden={!desktopSolutionsOpen}
-              className={`fixed left-4 right-4 top-[76px] mx-auto max-w-[1100px] pt-[28px] transition-[opacity,transform,visibility] duration-300 ${
+              className={`fixed left-4 right-4 top-[75px] mx-auto max-w-[1100px] pt-px transition-[opacity,transform,visibility] duration-300 ${
                 desktopSolutionsOpen
                   ? "pointer-events-auto visible translate-y-0 opacity-100"
                   : "pointer-events-none invisible translate-y-2 opacity-0"
               }`}
+              data-desktop-solutions-directory
               id={desktopSolutionsId}
             >
               <div className="border border-white/15 bg-[#08100d]/95 p-7 shadow-2xl backdrop-blur-xl">

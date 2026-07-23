@@ -86,10 +86,13 @@ describe("Header", () => {
       "fixed",
       "left-4",
       "right-4",
-      "top-[76px]",
+      "top-[75px]",
+      "pt-px",
       "mx-auto",
       "max-w-[1100px]",
     );
+    expect(directory).not.toHaveClass("pt-[28px]");
+    expect(directory).toHaveAttribute("data-desktop-solutions-directory");
     expect(directory).not.toHaveClass("absolute", "right-0", "w-[min(1100px,92vw)]");
   });
 

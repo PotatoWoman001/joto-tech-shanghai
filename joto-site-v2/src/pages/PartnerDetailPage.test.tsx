@@ -37,13 +37,35 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
+    expect(screen.getByText("Gold Partner")).toHaveClass(
+      "rounded-full",
+      "border-[#f2cf5b]/55",
+      "text-[#ffe481]",
+    );
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
+    expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
+      "lg:-ml-8",
+      "lg:mr-[-3vw]",
+      "xl:-ml-28",
+      "xl:mr-[-7vw]",
+    );
     expect(container.querySelectorAll("[data-switch-port]")).toHaveLength(12);
     expect(container.querySelectorAll("[data-ap-node]")).toHaveLength(2);
     expect(screen.getByText("CATALYST CENTER / SITE-01")).toBeInTheDocument();
 
     const services = container.querySelector("#partner-services");
+    const relationship = container.querySelector("#partner-relationship");
+    const customerLogoWall = container.querySelector("[data-partner-customer-logo-wall]");
+
+    expect(relationship).not.toBeNull();
+    expect(customerLogoWall).not.toBeNull();
+    expect(customerLogoWall?.querySelector("#customer-logo-wall")).toBeInTheDocument();
+    expect(customerLogoWall?.querySelectorAll("[data-logo-sequence]")).toHaveLength(4);
+    expect(relationship?.contains(customerLogoWall)).toBe(true);
+    expect(customerLogoWall?.compareDocumentPosition(services as Node)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
     expect(services).not.toBeNull();
     expect(within(services as HTMLElement).getAllByRole("heading", { level: 3 })).toHaveLength(3);
     expect(within(services as HTMLElement).getAllByRole("img")).toHaveLength(3);
@@ -96,7 +118,22 @@ describe("PartnerDetailPage", () => {
       "href",
       "#partner-case-studies",
     );
+    expect(screen.getByText("Platinum Partner")).toHaveClass(
+      "rounded-full",
+      "border-white/35",
+      "text-white/85",
+    );
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
+  });
+
+  it("shows the standard partner badge on every non-tiered detail page", () => {
+    renderDetail("/solutions/network/aruba");
+
+    expect(screen.getByText("Partner")).toHaveClass(
+      "rounded-full",
+      "border-joto-green/35",
+      "text-joto-green",
+    );
   });
 });
