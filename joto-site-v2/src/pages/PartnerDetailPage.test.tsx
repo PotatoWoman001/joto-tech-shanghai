@@ -37,10 +37,12 @@ describe("PartnerDetailPage", () => {
       "max-h-7",
       "max-w-[132px]",
     );
-    expect(screen.getByText("Gold Partner")).toHaveAttribute(
+    const partnershipBadge = screen.getByText("Gold Partner");
+    expect(partnershipBadge).toHaveAttribute(
       "data-partner-badge",
       "Gold Partner",
     );
+    expect(partnershipBadge.parentElement).toHaveClass("basis-full");
     expect(screen.getByRole("img", { name: detail!.heroVisual.alt })).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-network-topology]")).toBeInTheDocument();
     expect(container.querySelector("[data-cisco-device-stage]")).toHaveClass(
