@@ -48,6 +48,17 @@ describe("Header", () => {
     expect(
       within(desktopNavigation).getByRole("link", { name: "Cisco", hidden: true }),
     ).toHaveAttribute("href", "/solutions/network/cisco");
+
+    expect(within(desktopNavigation).queryByRole("link", { name: "CONTACT" })).not.toBeInTheDocument();
+    expect(within(desktopNavigation).getByRole("link", { name: "BLOG" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
+
+    const headerActions = screen.getByTestId("header-actions");
+    const contact = within(headerActions).getByRole("link", { name: "CONTACT" });
+    expect(contact).toHaveAttribute("href", "/contact");
+    expect(contact.nextElementSibling).toHaveAttribute("aria-label", "Language selector");
   });
 
   it("opens the desktop solution directory on click without the redundant hierarchy label", async () => {
@@ -201,7 +212,24 @@ describe("Header", () => {
       "href",
       "/about",
     );
-    expect(within(desktopNavigation).getByRole("link", { name: "CONTACT" })).toHaveAttribute(
+    expect(within(desktopNavigation).getByRole("link", { name: "BLOG" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
+  });
+
+  it("includes Blog and Contact in the mobile menu", async () => {
+    const user = userEvent.setup();
+    renderHeader();
+
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    const mobileNavigation = screen.getByRole("navigation", { name: "Mobile navigation" });
+
+    expect(within(mobileNavigation).getByRole("link", { name: "BLOG" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
+    expect(within(mobileNavigation).getByRole("link", { name: "CONTACT" })).toHaveAttribute(
       "href",
       "/contact",
     );

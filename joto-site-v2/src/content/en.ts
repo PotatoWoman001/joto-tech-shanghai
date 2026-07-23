@@ -179,7 +179,7 @@ const nav = [
   { label: "SERVICES", href: "#services" },
   { label: "CASE STUDIES", href: "#case-studies" },
   { label: "ABOUT", href: "/about" },
-  { label: "CONTACT", href: "/contact" },
+  { label: "BLOG", href: "/blog" },
 ];
 
 export const siteContent: SiteContent = {

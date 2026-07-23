@@ -8,14 +8,14 @@ describe("English site content", () => {
       "SERVICES",
       "CASE STUDIES",
       "ABOUT",
-      "CONTACT",
+      "BLOG",
     ]);
     expect(siteContent.hero.eyebrow).toBe("ENTERPRISE-READY IT SOLUTIONS");
     expect(
       `${siteContent.hero.headline} ${siteContent.hero.accent} ${siteContent.hero.headlineSecondLine}.`,
     ).toBe("We Make IT Happen.");
     expect(siteContent.nav.find(({ label }) => label === "ABOUT")?.href).toBe("/about");
-    expect(siteContent.nav.find(({ label }) => label === "CONTACT")?.href).toBe("/contact");
+    expect(siteContent.nav.find(({ label }) => label === "BLOG")?.href).toBe("/blog");
   });
 
   it("contains the five approved solution categories and exact vendor order", () => {

@@ -74,7 +74,7 @@ export default function Header() {
           </span>
         </a>
 
-        <nav aria-label={t("Primary navigation")} className="relative hidden items-center gap-7 lg:flex xl:gap-9">
+        <nav aria-label={t("Primary navigation")} className="relative hidden items-center gap-5 lg:flex xl:gap-8">
           <div
             onBlur={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
@@ -88,7 +88,7 @@ export default function Header() {
             <button
               aria-controls={desktopSolutionsId}
               aria-expanded={desktopSolutionsOpen}
-              className="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green"
+              className="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 font-sans text-[14px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green xl:text-[16px]"
               onClick={() => setDesktopSolutionsOpen(true)}
               type="button"
             >
@@ -143,7 +143,7 @@ export default function Header() {
           </div>
           {navLinks.slice(1).map((link) => (
             <a
-              className="font-sans text-[16px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green"
+              className="font-sans text-[14px] font-medium text-white transition-colors duration-300 hover:text-joto-green focus-visible:text-joto-green xl:text-[16px]"
               href={localizedHref(pageHref(link.href, fromInteriorPage), locale)}
               key={link.href}
             >
@@ -152,20 +152,34 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="relative z-[70] ml-auto mr-3 flex items-center gap-1 rounded-full border border-white/15 bg-black/15 p-1 lg:ml-5 lg:mr-0" aria-label={t("Language selector")}>
-          {locales.map((item) => (
-            <a
-              aria-current={item === locale ? "page" : undefined}
-              className={`rounded-full px-2 py-1.5 text-[10px] font-semibold transition-colors sm:px-2.5 ${
-                item === locale ? "bg-joto-green text-joto-ink" : "text-white/55 hover:text-white"
-              }`}
-              href={switchHref(item)}
-              key={item}
-              lang={item}
-            >
-              {localeMeta[item].label}
-            </a>
-          ))}
+        <div
+          className="relative z-[70] ml-auto mr-3 flex items-center gap-3 lg:ml-4 lg:mr-0"
+          data-testid="header-actions"
+        >
+          <a
+            className="hidden rounded-full border border-joto-green/60 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-joto-green hover:text-joto-ink lg:inline-flex xl:px-5 xl:text-[11px]"
+            href={localizedHref("/contact", locale)}
+          >
+            {t("CONTACT")}
+          </a>
+          <div
+            aria-label={t("Language selector")}
+            className="flex items-center gap-1 rounded-full border border-white/15 bg-black/15 p-1"
+          >
+            {locales.map((item) => (
+              <a
+                aria-current={item === locale ? "page" : undefined}
+                className={`rounded-full px-2 py-1.5 text-[10px] font-semibold transition-colors sm:px-2.5 ${
+                  item === locale ? "bg-joto-green text-joto-ink" : "text-white/55 hover:text-white"
+                }`}
+                href={switchHref(item)}
+                key={item}
+                lang={item}
+              >
+                {localeMeta[item].label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <button
@@ -286,6 +300,17 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          <a
+            className={`border-b border-joto-green/40 pb-5 font-sans text-[clamp(2rem,10vw,4rem)] font-extrabold leading-none tracking-[-0.04em] text-joto-green transition-[color,transform,opacity] duration-500 hover:translate-x-2 hover:text-white ${
+              menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+            href={localizedHref("/contact", locale)}
+            onClick={closeMenu}
+            style={{ transitionDelay: menuOpen ? `${145 + navLinks.length * 45}ms` : "0ms" }}
+            tabIndex={menuOpen ? 0 : -1}
+          >
+            {t("CONTACT")}
+          </a>
         </nav>
       </div>
     </header>
