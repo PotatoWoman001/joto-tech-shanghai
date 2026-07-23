@@ -164,7 +164,10 @@ describe("JOTO TECH single-page website", () => {
     const { container } = renderApp();
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Palo Alto Networks integrated protection, carry consistent policy across every business boundary/i,
+      }),
     ).toBeInTheDocument();
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
     expect(screen.queryByText(/Cisco × JOTO/)).not.toBeInTheDocument();

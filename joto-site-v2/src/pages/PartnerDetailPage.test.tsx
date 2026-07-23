@@ -110,17 +110,20 @@ describe("PartnerDetailPage", () => {
     const { container } = renderDetail("/solutions/security/palo-alto-networks");
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Palo Alto Networks solutions/i }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Palo Alto Networks integrated protection/i,
+      }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("Palo Alto Networks × JOTO")).toHaveLength(1);
     expect(screen.getByText("Platinum Partner")).toHaveAttribute(
       "data-partner-badge",
       "Platinum Partner",
     );
-    expect(screen.getByRole("link", { name: /Explore Palo Alto Networks use cases/i })).toHaveAttribute(
-      "href",
-      "#partner-case-studies",
-    );
+    expect(
+      screen.getByRole("link", { name: /Explore Palo Alto Networks services/i }),
+    ).toHaveAttribute("href", "#partner-services");
+    expect(container.querySelector("#partner-case-studies")).not.toBeInTheDocument();
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
   });

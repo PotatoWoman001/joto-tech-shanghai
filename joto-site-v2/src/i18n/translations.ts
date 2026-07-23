@@ -2,6 +2,7 @@ import type { SiteContent } from "../content/types";
 import { siteContent as englishSiteContent } from "../content/en";
 import type { PartnerDetail } from "../content/partners";
 import type { Locale } from "./routing";
+import { faPartnerProfiles, zhPartnerProfiles } from "./solutionProfiles";
 
 type Dictionary = Record<string, string>;
 
@@ -60,6 +61,7 @@ export const fa: Dictionary = {
 };
 
 Object.assign(zh, {
+  "services": "服务",
   "About Us": "关于我们", "Services": "服务", "Case Studies": "客户案例", "Contact Us": "联系我们", "Contact": "联系",
   "CUSTOMER ECOSYSTEM": "服务客户", "TRUSTED BY INDUSTRY LEADERS": "获得各行业领先企业信赖", "Customer logos row": "客户标志行",
   "Global delivery network": "全球交付网络", "World map showing JOTO's international delivery footprint": "JOTO 国际交付网络地图", "Connected teams supporting international operations across time zones.": "跨时区协作，为国际业务提供持续支持。",
@@ -80,6 +82,7 @@ Object.assign(zh, {
 });
 
 Object.assign(fa, {
+  "services": "خدمات",
   "About Us": "درباره ما", "Services": "خدمات", "Case Studies": "مطالعات موردی", "Contact Us": "تماس با ما", "Contact": "تماس",
   "CUSTOMER ECOSYSTEM": "اکوسیستم مشتریان", "TRUSTED BY INDUSTRY LEADERS": "مورد اعتماد رهبران صنایع", "Customer logos row": "ردیف نشان مشتریان",
   "Global delivery network": "شبکه تحویل جهانی", "World map showing JOTO's international delivery footprint": "نقشه جهان و گستره تحویل بین‌المللی JOTO", "Connected teams supporting international operations across time zones.": "تیم‌های متصل که در مناطق زمانی مختلف از عملیات بین‌المللی پشتیبانی می‌کنند.",
@@ -183,9 +186,8 @@ export function localizePartnerDetail(
   const partner = detail.partnerName;
   const solution = translate(locale, detail.solutionName);
   const zhLocale = locale === "zh-CN";
-  const serviceTitles = zhLocale
-    ? ["评估与架构", "部署与集成", "运维与优化"]
-    : ["ارزیابی و معماری", "استقرار و یکپارچه‌سازی", "عملیات و چرخه عمر"];
+  const profile = (zhLocale ? zhPartnerProfiles : faPartnerProfiles)[detail.pathname];
+  if (!profile) return translated;
   const capabilities = zhLocale
     ? [
         ["业务与技术需求评估", `${partner} 方案架构设计`, "容量、风险与实施规划"],
@@ -198,62 +200,53 @@ export function localizePartnerDetail(
         ["پایش سلامت و عملکرد", "نگهداری پیکربندی، نرم‌افزار و چرخه عمر", "پشتیبانی فنی دورکار و در محل"],
       ];
 
-  const cases = zhLocale
-    ? [
-        { client: "规划与标准化", tag: "应用场景 01", category: `${solution}规划`, brief: `根据站点、用户和现有系统，为 ${partner} 制定统一、可实施的技术架构。`, scope: ["需求与现状评估", "标准架构与选型", "路线图与投资规划"] },
-        { client: "集成与上线", tag: "应用场景 02", category: `${solution}交付`, brief: `将 ${partner} 技术接入现有环境，并完成测试、验收和交付文档。`, scope: ["配置与系统集成", "迁移和验收测试", "知识转移与文档"] },
-        { client: "持续运营", tag: "应用场景 03", category: `${solution}运营`, brief: `上线后持续提供监控、维护与技术支持，保障 ${partner} 环境稳定运行。`, scope: ["监控与事件支持", "变更和生命周期管理", "远程与现场服务"] },
-      ]
-    : [
-        { client: "برنامه‌ریزی و استانداردسازی", tag: "کاربرد ۰۱", category: `برنامه‌ریزی ${solution}`, brief: `برای ${partner} معماری عملی و استانداردی متناسب با سایت‌ها، کاربران و سامانه‌های موجود طراحی می‌کنیم.`, scope: ["ارزیابی نیاز و وضعیت موجود", "معماری استاندارد و انتخاب راهکار", "نقشه راه و برنامه سرمایه‌گذاری"] },
-        { client: "یکپارچه‌سازی و راه‌اندازی", tag: "کاربرد ۰۲", category: `تحویل ${solution}`, brief: `فناوری ${partner} را با محیط موجود یکپارچه می‌کنیم و با آزمون و مستندات کامل تحویل می‌دهیم.`, scope: ["پیکربندی و یکپارچه‌سازی سامانه", "مهاجرت و آزمون پذیرش", "انتقال دانش و مستندسازی"] },
-        { client: "عملیات مستمر", tag: "کاربرد ۰۳", category: `عملیات ${solution}`, brief: `با پایش، نگهداری و پشتیبانی مستمر، پایداری محیط ${partner} را پس از راه‌اندازی حفظ می‌کنیم.`, scope: ["پایش و پشتیبانی رخداد", "مدیریت تغییر و چرخه عمر", "خدمات دورکار و در محل"] },
-      ];
-
   return {
     ...translated,
     eyebrow: `${solution} / ${partner}`,
-    title: zhLocale ? `${partner} 技术，` : `راهکارهای ${partner}،`,
-    accent: zhLocale ? "由 JOTO 负责落地。" : "با اجرای JOTO.",
-    introduction: zhLocale
-      ? `JOTO 为企业提供 ${partner} ${solution}技术的规划、部署与运维，并根据站点、用户、现有系统和业务目标完成整体集成。`
-      : `JOTO به سازمان‌ها کمک می‌کند فناوری ${solution} شرکت ${partner} را برنامه‌ریزی، مستقر و بهره‌برداری کنند و آن را با سایت‌ها، کاربران، سامانه‌های موجود و اهداف کسب‌وکار هماهنگ سازند.`,
+    title: profile.title,
+    accent: profile.accent,
+    introduction: profile.introduction,
     heroVisual: {
       ...translated.heroVisual,
       alt: zhLocale ? `${partner} ${solution}解决方案环境` : `محیط راهکار ${solution} شرکت ${partner}`,
       caption: zhLocale ? `${partner} 技术 · 由 JOTO 规划、部署并支持` : `فناوری ${partner} · برنامه‌ریزی، استقرار و پشتیبانی توسط JOTO`,
     },
-    relationshipTitle: zhLocale ? `${partner} 技术，按实际需求落地。` : `فناوری ${partner}، متناسب با محیط شما.`,
+    relationshipTitle: profile.relationshipTitle,
     relationshipDescription: zhLocale
-      ? `JOTO 根据客户的站点、用户、现有系统和区域交付要求，统筹 ${partner} 方案的架构、部署与后续支持。`
-      : `JOTO فناوری ${partner} را به یک راهکار عملیاتی تبدیل می‌کند و معماری، استقرار و پشتیبانی را با سایت‌ها، کاربران، سامانه‌های موجود و نیازهای منطقه‌ای مشتری هماهنگ می‌سازد.`,
-    reasons: zhLocale
-      ? [
-          { title: "先理清需求", description: `先评估用户、站点、风险和运营限制，再确定 ${partner} 架构与项目范围。` },
-          { title: "统一负责交付", description: `由 JOTO 协调设计、安装、迁移、测试和文档，完成 ${partner} 与现有 IT 环境的集成。` },
-          { title: "持续运维支持", description: "上线后继续提供远程与现场支持、配置变更、生命周期管理和技术升级。" },
-        ]
-      : [
-          { title: "ابتدا نیاز، سپس محصول", description: `پیش از تعیین معماری و دامنه مناسب ${partner}، کاربران، سایت‌ها، ریسک‌ها و محدودیت‌های عملیاتی را بررسی می‌کنیم.` },
-          { title: "تحویل یکپارچه", description: `${partner} با طراحی، نصب، مهاجرت، آزمون و مستندسازی هماهنگ به محیط کلی فناوری اطلاعات متصل می‌شود.` },
-          { title: "پشتیبانی پس از راه‌اندازی", description: "پس از استقرار، پشتیبانی دورکار و در محل، تغییرات پیکربندی، هماهنگی چرخه عمر و پیگیری فنی ارائه می‌شود." },
-        ],
+      ? `JOTO 围绕“${profile.serviceTitles.join("、")}”组织 ${partner} 方案，让架构、实施和后续运营保持一致。`
+      : `JOTO خدمات ${partner} را در سه مسیر «${profile.serviceTitles.join("، ")}» سازمان‌دهی می‌کند تا معماری، اجرا و عملیات مستمر هماهنگ بمانند.`,
+    reasons: profile.serviceTitles.map((title, index) => ({
+      title,
+      description: zhLocale
+        ? [
+            `先梳理与“${title}”相关的业务目标、现状和实施边界。`,
+            `围绕“${title}”完成配置、集成、验证与交付。`,
+            `通过“${title}”持续提升环境的稳定性、可视性和可维护性。`,
+          ][index]
+        : [
+            `اهداف کسب‌وکار، وضعیت موجود و مرزهای اجرای «${title}» ابتدا روشن می‌شود.`,
+            `پیکربندی، یکپارچه‌سازی، آزمون و تحویل «${title}» به‌صورت هماهنگ انجام می‌شود.`,
+            `با «${title}» پایداری، دیدپذیری و قابلیت نگهداری محیط بهبود می‌یابد.`,
+          ][index],
+    })),
     servicesTitle: zhLocale ? `JOTO 的 ${partner} 服务` : `خدمات ${partner} از JOTO`,
-    servicesDescription: zhLocale ? `JOTO 提供覆盖前期评估、部署实施和持续运维的 ${partner} 服务。` : `از ارزیابی اولیه تا استقرار و عملیات پایدار، JOTO راهکار ${partner} را با نیازهای کسب‌وکار و عملیات هماهنگ نگه می‌دارد.`,
+    servicesDescription: zhLocale
+      ? `服务覆盖${profile.serviceTitles.join("、")}，并根据客户环境确定实施范围。`
+      : `خدمات شامل ${profile.serviceTitles.join("، ")} است و دامنه اجرا با محیط مشتری هماهنگ می‌شود.`,
     services: translated.services.map((service, index) => ({
       ...service,
-      title: serviceTitles[index],
+      title: profile.serviceTitles[index],
       description: zhLocale
-        ? [`根据业务、技术和站点需求制定可实施的 ${partner} 方案。`, `完成 ${partner} 技术的配置、部署及现有环境集成。`, `上线后持续监控、维护并优化 ${partner} 环境。`][index]
-        : [`نیازهای کسب‌وکار، فنی و سایت را به طرح عملی ${partner} تبدیل می‌کنیم.`, `فناوری ${partner} را پیکربندی و با محیط موجود مشتری یکپارچه می‌کنیم.`, `محیط ${partner} را پس از راه‌اندازی پایش، نگهداری و پشتیبانی می‌کنیم.`][index],
+        ? [`根据业务、技术和站点需求规划“${profile.serviceTitles[index]}”。`, `完成“${profile.serviceTitles[index]}”相关技术的配置、部署和集成。`, `围绕“${profile.serviceTitles[index]}”持续监控、维护并优化环境。`][index]
+        : [`«${profile.serviceTitles[index]}» بر اساس نیازهای کسب‌وکار، فنی و سایت طراحی می‌شود.`, `فناوری‌های مرتبط با «${profile.serviceTitles[index]}» پیکربندی، مستقر و یکپارچه می‌شوند.`, `محیط از مسیر «${profile.serviceTitles[index]}» به‌طور مستمر پایش و بهینه می‌شود.`][index],
       capabilities: capabilities[index],
       imageAlt: zhLocale ? `${partner} 服务场景` : `صحنه خدمات ${partner}`,
     })),
-    casesEyebrow: zhLocale ? "适用场景" : "محیط‌های کاربرد",
-    casesTitle: zhLocale ? `${partner} 在实际业务场景中的应用。` : `${partner} برای محیط‌های عملیاتی واقعی.`,
-    casesDescription: zhLocale ? `以下场景说明 JOTO 如何规划、集成和支持 ${partner}，并将其纳入整体${solution}方案。` : `JOTO در این سناریوهای متداول، ${partner} را به‌عنوان بخشی از راهکار گسترده‌تر ${solution} برنامه‌ریزی، یکپارچه و پشتیبانی می‌کند.`,
-    cases,
-    ctaTitle: zhLocale ? `咨询 JOTO 的 ${partner} 项目团队。` : `پروژه ${partner} خود را با JOTO در میان بگذارید.`,
-    ctaDescription: zhLocale ? `请提供站点、用户、现有环境和支持需求，我们将根据项目情况提出后续建议。` : `درباره سایت‌ها، کاربران، محیط فعلی و نیازهای پشتیبانی خود بگویید تا گام عملی بعدی برای راهکار ${partner} را ارزیابی کنیم.`,
+    casesEyebrow: zhLocale ? "代表项目" : "پروژه‌های منتخب",
+    casesTitle: zhLocale ? "代表项目。" : "پروژه‌های منتخب.",
+    casesDescription: "",
+    cases: [],
+    ctaTitle: profile.ctaTitle,
+    ctaDescription: profile.ctaDescription,
   };
 }

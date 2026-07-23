@@ -70,7 +70,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
       <section
         aria-labelledby="partner-hero-title"
-        className="relative isolate min-h-[900px] overflow-hidden border-b border-white/10 bg-[#070b0a] lg:min-h-screen"
+        className="relative min-h-[900px] overflow-hidden border-b border-white/10 bg-[#070b0a] lg:min-h-screen"
       >
         <div
           aria-hidden="true"
@@ -130,11 +130,11 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   className="group inline-flex items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-[#070b0a] transition-transform hover:-translate-y-0.5"
-                  href="#partner-case-studies"
+                  href={detail.cases.length > 0 ? "#partner-case-studies" : "#partner-services"}
                 >
-                  {detail.heroVisual.telemetry
+                  {detail.cases.length > 0
                     ? `${t("View")} ${detail.partnerName} ${t("case studies")}`
-                    : `${t("Explore")} ${detail.partnerName} ${t("use cases")}`}
+                    : `${t("Explore")} ${detail.partnerName} ${t("services")}`}
                   <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                 </a>
                 <a
@@ -295,21 +295,22 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
-        <div className={sectionShell}>
-          <SectionHeading
-            eyebrow={detail.casesEyebrow}
-            index="04"
-            title={detail.casesTitle}
-            description={detail.casesDescription}
-          />
-          <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
-            {detail.cases.map((caseStudy, index) => {
-              const isPortraitLogo = caseStudy.client === "Harrow International School";
+      {detail.cases.length > 0 && (
+        <section className="bg-[#090e0d] py-24 sm:py-28 lg:py-36" id="partner-case-studies">
+          <div className={sectionShell}>
+            <SectionHeading
+              eyebrow={detail.casesEyebrow}
+              index="04"
+              title={detail.casesTitle}
+              description={detail.casesDescription}
+            />
+            <div className="mt-16 divide-y divide-white/12 border-y border-white/12">
+              {detail.cases.map((caseStudy, index) => {
+                const isPortraitLogo = caseStudy.client === "Harrow International School";
 
-              return (
-                <Reveal key={caseStudy.client}>
-                  <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
+                return (
+                  <Reveal key={caseStudy.client}>
+                    <article className="group grid gap-8 py-10 lg:grid-cols-12 lg:items-start lg:gap-6 lg:py-14">
                     <div className="flex items-start gap-5 lg:col-span-3">
                       <span className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
                         0{index + 1}
@@ -357,13 +358,14 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                       </ul>
                     </div>
                     <ArrowRight className="hidden h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-joto-green lg:col-span-1 lg:block" />
-                  </article>
-                </Reveal>
-              );
-            })}
+                    </article>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="relative overflow-hidden bg-joto-green text-[#070b0a]" id="contact">
         <div aria-hidden="true" className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(7,11,10,.4)_1px,transparent_1px),linear-gradient(90deg,rgba(7,11,10,.4)_1px,transparent_1px)] [background-size:25%_100%,25%_100%]" />

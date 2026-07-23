@@ -34,8 +34,8 @@ describe("trilingual experience", () => {
       "fa-IR",
       getPartnerDetail("/solutions/security/palo-alto-networks"),
     );
-    expect(detail?.title).toContain("راهکارهای Palo Alto Networks");
-    expect(detail?.services[0].title).toBe("ارزیابی و معماری");
+    expect(detail?.title).toContain("حفاظت یکپارچه Palo Alto Networks");
+    expect(detail?.services[0].title).toBe("معماری NGFW و سیاست");
   });
 
   it("positions IT procurement for international operations in all three languages", () => {
