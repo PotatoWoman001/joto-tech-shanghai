@@ -105,22 +105,22 @@ export default function AboutPage() {
               </blockquote>
             </Reveal>
             <dl
-              className="grid self-start gap-4 sm:grid-cols-2 lg:grid-cols-1"
+              className="grid self-start gap-4 sm:grid-cols-2 lg:h-full lg:grid-cols-2 lg:grid-rows-2 lg:self-stretch"
               data-about-page-stats
             >
               {aboutPageStats.map((stat, index) => {
                 const isVeryLongValue = stat.value.length > 11;
                 const isLongValue = stat.value.length > 7;
                 const valueSizeClass = isVeryLongValue
-                  ? "text-[clamp(1.6rem,3vw,3.15rem)]"
+                  ? "text-[clamp(1.25rem,2vw,1.8rem)]"
                   : isLongValue
-                    ? "text-[clamp(1.85rem,3.4vw,3.6rem)]"
-                    : "text-[clamp(2.8rem,4.8vw,4.5rem)]";
+                    ? "text-[clamp(1.35rem,2.2vw,1.75rem)]"
+                    : "text-[clamp(2.3rem,3.6vw,3.4rem)]";
 
                 return (
                   <Reveal className="h-full" delay={index * 70} key={stat.label}>
                     <div
-                      className="group relative flex h-full min-h-[8.75rem] min-w-0 flex-col justify-center overflow-hidden rounded-[1.75rem] border border-white/15 bg-[#090e0c] px-6 py-7 transition-colors duration-300 hover:border-[#5ed29c]/45 sm:px-7 lg:min-h-[9.5rem] lg:px-8"
+                      className="group relative flex h-full min-h-[8.75rem] min-w-0 flex-col justify-center overflow-hidden rounded-[1.75rem] border border-white/15 bg-[#090e0c] px-6 py-6 transition-colors duration-300 hover:border-[#5ed29c]/45 sm:px-7 lg:min-h-0 lg:px-5 lg:py-5"
                       data-about-page-stat-card
                     >
                       <span
