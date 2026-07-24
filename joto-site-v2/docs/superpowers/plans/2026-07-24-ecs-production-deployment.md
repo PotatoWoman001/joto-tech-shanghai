@@ -443,7 +443,7 @@ User=jotoglobal
 Group=jotoglobal
 WorkingDirectory=/opt/jotoglobal-contact/current
 EnvironmentFile=/etc/jotoglobal-contact.env
-ExecStart=/usr/bin/node /opt/jotoglobal-contact/current/server.mjs
+ExecStart=/usr/bin/node --preserve-symlinks-main /opt/jotoglobal-contact/current/server.mjs
 Restart=on-failure
 RestartSec=3
 NoNewPrivileges=true
@@ -839,7 +839,15 @@ install -o root -g root -m 0644 \
 systemctl daemon-reload
 systemctl enable --now jotoglobal-contact.service
 systemctl is-active jotoglobal-contact.service
-curl -fsS http://127.0.0.1:9000/healthz
+for attempt in {1..10}; do
+  if curl -fsS http://127.0.0.1:9000/healthz; then
+    break
+  fi
+  if [[ "$attempt" -eq 10 ]]; then
+    exit 1
+  fi
+  sleep 1
+done
 ```
 
 Expected: service is `active` and health returns `{"ok":true}`.
