@@ -64,62 +64,34 @@ describe("JOTO TECH single-page website", () => {
   });
 
   it.each([
-    {
-      language: "English",
-      pathname: "/",
-      desktopOffset: "lg:left-[47%]",
-      desktopAnchor: "heading",
-    },
-    {
-      language: "Chinese",
-      pathname: "/zh/",
-      desktopOffset: "lg:left-[47%]",
-      desktopAnchor: "heading",
-    },
-    {
-      language: "Persian",
-      pathname: "/fa/",
-      desktopOffset: "lg:left-0",
-      desktopAnchor: "stage",
-    },
+    { language: "English", pathname: "/" },
+    { language: "Chinese", pathname: "/zh/" },
+    { language: "Persian", pathname: "/fa/" },
   ])(
-    "positions the $language hero CTA beside the desktop headline and below mobile copy",
-    ({ pathname, desktopOffset, desktopAnchor }) => {
+    "uses one fixed desktop title-to-CTA gap for $language",
+    ({ pathname }) => {
       window.history.replaceState({}, "", pathname);
 
       const { container } = renderApp();
-      const headingStage = container.querySelector(
-        "[data-hero-heading-stage]",
-      ) as HTMLElement;
-      const headingShell = container.querySelector(
-        "[data-hero-heading-shell]",
+      const titleRow = container.querySelector(
+        "[data-hero-title-row]",
       ) as HTMLElement;
       const copyColumn = container.querySelector(
         "[data-hero-copy-column]",
       ) as HTMLElement;
-      const description = copyColumn.querySelector(
-        "[data-hero-description]",
-      ) as HTMLElement;
-      const desktopCta = headingStage.querySelector(
+      const desktopCta = titleRow.querySelector(
         "[data-hero-cta-desktop]",
       ) as HTMLAnchorElement;
       const mobileCta = copyColumn.querySelector(
         "[data-hero-cta-mobile]",
       ) as HTMLAnchorElement;
 
-      expect(headingStage).toHaveClass("relative", "w-full");
-      expect(headingShell).toHaveClass("relative");
-      expect(desktopCta).toHaveClass("hidden", "lg:inline-flex", desktopOffset);
-      expect(desktopCta.parentElement).toBe(
-        desktopAnchor === "stage" ? headingStage : headingShell,
-      );
+      expect(titleRow).toHaveClass("flex", "w-fit", "lg:gap-16");
+      expect(desktopCta).toHaveClass("hidden", "lg:inline-flex");
       expect(mobileCta).toHaveClass("lg:hidden");
-      expect(copyColumn).toContainElement(description);
-      expect(description.compareDocumentPosition(mobileCta)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-      );
       expect(desktopCta).toHaveAttribute("href", "#solutions");
       expect(mobileCta).toHaveAttribute("href", "#solutions");
+      expect(titleRow.className).not.toMatch(/lg:left-/);
     },
   );
 
