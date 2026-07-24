@@ -2,10 +2,11 @@ import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { getPartnerDetail } from "../content/partners";
 import { I18nProvider } from "../i18n/I18nProvider";
+import { localizePartnerDetail } from "../i18n/translations";
 import PartnerDetailPage from "./PartnerDetailPage";
 
-function renderDetail(pathname: string) {
-  const detail = getPartnerDetail(pathname);
+function renderDetail(pathname: string, locale: "en" | "zh-CN" | "fa-IR" = "en") {
+  const detail = localizePartnerDetail(locale, getPartnerDetail(pathname));
   expect(detail).toBeDefined();
 
   return {
@@ -132,9 +133,15 @@ describe("PartnerDetailPage", () => {
     expect(platinumBadge.parentElement).toHaveClass("basis-full");
     expect(platinumBadge.parentElement).not.toHaveClass("lg:basis-auto");
     expect(
-      screen.getByRole("link", { name: /Explore Palo Alto Networks services/i }),
-    ).toHaveAttribute("href", "#partner-services");
-    expect(container.querySelector("#partner-case-studies")).not.toBeInTheDocument();
+      screen.getByRole("link", { name: /View Palo Alto Networks case studies/i }),
+    ).toHaveAttribute("href", "#partner-case-studies");
+    const cases = container.querySelector("#partner-case-studies");
+    expect(cases).toBeInTheDocument();
+    expect(within(cases as HTMLElement).getAllByRole("article")).toHaveLength(3);
+    expect(
+      within(cases as HTMLElement).getByText("PA-5430 / PA-5250 / PA-5220 / PA-3250"),
+    ).toBeInTheDocument();
+    expect(within(cases as HTMLElement).getByText(/2022–2025/)).toBeInTheDocument();
     expect(container.querySelector("[data-network-telemetry]")).not.toBeInTheDocument();
     expect(screen.getByText("Palo Alto Networks integrated protection,")).toHaveClass(
       "text-[clamp(3rem,4.7vw,5.2rem)]",
@@ -172,5 +179,58 @@ describe("PartnerDetailPage", () => {
       screen.getByRole("img", { name: detail.heroVisual.alt }),
     ).toHaveClass("partner-solution-visual__image");
     expect(visual).not.toHaveClass("border", "rounded-[24px]");
+  });
+
+  it("renders confirmed Extreme products without commercial amounts", () => {
+    const { container } = renderDetail("/solutions/network/extreme-networks", "zh-CN");
+    const cases = container.querySelector("#partner-case-studies");
+
+    expect(
+      within(cases as HTMLElement).getByText(/49 个 XIQ-PIL-S-C-PWP/),
+    ).toBeInTheDocument();
+    expect(
+      within(cases as HTMLElement).getByText(/AP410C、AP305C/),
+    ).toBeInTheDocument();
+    expect(cases).not.toHaveTextContent(/84|91|ECS/);
+  });
+
+  it("reuses the same customers on both Sangfor solution routes", () => {
+    const network = localizePartnerDetail(
+      "zh-CN",
+      getPartnerDetail("/solutions/network/sangfor"),
+    )!;
+    const security = localizePartnerDetail(
+      "zh-CN",
+      getPartnerDetail("/solutions/security/sangfor"),
+    )!;
+
+    expect(network.cases.map(({ client }) => client)).toEqual(
+      security.cases.map(({ client }) => client),
+    );
+  });
+
+  it.each(["en", "zh-CN", "fa-IR"] as const)(
+    "keeps Palo Alto projects visible in %s",
+    (locale) => {
+      const detail = localizePartnerDetail(
+        locale,
+        getPartnerDetail("/solutions/security/palo-alto-networks"),
+      )!;
+
+      expect(detail.cases).toHaveLength(3);
+      expect(
+        detail.cases.every((project) => project.brief && project.scope.length > 0),
+      ).toBe(true);
+    },
+  );
+
+  it("keeps project-free solution pages focused on services", () => {
+    const { container } = renderDetail("/solutions/safeguarding/verkada");
+
+    expect(container.querySelector("#partner-case-studies")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Explore Verkada services/i })).toHaveAttribute(
+      "href",
+      "#partner-services",
+    );
   });
 });
