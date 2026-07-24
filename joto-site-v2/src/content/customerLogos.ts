@@ -42,7 +42,7 @@ import xinjiangBank from "../assets/customer-logos/xinjiang-bank.png";
 import yuwell from "../assets/customer-logos/yuwell.png";
 
 export type CustomerLogoScale = "compact" | "standard" | "prominent";
-export type CustomerLogoTreatment = "solid" | "contrast";
+export type CustomerLogoTreatment = "solid" | "contrast" | "original";
 
 export interface CustomerLogo {
   name: string;
@@ -62,10 +62,10 @@ const firstRow: readonly CustomerLogo[] = [
   { name: "CICC", src: cicc },
   { name: "Xinjiang Bank", scale: "prominent", src: xinjiangBank },
   { name: "Manulife-Sinochem", scale: "prominent", src: manulifeSinochem },
-  { name: "Orange", scale: "compact", src: orange },
-  { name: "FORVIA", src: forvia },
-  { name: "Yuwell", scale: "compact", src: yuwell },
-  { name: "WuXi AppTec", src: wuxiApptec },
+  { name: "Orange", scale: "compact", src: orange, treatment: "original" },
+  { name: "FORVIA", src: forvia, treatment: "original" },
+  { name: "Yuwell", scale: "compact", src: yuwell, treatment: "original" },
+  { name: "WuXi AppTec", src: wuxiApptec, treatment: "original" },
   { name: "Mevion", src: mevion },
   { name: "Jiahua Chemicals", src: jiahuaChemicals },
   { name: "Beckman Coulter", src: beckmanCoulter },

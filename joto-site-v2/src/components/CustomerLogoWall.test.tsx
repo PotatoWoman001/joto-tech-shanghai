@@ -29,13 +29,22 @@ describe("CustomerLogoWall", () => {
       "data-logo-scale",
       "compact",
     );
+    expect(container.querySelectorAll(".customer-logo-wall__name")).toHaveLength(84);
+    expect(screen.getAllByText("Orange")).toHaveLength(2);
+    expect(screen.getAllByText("FORVIA")).toHaveLength(2);
+    expect(screen.getAllByText("Yuwell")).toHaveLength(2);
+    expect(screen.getAllByText("WuXi AppTec")).toHaveLength(2);
+    expect(screen.getByRole("img", { name: "FORVIA logo" })).toHaveAttribute(
+      "data-logo-treatment",
+      "original",
+    );
   });
 
-  it("shows the brand name when an image fails", () => {
+  it("keeps the brand name visible when an image fails", () => {
     render(<CustomerLogoWall />);
     fireEvent.error(screen.getByRole("img", { name: "McDonald’s logo" }));
 
-    expect(screen.getByText("McDonald’s")).toBeInTheDocument();
+    expect(screen.getAllByText("McDonald’s")).toHaveLength(2);
     expect(screen.queryByRole("img", { name: "McDonald’s logo" })).not.toBeInTheDocument();
   });
 

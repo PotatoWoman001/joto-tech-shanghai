@@ -38,4 +38,13 @@ describe("customer logo content", () => {
       "BY-HEALTH",
     ]);
   });
+
+  it("keeps original colors for marks that lose meaning under a monochrome filter", () => {
+    const originalNames = customerLogoRows
+      .flat()
+      .filter((logo) => logo.treatment === "original")
+      .map((logo) => logo.name);
+
+    expect(originalNames).toEqual(["Orange", "FORVIA", "Yuwell", "WuXi AppTec"]);
+  });
 });

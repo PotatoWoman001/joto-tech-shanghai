@@ -27,18 +27,18 @@ function LogoItem({ decorative, logo }: LogoItemProps) {
   return (
     <li
       aria-hidden={decorative || undefined}
-      className="customer-logo-wall__item group flex h-20 shrink-0 items-center justify-center sm:h-24"
+      className="customer-logo-wall__item group flex h-24 shrink-0 flex-col items-center justify-center gap-2 sm:h-28"
       data-customer-logo-item
     >
-      {failed ? (
-        <span className="text-center text-[11px] font-semibold uppercase tracking-[0.08em] text-[#e7efec]/80">
-          {logo.name}
-        </span>
-      ) : (
+      {!failed && (
         <img
           alt={decorative ? "" : `${logo.name} logo`}
           className={`${logoScaleClasses[scale]} customer-logo-wall__logo ${
-            treatment === "contrast" ? "customer-logo-wall__logo--contrast" : ""
+            treatment === "contrast"
+              ? "customer-logo-wall__logo--contrast"
+              : treatment === "original"
+                ? "customer-logo-wall__logo--original"
+                : ""
           } object-contain`}
           data-logo-scale={scale}
           data-logo-treatment={treatment}
@@ -47,6 +47,7 @@ function LogoItem({ decorative, logo }: LogoItemProps) {
           src={logo.src}
         />
       )}
+      <span className="customer-logo-wall__name">{logo.name}</span>
     </li>
   );
 }
