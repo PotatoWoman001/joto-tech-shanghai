@@ -78,7 +78,6 @@ export default function Hero() {
   const { locale, siteContent } = useI18n();
   const { hero } = siteContent;
   const isChinese = locale === "zh-CN";
-  const desktopCtaOffset = locale === "fa-IR" ? "lg:left-[32%]" : "lg:left-[47%]";
 
   return (
     <section
@@ -118,12 +117,12 @@ export default function Hero() {
             {hero.eyebrow}
           </p>
           <div className="relative max-w-[1100px]" data-hero-heading-shell>
-            <h1
-              aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
-              className="font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
-              id="hero-title"
-            >
+            <h1 className="sr-only" id="hero-title">
+              {hero.headline} {hero.accent} {hero.headlineSecondLine}.
+            </h1>
+            <div className="hero-display-heading font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]">
               <span
+                aria-hidden="true"
                 className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
                 data-hero-line="primary"
               >
@@ -132,20 +131,28 @@ export default function Hero() {
                   <TypewriterWords words={hero.accentWords} />
                 </span>
               </span>
-              <span
-                className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
-                data-hero-line="secondary"
+              <div
+                className="flex w-fit items-end gap-0 lg:gap-16"
+                data-hero-title-row
               >
-                {hero.headlineSecondLine}
-                <span className="text-joto-green">.</span>
-              </span>
-            </h1>
-            <HeroCta
-              className={`hidden lg:absolute lg:bottom-[0.08em] lg:inline-flex ${desktopCtaOffset}`}
-              href={hero.cta.href}
-              label={hero.cta.label}
-              placement="desktop"
-            />
+                <span
+                  aria-hidden="true"
+                  className={`text-white/78 ${
+                    isChinese ? "pl-[0.5em]" : "sm:ps-[0.65em]"
+                  }`}
+                  data-hero-line="secondary"
+                >
+                  {hero.headlineSecondLine}
+                  <span className="text-joto-green">.</span>
+                </span>
+                <HeroCta
+                  className="hidden lg:mb-[0.08em] lg:inline-flex"
+                  href={hero.cta.href}
+                  label={hero.cta.label}
+                  placement="desktop"
+                />
+              </div>
+            </div>
           </div>
           <div
             className={`mt-6 sm:mt-7 ${

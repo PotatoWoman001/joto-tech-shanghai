@@ -98,14 +98,14 @@ html[lang="fa-IR"] main :is(h1, h2, h3, p, a, button, label, li) {
 
 /* English display hierarchy uses Poppins, while nested serif accents such as
    the hero's rotating IT / Network / Safeguarding words retain Instrument Serif. */
-html[lang="en"] main :is(h1, h2, h3, h4, h5, h6) {
+html[lang="en"] main :is(h1, h2, h3, h4, h5, h6, .hero-display-heading) {
   font-family: "Poppins", "Inter", sans-serif;
 }
 
 /* Chinese headings need natural CJK rhythm instead of the Latin display type's
    compressed tracking and sub-single-line leading. Keep this locale-scoped so
    the existing English and Persian compositions are unchanged. */
-html[lang="zh-CN"] main h1 {
+html[lang="zh-CN"] main :is(h1, .hero-display-heading) {
   line-height: 1.08;
   letter-spacing: 0.015em;
 }
