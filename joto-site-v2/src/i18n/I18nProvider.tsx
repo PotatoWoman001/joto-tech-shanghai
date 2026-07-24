@@ -1,7 +1,16 @@
 import { createContext, useContext, useEffect, type ReactNode } from "react";
 import type { SiteContent } from "../content/types";
 import { siteContentByLocale, translate } from "./translations";
-import { localeMeta, localeSwitchHref, parseLocalizedPath, type Locale } from "./routing";
+import {
+  detectLocaleFromLanguages,
+  explicitLocaleFromPath,
+  isLocale,
+  localeMeta,
+  localeSwitchHref,
+  LOCALE_PREFERENCE_KEY,
+  parseLocalizedPath,
+  type Locale,
+} from "./routing";
 
 interface I18nValue {
   locale: Locale;
@@ -26,6 +35,31 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const hash = typeof window === "undefined" ? "" : window.location.hash;
   const { locale, pathname } = parseLocalizedPath(currentPath);
   const direction = localeMeta[locale].dir;
+
+  useEffect(() => {
+    const explicitLocale = explicitLocaleFromPath(currentPath);
+
+    try {
+      if (explicitLocale) {
+        window.localStorage.setItem(LOCALE_PREFERENCE_KEY, explicitLocale);
+        return;
+      }
+
+      const storedLocale = window.localStorage.getItem(LOCALE_PREFERENCE_KEY);
+      const preferredLocale = isLocale(storedLocale)
+        ? storedLocale
+        : detectLocaleFromLanguages(
+            navigator.languages?.length ? navigator.languages : [navigator.language],
+          );
+
+      if (preferredLocale === "en") return;
+
+      const destination = localeSwitchHref(preferredLocale, currentPath, hash);
+      if (destination !== `${currentPath}${hash}`) window.location.replace(destination);
+    } catch {
+      // Storage can be unavailable in privacy-restricted browsers; keep the current route.
+    }
+  }, [currentPath, hash]);
 
   useEffect(() => {
     document.documentElement.lang = locale;

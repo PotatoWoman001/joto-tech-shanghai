@@ -1,5 +1,6 @@
 import { homeAnchor, pageHref } from "../lib/anchors";
 import { useI18n } from "../i18n/I18nProvider";
+import { stripBasePath } from "../i18n/routing";
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
@@ -16,9 +17,9 @@ function telephoneHref(value: string) {
 export default function SiteFooter() {
   const { locale, pathname, siteContent, t } = useI18n();
   const { brand, contact, footer, solutions } = siteContent;
-  const fromInteriorPage =
-    pathname !== "/" ||
-    (typeof window !== "undefined" && window.location.pathname !== "/");
+  const browserPath =
+    typeof window === "undefined" ? "/" : stripBasePath(window.location.pathname);
+  const fromInteriorPage = pathname !== "/" || browserPath !== "/";
   const shanghai = contact.offices[0];
 
   return (

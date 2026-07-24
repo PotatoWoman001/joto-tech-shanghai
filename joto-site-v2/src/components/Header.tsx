@@ -2,14 +2,15 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { siteContent } from "../content/en";
 import { useI18n } from "../i18n/I18nProvider";
-import { localeMeta, locales, localizedHref } from "../i18n/routing";
+import { localizedHref } from "../i18n/routing";
 import { homeAnchor, pageHref, vendorAnchor } from "../lib/anchors";
+import LanguageSelector from "./LanguageSelector";
 
 export const NAV_LINKS = siteContent.nav;
 const DESKTOP_SOLUTIONS_CLOSE_DELAY_MS = 2500;
 
 export default function Header() {
-  const { locale, pathname, siteContent: localizedContent, switchHref, t } = useI18n();
+  const { locale, pathname, siteContent: localizedContent, t } = useI18n();
   const fromInteriorPage = pathname !== "/";
   const navLinks = localizedContent.nav;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -238,24 +239,7 @@ export default function Header() {
           >
             {t("CONTACT")}
           </a>
-          <div
-            aria-label={t("Language selector")}
-            className="flex items-center gap-1 rounded-full border border-white/15 bg-black/15 p-1"
-          >
-            {locales.map((item) => (
-              <a
-                aria-current={item === locale ? "page" : undefined}
-                className={`rounded-full px-2 py-1.5 text-[10px] font-semibold transition-colors sm:px-2.5 ${
-                  item === locale ? "bg-joto-green text-joto-ink" : "text-white/55 hover:text-white"
-                }`}
-                href={switchHref(item)}
-                key={item}
-                lang={item}
-              >
-                {localeMeta[item].label}
-              </a>
-            ))}
-          </div>
+          <LanguageSelector />
         </div>
 
         <button

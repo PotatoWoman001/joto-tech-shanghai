@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import Header from "../components/Header";
 import { getPartnerDetail } from "../content/partners";
@@ -6,6 +6,7 @@ import { I18nProvider } from "./I18nProvider";
 import { localizePartnerDetail, siteContentByLocale } from "./translations";
 
 afterEach(() => {
+  window.localStorage.clear();
   window.history.replaceState({}, "", "/");
   document.documentElement.lang = "en";
   document.documentElement.dir = "ltr";
@@ -23,8 +24,15 @@ describe("trilingual experience", () => {
     await waitFor(() => expect(document.documentElement).toHaveAttribute("dir", "rtl"));
     expect(document.documentElement).toHaveAttribute("lang", "fa-IR");
     expect(document.querySelector("header")).toHaveAttribute("dir", "ltr");
-    expect(screen.getByRole("link", { name: "فارسی" })).toHaveAttribute("href", "/fa/contact");
-    expect(screen.getByRole("link", { name: "中文" })).toHaveAttribute("href", "/zh/contact");
+    fireEvent.click(screen.getByRole("button", { name: "فارسی — انتخاب زبان" }));
+    expect(screen.getByRole("menuitem", { name: "فارسی" })).toHaveAttribute(
+      "href",
+      "/fa/contact",
+    );
+    expect(screen.getByRole("menuitem", { name: "中文" })).toHaveAttribute(
+      "href",
+      "/zh/contact",
+    );
   });
 
   it("provides localized site and partner-detail content", () => {
@@ -36,6 +44,30 @@ describe("trilingual experience", () => {
     );
     expect(detail?.title).toContain("حفاظت یکپارچه Palo Alto Networks");
     expect(detail?.services[0].title).toBe("معماری NGFW و سیاست");
+  });
+
+  it("localizes the five hero solution domains", () => {
+    expect(siteContentByLocale.en.hero.accentWords).toEqual([
+      "IT",
+      "Network",
+      "Safeguarding",
+      "Collaboration",
+      "Security",
+    ]);
+    expect(siteContentByLocale["zh-CN"].hero.accentWords).toEqual([
+      "IT",
+      "网络",
+      "物理安防",
+      "协作通信",
+      "安全",
+    ]);
+    expect(siteContentByLocale["fa-IR"].hero.accentWords).toEqual([
+      "فناوری اطلاعات",
+      "شبکه",
+      "حفاظت فیزیکی",
+      "ارتباطات یکپارچه",
+      "امنیت",
+    ]);
   });
 
   it("positions IT procurement for international operations in all three languages", () => {
