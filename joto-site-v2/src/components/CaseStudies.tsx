@@ -40,6 +40,8 @@ export default function CaseStudies() {
                       className={`h-auto w-auto object-contain object-center ${
                         index === 0
                           ? "max-h-[85px] max-w-[85px]"
+                          : index === 1
+                            ? "max-h-[70px] max-w-[137px]"
                           : "max-h-[78px] max-w-[152px]"
                       } ${
                         item.logoTreatment === "original" ? "" : "brightness-0 invert"
