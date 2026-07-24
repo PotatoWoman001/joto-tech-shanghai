@@ -47,10 +47,12 @@ describe("CustomerLogoWall", () => {
     }
   });
 
-  it("marks the complete wall for the dark glass treatment", () => {
+  it("renders one transparent Frontify-style marquee without a ribbon frame", () => {
     const { container } = render(<CustomerLogoWall />);
 
-    expect(container.querySelector(".customer-logo-wall__ribbon")).toBeInTheDocument();
+    expect(container.querySelector("[data-logo-marquee]")).toBeInTheDocument();
+    expect(container.querySelectorAll(".customer-logo-wall__viewport")).toHaveLength(1);
+    expect(container.querySelector(".customer-logo-wall__ribbon")).not.toBeInTheDocument();
     expect(container.querySelectorAll(".customer-logo-wall__logo")).toHaveLength(84);
   });
 });

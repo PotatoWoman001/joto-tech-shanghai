@@ -7,9 +7,9 @@ import {
 import { useI18n } from "../i18n/I18nProvider";
 
 const logoScaleClasses: Record<CustomerLogoScale, string> = {
-  compact: "h-12 w-24 sm:h-14 sm:w-28",
-  standard: "h-10 w-[9.5rem] sm:h-12 sm:w-44",
-  prominent: "h-9 w-[10.5rem] sm:h-11 sm:w-48",
+  compact: "h-9 w-24 sm:h-11 sm:w-28",
+  standard: "h-8 w-32 sm:h-10 sm:w-40",
+  prominent: "h-8 w-36 sm:h-10 sm:w-44",
 };
 
 const customerLogos = customerLogoRows.flat();
@@ -27,7 +27,7 @@ function LogoItem({ decorative, logo }: LogoItemProps) {
   return (
     <li
       aria-hidden={decorative || undefined}
-      className="customer-logo-wall__item group flex h-36 w-40 shrink-0 items-center justify-center px-4 sm:h-44 sm:w-48 sm:px-5"
+      className="customer-logo-wall__item group flex h-20 shrink-0 items-center justify-center sm:h-24"
       data-customer-logo-item
     >
       {failed ? (
@@ -60,7 +60,7 @@ function LogoSequence({ decorative, logos }: LogoSequenceProps) {
   return (
     <ul
       aria-hidden={decorative || undefined}
-      className="flex shrink-0 gap-3 pr-3"
+      className="flex shrink-0 items-center gap-16 pr-16 sm:gap-24 sm:pr-24 lg:gap-28 lg:pr-28"
       data-logo-sequence={decorative ? "duplicate" : "primary"}
     >
       {logos.map((logo) => (
@@ -75,34 +75,30 @@ export default function CustomerLogoWall() {
   return (
     <section
       aria-labelledby="customer-logo-wall-title"
-      className="customer-logo-wall relative overflow-hidden bg-[#070b0a] py-14 text-white sm:py-18"
+      className="customer-logo-wall relative overflow-hidden py-14 text-white sm:py-18"
       id="customer-logo-wall"
     >
-      <div className="mx-auto mb-7 max-w-[1440px] px-5 text-center sm:mb-9 sm:px-8 lg:px-12">
-        <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-[#5ed29c]">
-          {t("CUSTOMER ECOSYSTEM")}
-        </p>
+      <div className="mx-auto mb-7 max-w-[1440px] px-5 text-center sm:mb-10 sm:px-8 lg:px-12">
         <h2
-          className="font-display text-xl font-semibold uppercase tracking-[0.08em] text-white/82 sm:text-2xl"
+          className="text-2xl font-medium tracking-[-0.035em] text-white/88 sm:text-3xl"
           id="customer-logo-wall-title"
         >
           {t("TRUSTED BY INDUSTRY LEADERS")}
         </h2>
       </div>
 
-      <div className="customer-logo-wall__ribbon relative border-y border-white/10 bg-[#0a1210]/80">
+      <div
+        aria-label={`${t("Customer logos row")} 1`}
+        className="customer-logo-wall__viewport overflow-hidden"
+        data-logo-marquee
+        role="group"
+      >
         <div
-          aria-label={`${t("Customer logos row")} 1`}
-          className="customer-logo-wall__viewport overflow-hidden"
-          role="group"
+          className="customer-logo-wall__track flex w-max"
+          style={{ "--logo-wall-duration": "108s" } as CSSProperties}
         >
-          <div
-            className="customer-logo-wall__track flex w-max"
-            style={{ "--logo-wall-duration": "132s" } as CSSProperties}
-          >
-            <LogoSequence decorative={false} logos={customerLogos} />
-            <LogoSequence decorative logos={customerLogos} />
-          </div>
+          <LogoSequence decorative={false} logos={customerLogos} />
+          <LogoSequence decorative logos={customerLogos} />
         </div>
       </div>
     </section>
