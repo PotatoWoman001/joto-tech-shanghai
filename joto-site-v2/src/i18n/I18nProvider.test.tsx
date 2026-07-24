@@ -10,9 +10,31 @@ afterEach(() => {
   window.history.replaceState({}, "", "/");
   document.documentElement.lang = "en";
   document.documentElement.dir = "ltr";
+  document.head.querySelectorAll("[data-i18n-test]").forEach((element) => element.remove());
 });
 
 describe("trilingual experience", () => {
+  it("only manages document language and direction metadata", async () => {
+    window.history.replaceState({}, "", "/zh/about");
+    document.title = "Route-owned title";
+    const description = document.createElement("meta");
+    description.name = "description";
+    description.content = "Route-owned description";
+    description.dataset.i18nTest = "";
+    document.head.append(description);
+
+    render(
+      <I18nProvider>
+        <div>content</div>
+      </I18nProvider>,
+    );
+
+    await waitFor(() => expect(document.documentElement).toHaveAttribute("lang", "zh-CN"));
+    expect(document.documentElement).toHaveAttribute("dir", "ltr");
+    expect(document.title).toBe("Route-owned title");
+    expect(description).toHaveAttribute("content", "Route-owned description");
+  });
+
   it("applies Persian RTL to the document while keeping the header LTR", async () => {
     window.history.replaceState({}, "", "/fa/contact");
     render(

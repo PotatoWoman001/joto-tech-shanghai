@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import About from "./components/About";
 import CaseStudies from "./components/CaseStudies";
 import ContactFooter from "./components/ContactFooter";
@@ -20,6 +20,8 @@ import SolutionCategoryPage from "./pages/SolutionCategoryPage";
 import SolutionCapabilityIconPreviewPage from "./pages/SolutionCapabilityIconPreviewPage";
 import { useI18n } from "./i18n/I18nProvider";
 import { localizePartnerDetail } from "./i18n/translations";
+import { buildSeoDescriptor } from "./seo/descriptor";
+import SeoHead from "./seo/SeoHead";
 
 const CustomerLogoWall = lazy(() => import("./components/CustomerLogoWall"));
 const CustomerLogoWallPreviewPage = lazy(() => import("./pages/CustomerLogoWallPreviewPage"));
@@ -27,63 +29,63 @@ const CustomerLogoWallPreviewPage = lazy(() => import("./pages/CustomerLogoWallP
 export default function App() {
   const { locale, pathname } = useI18n();
   const categoryDetail = getSolutionCategoryDetail(pathname, locale);
+  const detail = localizePartnerDetail(locale, getPartnerDetail(pathname));
+  const seo = buildSeoDescriptor(locale, pathname);
+  let page: ReactNode;
 
   if (pathname === "/preview/customer-logo-wall") {
-    return (
+    page = (
       <Suspense fallback={<main className="min-h-screen bg-[#070b0a]" />}>
         <CustomerLogoWallPreviewPage />
       </Suspense>
     );
-  }
+  } else if (pathname === "/preview/solution-capability-icons") {
+    page = <SolutionCapabilityIconPreviewPage />;
+  } else if (pathname === "/about" || pathname === "/about/") {
+    page = <AboutPage />;
+  } else if (pathname === "/blog" || pathname === "/blog/") {
+    page = <BlogPage />;
+  } else {
+    const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
 
-  if (pathname === "/preview/solution-capability-icons") {
-    return <SolutionCapabilityIconPreviewPage />;
-  }
-
-  const detail = localizePartnerDetail(locale, getPartnerDetail(pathname));
-
-  if (pathname === "/about" || pathname === "/about/") {
-    return <AboutPage />;
-  }
-
-  if (pathname === "/blog" || pathname === "/blog/") {
-    return <BlogPage />;
-  }
-
-  const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
-  if (blogSlug) {
-    return <BlogArticlePage article={getBlogArticle(blogSlug)} />;
-  }
-
-  if (pathname === "/contact" || pathname === "/contact/") {
-    return <ContactPage />;
-  }
-
-  if (categoryDetail) {
-    return <SolutionCategoryPage detail={categoryDetail} />;
-  }
-
-  if (detail) {
-    return <PartnerDetailPage detail={detail} />;
+    if (blogSlug) {
+      page = <BlogArticlePage article={getBlogArticle(blogSlug)} />;
+    } else if (pathname === "/contact" || pathname === "/contact/") {
+      page = <ContactPage />;
+    } else if (categoryDetail) {
+      page = <SolutionCategoryPage detail={categoryDetail} />;
+    } else if (detail) {
+      page = <PartnerDetailPage detail={detail} />;
+    } else {
+      page = (
+        <main
+          id="top"
+          className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased"
+        >
+          <Hero />
+          <Solutions />
+          <Services />
+          <CaseStudies />
+          {featureFlags.customerLogoWall && (
+            <div className="contents" data-customer-logo-wall-slot>
+              <Suspense fallback={null}>
+                <CustomerLogoWall />
+              </Suspense>
+            </div>
+          )}
+          <About />
+          <Partners />
+          <GlobalPresence />
+          <ContactFooter />
+        </main>
+      );
+    }
   }
 
   return (
-    <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
-      <Hero />
-      <Solutions />
-      <Services />
-      <CaseStudies />
-      {featureFlags.customerLogoWall && (
-        <div className="contents" data-customer-logo-wall-slot>
-          <Suspense fallback={null}>
-            <CustomerLogoWall />
-          </Suspense>
-        </div>
-      )}
-      <About />
-      <Partners />
-      <GlobalPresence />
-      <ContactFooter />
-    </main>
+    <>
+      <SeoHead descriptor={seo} />
+      {page}
+    </>
   );
 }

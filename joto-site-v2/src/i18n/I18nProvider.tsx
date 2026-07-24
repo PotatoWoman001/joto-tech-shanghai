@@ -64,16 +64,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = direction;
-    document.title =
-      locale === "zh-CN"
-        ? "JOTO TECH — 让 IT 真正发生"
-        : locale === "fa-IR"
-          ? "JOTO TECH — فناوری اطلاعات را عملی می‌کنیم"
-          : "JOTO TECH — We Make IT Happen";
-    document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
-      "content",
-      siteContentByLocale[locale].hero.description,
-    );
   }, [direction, locale]);
 
   return (
