@@ -34,8 +34,6 @@ export interface ServiceItem {
   icon: ServiceIcon;
   title: string;
   description: string;
-  image: string;
-  imageAlt: string;
 }
 
 export interface CaseStudy {

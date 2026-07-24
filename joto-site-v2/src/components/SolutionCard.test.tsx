@@ -58,6 +58,8 @@ describe("SolutionCard", () => {
     const action = screen.getByRole("link", { name: "Learn more: Network" });
 
     expect(card).toHaveClass("group");
+    expect(card).toHaveClass("h-[500px]", "sm:h-[540px]", "xl:h-[530px]");
+    expect(visual).toHaveClass("xl:h-[440px]");
     expect(visual.className).toContain("xl:group-hover:h-full");
     expect(visual.className).toContain("group-focus-within:h-full");
     expect(visual.className).toContain("motion-reduce:transition-none");

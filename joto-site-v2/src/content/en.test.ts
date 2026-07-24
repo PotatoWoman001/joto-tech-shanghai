@@ -96,7 +96,10 @@ describe("English site content", () => {
       "Verkada",
       "Hikvision",
     ]);
-    expect(siteContent.partners.items).toHaveLength(19);
+    expect(siteContent.partners.items).toHaveLength(20);
+    const lastPartner = siteContent.partners.items[siteContent.partners.items.length - 1];
+    expect(lastPartner?.name).toBe("AppDynamics");
+    expect(lastPartner?.logo).toMatch(/appdynamics\.svg$/i);
     expect(siteContent.partners.items.every(({ logo }) => Boolean(logo))).toBe(true);
   });
 

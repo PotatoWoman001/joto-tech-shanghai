@@ -1,10 +1,10 @@
 import {
-  Clock4,
-  Compass,
-  PackageCheck,
-  ShieldHalf,
-  Users,
-  Wrench,
+  Boxes,
+  ChartNetwork,
+  LifeBuoy,
+  ShieldCheck,
+  UserRoundCog,
+  DraftingCompass,
   type LucideIcon,
 } from "lucide-react";
 import type { PointerEvent as ReactPointerEvent } from "react";
@@ -13,13 +13,22 @@ import type { ServiceIcon, ServiceItem } from "../content/types";
 import SectionHeading, { Reveal } from "./SectionHeading";
 
 const SERVICE_ICONS: Record<ServiceIcon, LucideIcon> = {
-  planning: Compass,
-  deployment: Wrench,
-  support: Clock4,
-  security: ShieldHalf,
-  staffing: Users,
-  procurement: PackageCheck,
+  planning: ChartNetwork,
+  deployment: DraftingCompass,
+  support: LifeBuoy,
+  security: ShieldCheck,
+  staffing: UserRoundCog,
+  procurement: Boxes,
 };
+
+const SERVICE_PLACEMENT = [
+  "lg:col-start-1 lg:row-start-1",
+  "lg:col-start-2 lg:row-start-1",
+  "lg:col-start-3 lg:row-start-1",
+  "lg:col-start-3 lg:row-start-2",
+  "lg:col-start-2 lg:row-start-2",
+  "lg:col-start-1 lg:row-start-2",
+] as const;
 
 interface ServiceCardProps {
   index: number;
@@ -36,72 +45,39 @@ function ServiceCard({ index, service }: ServiceCardProps) {
     const bounds = card.getBoundingClientRect();
     const x = event.clientX - bounds.left;
     const y = event.clientY - bounds.top;
-    const rotateY = ((x / bounds.width) - 0.5) * 3.5;
-    const rotateX = (0.5 - y / bounds.height) * 3.5;
 
     card.style.setProperty("--service-glow-x", `${x}px`);
     card.style.setProperty("--service-glow-y", `${y}px`);
-    card.style.setProperty("--service-rotate-x", `${rotateX.toFixed(2)}deg`);
-    card.style.setProperty("--service-rotate-y", `${rotateY.toFixed(2)}deg`);
-  };
-
-  const handlePointerLeave = (event: ReactPointerEvent<HTMLElement>) => {
-    event.currentTarget.style.setProperty("--service-rotate-x", "0deg");
-    event.currentTarget.style.setProperty("--service-rotate-y", "0deg");
   };
 
   return (
-    <Reveal delay={index * 80} className="h-full">
+    <Reveal delay={index * 70} className={`h-full ${SERVICE_PLACEMENT[index]}`}>
       <article
         data-service-card
+        data-service-step={index + 1}
         onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
-        className="service-card group relative h-full min-h-[480px] overflow-hidden rounded-[22px] p-7 sm:min-h-[520px] sm:p-9 lg:min-h-[500px] lg:p-10"
+        className="service-card group relative h-full min-h-[260px] overflow-hidden p-7 text-center sm:min-h-[280px] sm:p-8 lg:min-h-[300px] lg:p-9"
       >
-        <div className="service-card__glow" aria-hidden="true" />
-        <div className="service-card__content relative z-10 flex h-full flex-col">
-          <div className="flex items-start justify-between gap-5">
+        <div className="service-card__content relative z-10 flex h-full flex-col items-center">
+          <div className="relative flex w-full justify-center">
             <div className="service-card__icon" data-service-icon aria-hidden="true">
-              <span className="service-card__icon-halo" />
-              <Icon className="relative z-10 h-8 w-8" strokeWidth={1.45} />
-              <span className="service-card__orbit" />
+              <Icon className="service-card__icon-mark h-11 w-11 sm:h-[3.2rem] sm:w-[3.2rem]" strokeWidth={2.55} />
+              <Icon
+                className="service-card__icon-mark service-card__icon-mark--accent h-11 w-11 sm:h-[3.2rem] sm:w-[3.2rem]"
+                strokeWidth={2.55}
+              />
             </div>
-            <span className="font-mono text-[10px] tracking-[0.2em] text-white/32 transition-colors duration-500 group-hover:text-[#5ed29c]/70">
+            <span className="absolute right-0 top-0 font-mono text-[10px] tracking-[0.2em] text-white/32 transition-colors duration-500 group-hover:text-[#5ed29c]/70">
               {String(index + 1).padStart(2, "0")}
             </span>
           </div>
-          <div className="mt-10">
-            <h3 className="max-w-md text-xl font-medium tracking-[-0.035em] text-white sm:text-2xl">
+          <div className="flex w-full flex-col items-center pt-5 sm:pt-6">
+            <h3 className="flex min-h-14 max-w-md items-center justify-center text-xl font-medium tracking-[-0.035em] text-white sm:text-[1.35rem]">
               {service.title}
             </h3>
-            <p className="mt-4 max-w-xl text-sm leading-6 text-white/52 transition-colors duration-500 group-hover:text-white/68 sm:text-[15px] sm:leading-7">
+            <p className="mt-2 min-h-12 max-w-sm text-sm leading-6 text-white/50 transition-colors duration-500 group-hover:text-white/70">
               {service.description}
             </p>
-          </div>
-
-          <div
-            className="relative -mx-3 -mb-3 mt-auto h-36 overflow-hidden sm:-mx-4 sm:-mb-4 sm:h-44 lg:h-40"
-            style={{
-              WebkitMaskImage:
-                "radial-gradient(ellipse 84% 82% at 52% 50%, black 42%, rgba(0,0,0,.92) 58%, transparent 100%)",
-              maskImage:
-                "radial-gradient(ellipse 84% 82% at 52% 50%, black 42%, rgba(0,0,0,.92) 58%, transparent 100%)",
-            }}
-          >
-            <img
-              src={service.image}
-              alt={service.imageAlt}
-              loading="lazy"
-              className="h-full w-full scale-[1.08] object-cover brightness-[0.58] contrast-[1.04] saturate-[0.66] transition-[transform,filter] duration-700 group-hover:scale-[1.12] group-hover:brightness-[0.66] motion-reduce:transition-none"
-            />
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(7,11,10,0.22),rgba(42,174,132,0.24)_52%,rgba(7,11,10,0.48))] mix-blend-color"
-            />
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_32%,rgba(7,11,10,0.2)_66%,#070b0a_100%)]"
-            />
           </div>
         </div>
       </article>
@@ -123,7 +99,10 @@ export default function Services() {
           description={services.description}
         />
 
-        <div className="services-grid relative mt-16 grid gap-4 sm:grid-cols-2 md:mt-24 md:gap-5 lg:grid-cols-3">
+        <div
+          data-services-grid
+          className="services-grid relative mt-16 grid gap-px overflow-hidden bg-white/14 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
+        >
           {services.items.map((service, index) => (
             <ServiceCard key={service.title} index={index} service={service} />
           ))}

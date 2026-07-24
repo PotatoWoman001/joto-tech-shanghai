@@ -105,19 +105,33 @@ export default function Hero() {
               </span>
             </span>
             <span
-              className={`block text-white/78 ${isChinese ? "" : "sm:pl-[0.65em]"}`}
+              className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
               data-hero-line="secondary"
             >
               {hero.headlineSecondLine}
               <span className="text-joto-green">.</span>
             </span>
           </h1>
-          <div className="mt-6 flex max-w-[1180px] flex-col gap-7 sm:mt-7 sm:flex-row sm:items-end sm:justify-between">
-            <p className="max-w-lg font-sans text-[14px] leading-6 text-white/70 lg:max-w-[48%] lg:text-[clamp(1.05rem,1.7vw,1.35rem)] lg:font-normal lg:leading-[1.55] lg:tracking-[-0.018em] lg:text-white/62">
+          <div
+            className={`mt-6 flex max-w-[74rem] flex-col gap-5 sm:mt-7 md:flex-row md:items-center md:gap-8 ${
+              isChinese
+                ? "ml-[clamp(0.9rem,4.5vw,2rem)] lg:ml-[clamp(2.375rem,3.9vw,4rem)]"
+                : ""
+            }`}
+            data-hero-support
+          >
+            <p
+              className={`max-w-[46rem] font-sans text-[14px] leading-6 text-white/70 lg:text-[clamp(1.05rem,1.7vw,1.35rem)] lg:font-normal lg:leading-[1.55] lg:tracking-[-0.018em] lg:text-white/62 ${
+                isChinese
+                  ? "md:max-w-[31rem] md:flex-[0_1_31rem]"
+                  : "md:max-w-[56rem] md:flex-[0_1_56rem]"
+              }`}
+            >
               {hero.description}
             </p>
             <a
-              className="group inline-flex w-fit items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green lg:ml-auto"
+              className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green"
+              data-hero-cta
               href={hero.cta.href}
             >
               {hero.cta.label}

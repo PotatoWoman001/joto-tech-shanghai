@@ -27,19 +27,18 @@ describe("Services", () => {
     ).toEqual([
       "IT Planning & Consulting",
       "Design & Deployment",
-      "24×7 Support & Maintenance",
-      "Managed Security Services",
-      "Managed Outsourcing & Staffing",
       "IT Procurement",
+      "Managed Outsourcing & Staffing",
+      "Managed Security Services",
+      "24×7 Support & Maintenance",
     ]);
     expect(section.querySelectorAll("[data-service-card]")).toHaveLength(6);
     expect(section.querySelectorAll("[data-service-icon]")).toHaveLength(6);
-    expect(region.getAllByRole("img")).toHaveLength(6);
-    expect(
-      region.getByRole("img", {
-        name: "Security operator monitoring multiple live systems in a control center",
-      }),
-    ).toBeInTheDocument();
+    expect(section.querySelector("[data-services-grid]")).not.toHaveClass("border");
+    section.querySelectorAll("[data-service-card]").forEach((card) => {
+      expect(card).toHaveClass("text-center");
+    });
+    expect(region.queryAllByRole("img")).toHaveLength(0);
     expect(region.queryAllByRole("link")).toHaveLength(0);
   });
 });

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "../App";
 import { I18nProvider } from "../i18n/I18nProvider";
@@ -23,7 +23,8 @@ describe("BlogArticlePage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "构建能够随业务增长的企业网络" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
+    fireEvent.click(screen.getByRole("button", { name: "中文 — 语言选择" }));
+    expect(within(screen.getByRole("menu")).getByRole("menuitem", { name: "EN" })).toHaveAttribute(
       "href",
       "/blog/enterprise-network-growth",
     );

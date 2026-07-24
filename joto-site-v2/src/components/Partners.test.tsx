@@ -7,7 +7,7 @@ describe("Partners", () => {
   it("renders a compact logo-only wall in the approved priority order", () => {
     const { container } = render(<Partners />);
 
-    expect(container.querySelectorAll("[data-partner-logo-card]")).toHaveLength(19);
+    expect(container.querySelectorAll("[data-partner-logo-card]")).toHaveLength(20);
     expect(container.querySelector("[data-partner-logo-grid]")).toHaveClass(
       "grid-cols-3",
       "lg:grid-cols-4",
@@ -28,6 +28,8 @@ describe("Partners", () => {
       "Verkada logo",
       "Hikvision logo",
     ]);
+    const partnerLogos = screen.getAllByRole("img");
+    expect(partnerLogos[partnerLogos.length - 1]).toHaveAccessibleName("AppDynamics logo");
     expect(screen.queryByText("Gold Partner")).not.toBeInTheDocument();
     expect(screen.queryByText("Platinum Partner")).not.toBeInTheDocument();
     expect(screen.queryByText(siteContent.partners.items[0].description)).not.toBeInTheDocument();

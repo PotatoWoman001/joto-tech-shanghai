@@ -95,6 +95,14 @@ describe("JOTO TECH single-page website", () => {
       expect(region.getByRole("heading", { name: heading })).toBeInTheDocument();
     }
     expect(region.getAllByRole("heading", { level: 3 })).toHaveLength(5);
+    const scroller = solutions?.querySelector(
+      "[data-solutions-scroller]",
+    ) as HTMLElement;
+
+    expect(scroller).toHaveClass("flex", "overflow-x-auto", "snap-x");
+    expect(
+      scroller.querySelectorAll("[data-solution-card-slot]"),
+    ).toHaveLength(5);
     expect(solutions?.querySelectorAll("[data-solution-card]")).toHaveLength(5);
     expect(region.getAllByRole("link")).toHaveLength(5);
     expect(region.getAllByText("Learn more")).toHaveLength(5);

@@ -1,4 +1,5 @@
 import arubaLogo from "../assets/logos/aruba.svg";
+import appDynamicsLogo from "../assets/logos/appdynamics.svg";
 import audioCodesLogo from "../assets/logos/audiocodes.png";
 import checkpointLogo from "../assets/logos/checkpoint.svg";
 import ciscoLogo from "../assets/logos/cisco.svg";
@@ -21,10 +22,6 @@ import sangforLogo from "../assets/logos/sangfor.png";
 import starbucksLogo from "../assets/logos/starbucks.svg";
 import verkadaLogo from "../assets/logos/verkada.png";
 import vodiaLogo from "../assets/logos/vodia.svg";
-import advisoryPlanningVisual from "../assets/services/advisory-planning.webp";
-import designIntegrationVisual from "../assets/services/design-integration.webp";
-import managedSupportVisual from "../assets/services/managed-support.webp";
-import securityComplianceVisual from "../assets/services/security-compliance.webp";
 import collaborationVisual from "../assets/solutions/collaboration-field-v3.png";
 import networkVisual from "../assets/solutions/network-field-v3.png";
 import safeguardingVisual from "../assets/solutions/safeguarding-field-v3.png";
@@ -172,6 +169,13 @@ const vendors: Record<string, Vendor> = {
     description:
       "Access-control hardware and integrated physical-security management for connected facilities.",
   },
+  appDynamics: {
+    name: "AppDynamics",
+    logo: appDynamicsLogo,
+    logoScale: "wide",
+    description:
+      "Application performance monitoring and observability for business-critical digital services.",
+  },
 };
 
 const nav = [
@@ -279,48 +283,36 @@ export const siteContent: SiteContent = {
         title: "IT Planning & Consulting",
         description:
           "IT strategy, architecture design and cross-border data compliance consulting — before a single box is ordered.",
-        image: advisoryPlanningVisual,
-        imageAlt: "Technology team collaborating around laptops during a planning workshop",
       },
       {
         icon: "deployment",
         title: "Design & Deployment",
         description:
           "Turnkey delivery from structured cabling to cloud: engineering, installation, migration and cut-over, on site.",
-        image: designIntegrationVisual,
-        imageAlt: "Network cabling and active equipment inside enterprise server racks",
-      },
-      {
-        icon: "support",
-        title: "24×7 Support & Maintenance",
-        description:
-          "Round-the-clock multilingual hotline, SLA-backed maintenance, spare parts and daily on-site helpdesk.",
-        image: managedSupportVisual,
-        imageAlt: "IT support team working across multiple desktop systems in an office",
-      },
-      {
-        icon: "security",
-        title: "Managed Security Services",
-        description:
-          "MSS with SOC monitoring and Level-3 security operations — proven across a 15,000-server estate.",
-        image: securityComplianceVisual,
-        imageAlt: "Security operator monitoring multiple live systems in a control center",
-      },
-      {
-        icon: "staffing",
-        title: "Managed Outsourcing & Staffing",
-        description:
-          "Dedicated on-site IT and AI teams, personnel outsourcing and ITIL-based managed operations.",
-        image: managedSupportVisual,
-        imageAlt: "IT support team working across multiple desktop systems in an office",
       },
       {
         icon: "procurement",
         title: "IT Procurement",
         description:
           "One-stop sourcing of hardware, software and cloud services for organizations operating across global markets.",
-        image: designIntegrationVisual,
-        imageAlt: "Network cabling and active equipment inside enterprise server racks",
+      },
+      {
+        icon: "staffing",
+        title: "Managed Outsourcing & Staffing",
+        description:
+          "Dedicated on-site IT and AI teams, personnel outsourcing and ITIL-based managed operations.",
+      },
+      {
+        icon: "security",
+        title: "Managed Security Services",
+        description:
+          "MSS with SOC monitoring and Level-3 security operations — proven across a 15,000-server estate.",
+      },
+      {
+        icon: "support",
+        title: "24×7 Support & Maintenance",
+        description:
+          "Round-the-clock multilingual hotline, SLA-backed maintenance, spare parts and daily on-site helpdesk.",
       },
     ],
   },
@@ -405,6 +397,7 @@ export const siteContent: SiteContent = {
       vendors.cyberData,
       vendors.informaCast,
       vendors.keyking,
+      vendors.appDynamics,
     ],
   },
   globalPresence: {

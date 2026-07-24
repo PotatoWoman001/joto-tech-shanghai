@@ -24,11 +24,11 @@ export default function SolutionCard({
 
   return (
     <article
-      className="group relative h-[620px] min-w-0 sm:h-[680px] xl:h-[660px]"
+      className="group relative h-[500px] min-w-0 sm:h-[540px] xl:h-[530px]"
       data-solution-card={category.id}
     >
       <div
-        className="absolute inset-x-0 top-0 h-full overflow-hidden rounded-[1.6rem] bg-[#111714] transition-[height] duration-500 ease-out group-focus-within:h-full xl:h-[550px] xl:group-hover:h-full motion-reduce:transition-none"
+        className="absolute inset-x-0 top-0 h-full overflow-hidden rounded-[1.6rem] bg-[#111714] transition-[height] duration-500 ease-out group-focus-within:h-full xl:h-[440px] xl:group-hover:h-full motion-reduce:transition-none"
         data-solution-visual
       >
         <img
@@ -46,8 +46,8 @@ export default function SolutionCard({
           {String(index + 1).padStart(2, "0")}
         </span>
 
-        <div className="absolute inset-x-0 bottom-28 px-6 transition-[bottom] duration-500 ease-out sm:px-7 xl:bottom-6 xl:group-hover:bottom-28 group-focus-within:bottom-28 motion-reduce:transition-none">
-          <h3 className="text-balance text-[clamp(2rem,3vw,3.25rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-white">
+        <div className="absolute inset-x-0 bottom-24 px-6 transition-[bottom] duration-500 ease-out sm:px-7 xl:bottom-6 xl:group-hover:bottom-24 group-focus-within:bottom-24 motion-reduce:transition-none">
+          <h3 className="text-balance text-[clamp(1.8rem,2.6vw,2.75rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-white">
             {category.title}
           </h3>
           <p
@@ -61,7 +61,7 @@ export default function SolutionCard({
 
       <a
         aria-label={`${learnMoreLabel}: ${category.title}`}
-        className="absolute bottom-6 left-6 right-6 flex h-[72px] items-center justify-between rounded-full border border-black bg-black px-7 text-base font-semibold text-white transition-[bottom,background-color,border-color,color] duration-500 ease-out hover:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green xl:bottom-0 xl:group-hover:bottom-6 xl:group-hover:border-white xl:group-hover:bg-white xl:group-hover:text-joto-green group-focus-within:bottom-6 group-focus-within:border-white group-focus-within:bg-white group-focus-within:text-joto-green motion-reduce:transition-none"
+        className="absolute bottom-5 left-5 right-5 flex h-16 items-center justify-between rounded-full border border-black bg-black px-6 text-base font-semibold text-white transition-[bottom,background-color,border-color,color] duration-500 ease-out hover:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green sm:left-6 sm:right-6 xl:bottom-0 xl:group-hover:bottom-5 xl:group-hover:border-white xl:group-hover:bg-white xl:group-hover:text-joto-green group-focus-within:bottom-5 group-focus-within:border-white group-focus-within:bg-white group-focus-within:text-joto-green motion-reduce:transition-none"
         href={href}
       >
         <span>{learnMoreLabel}</span>

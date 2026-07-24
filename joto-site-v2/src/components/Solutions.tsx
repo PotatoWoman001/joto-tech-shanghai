@@ -17,13 +17,20 @@ export default function Solutions() {
           description={solutions.description}
         />
 
-        <div className="mt-16 grid gap-x-5 gap-y-10 md:mt-24 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12">
+        <div
+          aria-label={solutions.eyebrow}
+          className="solution-card-scroller mt-16 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-5 md:mt-24"
+          data-solutions-scroller
+          role="region"
+          tabIndex={0}
+        >
           {solutions.categories.map((category, categoryIndex) => (
             <Reveal
               key={category.id}
               delay={categoryIndex * 70}
-              className="relative min-w-0 scroll-mt-24"
+              className="relative w-[82vw] max-w-[420px] flex-none snap-start scroll-mt-24 sm:w-[48vw] lg:w-[31vw] xl:w-[420px]"
             >
+              <span data-solution-card-slot />
               {category.vendors.map((vendor) => (
                 <span
                   aria-hidden="true"
