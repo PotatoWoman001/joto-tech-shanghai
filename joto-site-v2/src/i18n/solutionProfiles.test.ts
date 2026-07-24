@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { partnerDetails } from "../content/partners";
+import { getPartnerDetail, partnerDetails } from "../content/partners";
 import { localizePartnerDetail } from "./translations";
 import { faPartnerProfiles, zhPartnerProfiles } from "./solutionProfiles";
 
@@ -63,4 +63,13 @@ describe("localized solution profiles", () => {
       }
     },
   );
+
+  it("uses the public Sangfor name in English and Persian project headings", () => {
+    const sangfor = getPartnerDetail("/solutions/security/sangfor")!;
+
+    expect(localizePartnerDetail("en", sangfor)?.casesTitle).toBe(
+      "Sangfor capabilities, proven through real projects.",
+    );
+    expect(localizePartnerDetail("fa-IR", sangfor)?.casesTitle).not.toContain("深信服");
+  });
 });

@@ -34,10 +34,14 @@ describe("partner representative projects", () => {
   });
 
   it("preserves confirmed Palo Alto and Extreme facts", () => {
-    expect(JSON.stringify(getPartnerCases("/solutions/security/palo-alto-networks", "en")))
-      .toContain("PA-5430");
-    expect(JSON.stringify(getPartnerCases("/solutions/security/palo-alto-networks", "en")))
-      .toContain("2022–2025");
+    const paloAltoProjects = getPartnerCases(
+      "/solutions/security/palo-alto-networks",
+      "en",
+    );
+
+    expect(JSON.stringify(paloAltoProjects)).toContain("PA-5430");
+    expect(JSON.stringify(paloAltoProjects)).toContain("2022–2025");
+    expect(paloAltoProjects[0].logoTreatment).toBe("brand");
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "zh-CN")))
       .toContain("49 个");
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "en")))

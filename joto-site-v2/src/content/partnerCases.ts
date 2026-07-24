@@ -71,6 +71,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: starbucksLogo,
+      logoTreatment: "brand",
     },
     {
       client: text(

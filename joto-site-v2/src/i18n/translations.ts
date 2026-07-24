@@ -201,11 +201,12 @@ export function localizePartnerDetail(
 
   if (locale === "en") {
     if (partnerCases.length === 0) return detail;
+    const casePartnerName = detail.partnerName.replace(" 深信服", "");
 
     return {
       ...detail,
       casesEyebrow: "Representative Projects",
-      casesTitle: `${detail.partnerName} capabilities, proven through real projects.`,
+      casesTitle: `${casePartnerName} capabilities, proven through real projects.`,
       casesDescription:
         "Selected customer environments where JOTO has delivered or supported the partner technology.",
       cases: partnerCases,
@@ -218,6 +219,7 @@ export function localizePartnerDetail(
   const partner = detail.partnerName;
   const solution = translate(locale, detail.solutionName);
   const zhLocale = locale === "zh-CN";
+  const casePartnerName = zhLocale ? partner : partner.replace(" 深信服", "");
   const profile = (zhLocale ? zhPartnerProfiles : faPartnerProfiles)[detail.pathname];
   if (!profile) return translated;
   const capabilities = zhLocale
@@ -277,13 +279,13 @@ export function localizePartnerDetail(
     casesEyebrow: zhLocale ? "代表项目" : "پروژه‌های منتخب",
     casesTitle: zhLocale
       ? `经过实际项目验证的 ${partner} 能力。`
-      : `توانمندی‌های ${partner}، اثبات‌شده در پروژه‌های واقعی.`,
+      : `توانمندی‌های ${casePartnerName}، اثبات‌شده در پروژه‌های واقعی.`,
     casesDescription:
       partnerCases.length === 0
         ? ""
         : zhLocale
           ? `以下客户项目展示 JOTO 在 ${partner} 技术交付与支持方面的实践。`
-          : `این پروژه‌های مشتری، تجربه JOTO در تحویل و پشتیبانی فناوری ${partner} را نشان می‌دهند.`,
+          : `این پروژه‌های مشتری، تجربه JOTO در تحویل و پشتیبانی فناوری ${casePartnerName} را نشان می‌دهند.`,
     cases: partnerCases,
     ctaTitle: profile.ctaTitle,
     ctaDescription: profile.ctaDescription,
