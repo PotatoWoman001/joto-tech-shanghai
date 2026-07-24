@@ -147,12 +147,12 @@ describe("JOTO TECH single-page website", () => {
     ).toHaveAttribute("href", "/zh/solutions/network");
   });
 
-  it("keeps the JD International logo in its original colors", () => {
+  it("applies the shared monochrome treatment to the JD International logo", () => {
     renderApp();
     const logo = screen.getByRole("img", { name: "JD International logo" });
 
-    expect(logo).not.toHaveClass("brightness-0");
-    expect(logo).not.toHaveClass("invert");
+    expect(logo).toHaveClass("brightness-0");
+    expect(logo).toHaveClass("invert");
   });
 
   it("shows the complete business page with the partner wall before the global delivery map", () => {
