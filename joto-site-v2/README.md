@@ -25,9 +25,14 @@ npm run build
 - Tailwind CSS 3.4：响应式布局与视觉样式。
 - hls.js：播放 Hero 的 Mux HLS 视频，已按要求关闭 Worker。
 - Lucide React：导航和按钮图标。
-- 阿里云函数计算：`functions/contact` 提供询盘表单 API，并通过阿里云邮件推送转交销售邮箱。
+- 统一管理后台：生产环境的 `/api/captcha` 和 `/api/contact` 由 Nginx
+  转发到 `admin.jotoai.com`，留言在统一后台落库并触发邮件/飞书通知。
+- 百度统计：设置公开构建变量 `VITE_BAIDU_TONGJI_ID` 后记录页面访问和
+  表单转化；未设置时统计静默停用。
 
-Contact 表单默认请求同源 `/api/contact`；如需直接访问函数计算公网 URL，可在前端构建时设置 `VITE_CONTACT_API_URL`。
+Contact 表单固定请求同源 `/api/captcha` 与 `/api/contact`，以保留真实
+来源域名并避免浏览器跨域。开发环境可用仅服务端读取的
+`ADMIN_API_ORIGIN` 改写代理目标。
 
 这里的“沿用”只表示继续使用用户资料文件夹里已经配置好的前端开发工具，不代表复制旧网站后台、数据库或页面视觉。
 
@@ -46,6 +51,6 @@ Contact 表单默认请求同源 `/api/contact`；如需直接访问函数计算
 - 中文、波斯语切换
 - 正式 SEO 配置
 - 阿里云 OSS 的 SPA 路由回退
-- 阿里云函数计算与邮件推送环境变量
+- 统一后台的站点巡检登记与百度统计属性
 
 上线前需要复核合作等级、案例公开授权、办公地址、联系方式和缺失的官方品牌素材。完整记录见 `docs/qa-report.md`。

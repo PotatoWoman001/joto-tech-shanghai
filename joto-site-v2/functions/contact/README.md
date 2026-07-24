@@ -1,5 +1,9 @@
 # JOTO Contact Function
 
+> 状态：自 `jotoglobal.com` 接入 `admin.jotoai.com` 后，本目录不再承接
+> 生产联系表单，仅保留用于紧急回滚和历史部署复现。生产请求不得同时
+> 写入本服务与统一后台。
+
 阿里云函数计算 Web 函数，用于接收 `jotoglobal.com` 的询盘表单并通过阿里云邮件推送发送到销售邮箱。
 
 ## 本地运行
