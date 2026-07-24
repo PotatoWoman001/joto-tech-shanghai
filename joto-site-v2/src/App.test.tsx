@@ -148,11 +148,16 @@ describe("JOTO TECH single-page website", () => {
     ).toBeInTheDocument();
   });
 
-  it("protects long about statistics from overflowing their cards", () => {
-    renderApp();
+  it("places the About narrative beside four stacked metric cards", () => {
+    const { container } = renderApp();
+    const section = container.querySelector("#about") as HTMLElement;
 
-    expect(screen.getByText("LIFECYCLE")).toHaveClass("break-words");
-    expect(screen.getByText("MULTI-VENDOR")).toHaveClass("break-words");
+    expect(section.querySelector("[data-about-layout]")).toHaveClass("lg:grid-cols-12");
+    expect(section.querySelector("[data-about-copy]")).toBeInTheDocument();
+    expect(section.querySelector("[data-about-stats]")).toHaveClass("lg:col-span-5");
+    expect(section.querySelectorAll("[data-about-stat-card]")).toHaveLength(4);
+    expect(screen.getByText("LIFECYCLE")).toHaveClass("whitespace-nowrap");
+    expect(screen.getByText("MULTI-VENDOR")).toHaveClass("whitespace-nowrap");
   });
 
   it("contains none of the excluded legacy product language", () => {
