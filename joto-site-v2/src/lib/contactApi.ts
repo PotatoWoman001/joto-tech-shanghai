@@ -122,9 +122,9 @@ export async function submitContact(
 export function contactErrorKey(error: unknown): ContactErrorKey {
   const message = error instanceof Error ? error.message : "";
   if (message.includes("请输入验证码")) return "Please enter the verification code.";
-  if (message.includes("验证码错误")) return "The verification code is incorrect.";
   if (message.includes("验证码已过期") || message.includes("错误或已过期")) {
     return "The verification code has expired. Please use the new code.";
   }
+  if (message.includes("验证码错误")) return "The verification code is incorrect.";
   return "We could not send your enquiry. Please try again or email";
 }

@@ -132,6 +132,9 @@ describe("contactApi", () => {
     expect(contactErrorKey(new ContactSubmissionError("验证码已过期", 400))).toBe(
       "The verification code has expired. Please use the new code.",
     );
+    expect(contactErrorKey(new ContactSubmissionError("验证码错误或已过期", 400))).toBe(
+      "The verification code has expired. Please use the new code.",
+    );
     expect(contactErrorKey(new Error("socket failure"))).toBe(
       "We could not send your enquiry. Please try again or email",
     );
