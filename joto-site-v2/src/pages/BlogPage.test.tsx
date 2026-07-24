@@ -37,6 +37,11 @@ describe("BlogPage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "企业实践洞察。" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "来自 JOTO 项目与运维实践的企业网络、网络安全、IT 运营、多站点交付和物理安防集成洞察。",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getAllByRole("article")).toHaveLength(6);
     expect(screen.getByRole("link", { name: /构建能够随业务增长的企业网络/ })).toHaveAttribute(
       "href",

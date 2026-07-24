@@ -63,6 +63,18 @@ describe("JOTO TECH single-page website", () => {
     );
   });
 
+  it("renders the Chinese enterprise IT summary in the hero", () => {
+    window.history.replaceState({}, "", "/zh/");
+
+    renderApp();
+
+    expect(
+      screen.getByText(
+        "自 2010 年起，JOTO TECH 为企业提供网络、安全、服务器与存储、协作通信及物理安防解决方案，覆盖 IT 规划、系统集成与持续运维。",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it.each([
     { language: "English", pathname: "/" },
     { language: "Chinese", pathname: "/zh/" },
@@ -259,6 +271,9 @@ describe("JOTO TECH single-page website", () => {
     expect(
       screen.queryByRole("heading", { level: 1, name: /Tell us what you’re building/i }),
     ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: /Start with the challenge/i }),
+    ).toBeInTheDocument();
     expect(container.querySelector("[data-contact-form-section]")).toHaveClass(
       "pt-32",
       "sm:pt-36",

@@ -10,7 +10,7 @@ type Dictionary = Record<string, string>;
 export const zh: Dictionary = {
   "SOLUTIONS": "解决方案", "SERVICES": "服务", "CASE STUDIES": "客户案例", "ABOUT": "关于我们", "BLOG": "最新资讯", "CONTACT": "联系我们", "Blog": "最新资讯",
   "ENTERPRISE-READY IT SOLUTIONS": "企业级 IT 解决方案", "We Make": "让", "IT": "IT", "Connections": "连接", "Resilience": "韧性", "Progress": "进步", "Happen": "真正发生",
-  "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.": "自 2010 年起，我们为全球企业提供企业网络、信息安全、数据中心、协作通信与物理安防的设计、实施和运维服务。",
+  "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.": "自 2010 年起，JOTO TECH 为企业提供网络、安全、服务器与存储、协作通信及物理安防解决方案，覆盖 IT 规划、系统集成与持续运维。",
   "[ SINCE 2010 ]": "[ 始于 2010 ]", "Engineered by": "专业方案，", "Certified Professionals": "由认证团队交付", "Architecture, integration and support for complex, multi-vendor environments.": "面向复杂的多厂商环境，提供架构设计、系统集成与持续支持。", "EXPLORE SOLUTIONS": "查看解决方案",
   "WHAT WE DELIVER": "核心能力", "Infrastructure built as one connected system.": "让各类基础设施协同运转。", "A focused portfolio across the network, security, compute, communications and physical safeguards that modern organizations depend on.": "覆盖企业日常运营所需的网络、安全、算力、通信与物理安防能力。",
   "Network": "网络", "Security": "安全", "Server & Storage": "服务器与存储", "Collaboration": "协作通信", "Safeguarding": "物理安防",

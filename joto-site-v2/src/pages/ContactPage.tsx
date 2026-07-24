@@ -49,9 +49,9 @@ export default function ContactPage() {
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-joto-green">
               [ {t("Project brief")} ]
             </p>
-            <h2 className="mt-8 max-w-sm text-[clamp(2.5rem,5vw,5.5rem)] font-medium leading-[0.92] tracking-[-0.06em]">
+            <h1 className="mt-8 max-w-sm text-[clamp(2.5rem,5vw,5.5rem)] font-medium leading-[0.92] tracking-[-0.06em]">
               {t("Start with the challenge.")}
-            </h2>
+            </h1>
             <p className="mt-7 max-w-sm text-sm leading-6 text-white/48">
               {t("Share a few details about your organization and what you need to solve. Our team will respond within one business day.")}
             </p>

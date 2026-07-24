@@ -67,7 +67,7 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
     eyebrow: "JOTO TECH / 最新资讯",
     title: "企业实践洞察。",
     description:
-      "来自 JOTO 真实项目与运维环境的网络、安全、运营和交付观察。",
+      "来自 JOTO 项目与运维实践的企业网络、网络安全、IT 运营、多站点交付和物理安防集成洞察。",
     featured: "重点资讯",
     latest: "最新文章",
     readArticle: "阅读文章",
