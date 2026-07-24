@@ -213,8 +213,10 @@ describe("JOTO TECH single-page website", () => {
       "href",
       "/contact",
     );
-    expect(screen.getByText("MULTI-VENDOR")).toHaveClass("whitespace-nowrap");
-    expect(screen.getByText("LIFECYCLE")).toHaveClass("whitespace-nowrap");
+    expect(screen.getByText("Fortune 500")).toBeInTheDocument();
+    expect(screen.getByText("Clients served for a decade+")).toBeInTheDocument();
+    expect(screen.getByText("24×7")).toBeInTheDocument();
+    expect(screen.getByText("Support & maintenance")).toBeInTheDocument();
   });
 
   it("renders the Contact page and optional Phone or WeChat field", () => {

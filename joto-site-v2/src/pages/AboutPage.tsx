@@ -7,6 +7,13 @@ import { pageHref } from "../lib/anchors";
 
 const heritage = ["IBM", "Microsoft", "Apple", "SAP"];
 
+const aboutPageStats = [
+  { value: "2010", label: "Founded in Shanghai" },
+  { value: "10", label: "Cities worldwide" },
+  { value: "Fortune 500", label: "Clients served for a decade+" },
+  { value: "24×7", label: "Support & maintenance" },
+];
+
 const deliverySteps = [
   {
     title: "Plan & Design",
@@ -61,14 +68,20 @@ export default function AboutPage() {
         titleId="about-page-title"
       />
 
-      <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
-        <div className="mx-auto grid max-w-[1440px] gap-14 border-t border-white/15 pt-6 lg:grid-cols-12 lg:gap-6">
-          <Reveal className="lg:col-span-3">
+      <section
+        className="px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-36"
+        data-about-who-we-are
+      >
+        <div className="mx-auto max-w-6xl border-t border-white/15 pt-6">
+          <Reveal>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/52">
               {t("Who we are")}
             </p>
           </Reveal>
-          <div className="grid gap-14 lg:col-span-9 xl:grid-cols-2 xl:gap-8">
+          <div
+            className="mt-12 grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-20"
+            data-about-who-we-are-layout
+          >
             <Reveal>
               <div className="space-y-5 text-base leading-7 text-white/62 md:text-lg md:leading-8">
                 <p>
@@ -91,31 +104,32 @@ export default function AboutPage() {
                 )}
               </blockquote>
             </Reveal>
-            <div className="grid grid-cols-2 border-l border-t border-white/15">
-              {about.stats.map((stat, index) => (
+            <dl
+              className="grid grid-cols-2 self-start gap-4 lg:grid-cols-1"
+              data-about-page-stats
+            >
+              {aboutPageStats.map((stat, index) => (
                 <Reveal
-                  className="flex min-h-48 flex-col border-b border-r border-white/15 p-6 md:min-h-56 md:p-8"
                   delay={index * 60}
                   key={stat.label}
                 >
-                  <p
-                    className={`font-medium leading-[0.94] tracking-[-0.06em] text-joto-green ${
-                      stat.value.length > 7
-                        ? "whitespace-nowrap text-[clamp(1.35rem,1.9vw,2.25rem)]"
-                        : "text-[clamp(1.75rem,3.8vw,4rem)]"
-                    }`}
+                  <div
+                    className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6"
+                    data-about-page-stat-card
                   >
-                    {stat.value}
-                  </p>
-                  <p
-                    className="mt-auto pt-12 text-xs uppercase leading-6 tracking-[0.12em] text-white/48 md:text-sm"
-                    data-about-stat-label
-                  >
-                    {stat.label}
-                  </p>
+                    <dd className="bg-gradient-to-b from-white to-[#b4c0ff] bg-clip-text font-sans text-[clamp(1.75rem,2.4vw,2.25rem)] font-semibold leading-none tracking-[-0.035em] text-transparent">
+                      {stat.value}
+                    </dd>
+                    <dt
+                      className="mt-auto pt-2 text-xs leading-5 text-white/50 md:text-sm"
+                      data-about-stat-label
+                    >
+                      {t(stat.label)}
+                    </dt>
+                  </div>
                 </Reveal>
               ))}
-            </div>
+            </dl>
           </div>
         </div>
       </section>
