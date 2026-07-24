@@ -714,9 +714,6 @@ html[lang="zh-CN"] .hero-accent-word {
     radial-gradient(circle at 50% 50%, rgba(94, 210, 156, 0.09), transparent 56%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
     rgba(5, 14, 11, 0.9);
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.025),
-    inset 0 -1px rgba(255, 255, 255, 0.018);
 }
 
 .customer-logo-wall__viewport {
