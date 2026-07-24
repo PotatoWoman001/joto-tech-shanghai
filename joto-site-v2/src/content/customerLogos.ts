@@ -15,7 +15,7 @@ import cepheid from "../assets/customer-logos/cepheid.svg";
 import danaher from "../assets/customer-logos/danaher.svg";
 import delphi from "../assets/customer-logos/delphi.svg";
 import ecovacs from "../assets/customer-logos/ecovacs.svg";
-import forvia from "../assets/customer-logos/forvia.png";
+import forvia from "../assets/customer-logos/forvia-wordmark.svg";
 import fosunPharma from "../assets/customer-logos/fosun-pharma.png";
 import fullgoalFund from "../assets/customer-logos/fullgoal-fund.png";
 import gilead from "../assets/customer-logos/gilead.png";
@@ -23,26 +23,26 @@ import guolianMinsheng from "../assets/customer-logos/guolian-minsheng.png";
 import haday from "../assets/customer-logos/haday.png";
 import henlius from "../assets/customer-logos/henlius.png";
 import huaanFunds from "../assets/customer-logos/huaan-funds.png";
-import huawei from "../assets/customer-logos/huawei.svg";
+import huawei from "../assets/customer-logos/huawei-wordmark.svg";
 import imgAcademy from "../assets/customer-logos/img-academy.png";
 import innovent from "../assets/customer-logos/innovent.png";
 import jiahuaChemicals from "../assets/customer-logos/jiahua-chemicals.png";
 import manulifeSinochem from "../assets/customer-logos/manulife-sinochem.png";
-import mcdonalds from "../assets/customer-logos/mcdonalds.svg";
+import mcdonalds from "../assets/customer-logos/mcdonalds-wordmark.svg";
 import mevion from "../assets/customer-logos/mevion.png";
 import mondelez from "../assets/customer-logos/mondelez.png";
-import orange from "../assets/customer-logos/orange.svg";
+import orange from "../assets/customer-logos/orange-wordmark.svg";
 import saintGobain from "../assets/customer-logos/saint-gobain.png";
 import sennics from "../assets/customer-logos/sennics.png";
 import shanghaiTower from "../assets/customer-logos/shanghai-tower.png";
-import starbucks from "../assets/customer-logos/starbucks.svg";
+import starbucks from "../assets/customer-logos/starbucks-wordmark.png";
 import ubs from "../assets/customer-logos/ubs.svg";
-import wuxiApptec from "../assets/customer-logos/wuxi-apptec.png";
+import wuxiApptec from "../assets/customer-logos/wuxi-wordmark.svg";
 import xinjiangBank from "../assets/customer-logos/xinjiang-bank.png";
-import yuwell from "../assets/customer-logos/yuwell.png";
+import yuwell from "../assets/customer-logos/yuwell-wordmark.svg";
 
 export type CustomerLogoScale = "compact" | "standard" | "prominent";
-export type CustomerLogoTreatment = "solid" | "contrast" | "original";
+export type CustomerLogoTreatment = "solid" | "contrast";
 
 export interface CustomerLogo {
   name: string;
@@ -62,10 +62,10 @@ const firstRow: readonly CustomerLogo[] = [
   { name: "CICC", src: cicc },
   { name: "Xinjiang Bank", scale: "prominent", src: xinjiangBank },
   { name: "Manulife-Sinochem", scale: "prominent", src: manulifeSinochem },
-  { name: "Orange", scale: "compact", src: orange, treatment: "original" },
-  { name: "FORVIA", src: forvia, treatment: "original" },
-  { name: "Yuwell", scale: "compact", src: yuwell, treatment: "original" },
-  { name: "WuXi AppTec", src: wuxiApptec, treatment: "original" },
+  { name: "Orange", src: orange },
+  { name: "FORVIA", src: forvia },
+  { name: "Yuwell", src: yuwell },
+  { name: "WuXi AppTec", scale: "prominent", src: wuxiApptec },
   { name: "Mevion", src: mevion },
   { name: "Jiahua Chemicals", src: jiahuaChemicals },
   { name: "Beckman Coulter", src: beckmanCoulter },
@@ -76,7 +76,7 @@ const firstRow: readonly CustomerLogo[] = [
 ];
 
 const secondRow: readonly CustomerLogo[] = [
-  { name: "Starbucks", src: starbucks, treatment: "contrast" },
+  { name: "Starbucks", scale: "prominent", src: starbucks },
   { name: "Mondelēz International", src: mondelez },
   { name: "Huawei", src: huawei },
   { name: "ECOVACS", src: ecovacs },

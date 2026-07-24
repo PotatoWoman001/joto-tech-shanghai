@@ -32,19 +32,28 @@ describe("customer logo content", () => {
 
     expect(contrastNames).toEqual([
       "Haday",
-      "Starbucks",
       "ChinaAMC",
       "Changshu Rural Commercial Bank",
       "BY-HEALTH",
     ]);
   });
 
-  it("keeps original colors for marks that lose meaning under a monochrome filter", () => {
-    const originalNames = customerLogoRows
-      .flat()
-      .filter((logo) => logo.treatment === "original")
-      .map((logo) => logo.name);
+  it("uses complete wordmark assets for brands whose symbols are ambiguous", () => {
+    const logosByName = new Map(
+      customerLogoRows.flat().map((logo) => [logo.name, logo]),
+    );
 
-    expect(originalNames).toEqual(["Orange", "FORVIA", "Yuwell", "WuXi AppTec"]);
+    for (const name of [
+      "McDonald’s",
+      "Orange",
+      "FORVIA",
+      "Yuwell",
+      "WuXi AppTec",
+      "Starbucks",
+      "Huawei",
+    ]) {
+      expect(logosByName.get(name)?.src).toContain("wordmark");
+      expect(logosByName.get(name)?.treatment ?? "solid").toBe("solid");
+    }
   });
 });
