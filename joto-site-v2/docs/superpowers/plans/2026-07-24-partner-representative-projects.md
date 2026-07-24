@@ -525,4 +525,3 @@ Expected: 无空白错误。
 Run: `git status --short`
 
 Expected: 只看到用户原有未提交文件和本任务明确产生的文件；没有截图或构建产物被暂存。
-
