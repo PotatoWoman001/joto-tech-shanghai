@@ -61,7 +61,7 @@ export default function SolutionCard({
 
       <a
         aria-label={`${learnMoreLabel}: ${category.title}`}
-        className="absolute bottom-5 left-5 right-5 flex h-16 items-center justify-between rounded-full border border-black bg-black px-6 text-base font-semibold text-white transition-[bottom,background-color,border-color,color] duration-500 ease-out hover:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green sm:left-6 sm:right-6 xl:bottom-0 xl:group-hover:bottom-5 xl:group-hover:border-white xl:group-hover:bg-white xl:group-hover:text-joto-green group-focus-within:bottom-5 group-focus-within:border-white group-focus-within:bg-white group-focus-within:text-joto-green motion-reduce:transition-none"
+        className="absolute bottom-5 left-5 right-5 flex h-16 items-center justify-between rounded-full border border-black bg-black px-6 text-base font-semibold text-white transition-[bottom,background-color,border-color,color] duration-500 ease-out group-hover:border-white group-hover:bg-white group-hover:text-joto-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green sm:left-6 sm:right-6 xl:bottom-0 xl:group-hover:bottom-5 group-focus-within:bottom-5 group-focus-within:border-white group-focus-within:bg-white group-focus-within:text-joto-green motion-reduce:transition-none"
         href={href}
       >
         <span>{learnMoreLabel}</span>

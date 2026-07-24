@@ -65,8 +65,9 @@ describe("SolutionCard", () => {
     expect(visual.className).toContain("motion-reduce:transition-none");
     expect(description.className).toContain("xl:opacity-0");
     expect(description.className).toContain("xl:group-hover:opacity-100");
-    expect(action.className).toContain("xl:group-hover:bg-white");
-    expect(action.className).toContain("xl:group-hover:text-joto-green");
+    expect(action.className).toContain("group-hover:bg-white");
+    expect(action.className).toContain("group-hover:text-joto-green");
+    expect(action.className).not.toContain("xl:group-hover:bg-white");
     expect(action.className).toContain("focus-visible:outline");
   });
 });
