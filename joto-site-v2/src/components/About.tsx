@@ -30,7 +30,7 @@ export default function About() {
                 <Reveal
                   key={stat.label}
                   delay={index * 70}
-                  className="min-h-48 min-w-0 overflow-hidden border-b border-r border-white/15 p-6 sm:min-h-56 lg:p-8"
+                  className="flex min-h-48 min-w-0 flex-col overflow-hidden border-b border-r border-white/15 p-6 sm:min-h-56 lg:p-8"
                 >
                   <p
                     className={`min-w-0 break-words font-medium leading-[0.96] tracking-[-0.06em] text-[#5ed29c] [overflow-wrap:anywhere] ${
@@ -43,7 +43,10 @@ export default function About() {
                   >
                     {stat.value}
                   </p>
-                  <p className="mt-12 max-w-[14rem] break-words text-xs uppercase leading-5 tracking-[0.17em] text-white/48">
+                  <p
+                    className="mt-auto max-w-[14rem] break-words pt-12 text-xs uppercase leading-5 tracking-[0.17em] text-white/48"
+                    data-about-stat-label
+                  >
                     {stat.label}
                   </p>
                 </Reveal>

@@ -94,7 +94,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 border-l border-t border-white/15">
               {about.stats.map((stat, index) => (
                 <Reveal
-                  className="min-h-48 border-b border-r border-white/15 p-6 md:min-h-56 md:p-8"
+                  className="flex min-h-48 flex-col border-b border-r border-white/15 p-6 md:min-h-56 md:p-8"
                   delay={index * 60}
                   key={stat.label}
                 >
@@ -108,7 +108,7 @@ export default function AboutPage() {
                     {stat.value}
                   </p>
                   <p
-                    className="mt-12 text-xs uppercase leading-6 tracking-[0.12em] text-white/48 md:text-sm"
+                    className="mt-auto pt-12 text-xs uppercase leading-6 tracking-[0.12em] text-white/48 md:text-sm"
                     data-about-stat-label
                   >
                     {stat.label}

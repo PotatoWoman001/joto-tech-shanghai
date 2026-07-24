@@ -254,8 +254,14 @@ describe("JOTO TECH single-page website", () => {
     expect(titleLines[1]).toHaveTextContent("顺利落地。");
     expect(quote.querySelector("br")).toBeInTheDocument();
     expect(container.querySelector("[data-about-stat-label]")).toHaveClass(
+      "mt-auto",
       "text-xs",
       "md:text-sm",
     );
+    const statLabels = container.querySelectorAll("[data-about-stat-label]");
+    expect(statLabels).toHaveLength(4);
+    for (const statLabel of statLabels) {
+      expect(statLabel.parentElement).toHaveClass("flex", "flex-col");
+    }
   });
 });
