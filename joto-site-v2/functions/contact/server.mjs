@@ -1,7 +1,7 @@
 import http from "node:http";
 import { pathToFileURL } from "node:url";
 import { validateContact } from "./contact.mjs";
-import { sendViaAliyun } from "./mailer.mjs";
+import { mailProvider, sendContactEmail } from "./mailer.mjs";
 
 const MAX_BODY_BYTES = 16 * 1024;
 const DEFAULT_ORIGINS = new Set([
@@ -57,16 +57,10 @@ function readJson(request) {
   });
 }
 
-function isConfigured(env) {
-  return [
-    "ALIBABA_CLOUD_ACCESS_KEY_ID",
-    "ALIBABA_CLOUD_ACCESS_KEY_SECRET",
-    "ALIYUN_DM_ACCOUNT_NAME",
-    "ALIYUN_DM_TO_ADDRESS",
-  ].every((name) => Boolean(env[name]));
-}
-
-export function createRequestHandler({ sendMail = sendViaAliyun, env = process.env } = {}) {
+export function createRequestHandler({
+  sendMail = sendContactEmail,
+  env = process.env,
+} = {}) {
   const origins = allowedOrigins(env);
 
   return async function handleContactRequest(request, response) {
@@ -125,7 +119,7 @@ export function createRequestHandler({ sendMail = sendViaAliyun, env = process.e
       sendJson(response, 400, { ok: false, error: "validation_failed", fields: validation.errors }, requestId);
       return;
     }
-    if (!isConfigured(env)) {
+    if (!mailProvider(env)) {
       sendJson(response, 503, { ok: false, error: "service_unavailable" }, requestId);
       return;
     }
@@ -146,9 +140,10 @@ export function createRequestHandler({ sendMail = sendViaAliyun, env = process.e
 
 export function startServer(options = {}) {
   const port = Number(process.env.PORT || 9000);
+  const host = process.env.HOST || "0.0.0.0";
   const server = http.createServer(createRequestHandler(options));
-  server.listen(port, "0.0.0.0", () => {
-    console.log(`JOTO contact function listening on port ${port}`);
+  server.listen(port, host, () => {
+    console.log(`JOTO contact function listening on ${host}:${port}`);
   });
   return server;
 }

@@ -2,7 +2,12 @@ import assert from "node:assert/strict";
 import { Readable } from "node:stream";
 import test from "node:test";
 import { buildMail, validateContact } from "./contact.mjs";
-import { createMailClient } from "./mailer.mjs";
+import {
+  createMailClient,
+  mailProvider,
+  sendContactEmail,
+  sendViaResend,
+} from "./mailer.mjs";
 import { createRequestHandler } from "./server.mjs";
 
 const validPayload = {
@@ -19,6 +24,12 @@ const configuredEnv = {
   ALIBABA_CLOUD_ACCESS_KEY_SECRET: "test-secret",
   ALIYUN_DM_ACCOUNT_NAME: "website@example.com",
   ALIYUN_DM_TO_ADDRESS: "sales@example.com",
+};
+
+const resendEnv = {
+  RESEND_API_KEY: "re_test_key",
+  RESEND_FROM_ADDRESS: "JOTO Website <website@mail.example.com>",
+  RESEND_TO_ADDRESS: "sales@example.com",
 };
 
 async function invoke(options, requestOptions = {}) {
@@ -69,6 +80,50 @@ test("builds a readable sales email without inventing an optional contact value"
 test("creates an Alibaba Cloud Direct Mail client from server-side credentials", () => {
   const client = createMailClient(configuredEnv);
   assert.equal(typeof client.singleSendMail, "function");
+});
+
+test("selects Resend before Alibaba Direct Mail when Resend is fully configured", () => {
+  assert.equal(mailProvider({ ...configuredEnv, ...resendEnv }), "resend");
+  assert.equal(mailProvider(configuredEnv), "aliyun");
+  assert.equal(mailProvider({}), null);
+});
+
+test("sends the normalized contact email through the Resend HTTP API", async () => {
+  const calls = [];
+  const result = await sendViaResend(
+    validPayload,
+    resendEnv,
+    async (url, init) => {
+      calls.push({ url, init });
+      return {
+        ok: true,
+        status: 200,
+        async json() {
+          return { id: "email_123" };
+        },
+      };
+    },
+  );
+
+  assert.deepEqual(result, { id: "email_123" });
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, "https://api.resend.com/emails");
+  assert.equal(calls[0].init.headers.Authorization, "Bearer re_test_key");
+  const body = JSON.parse(calls[0].init.body);
+  assert.equal(body.from, resendEnv.RESEND_FROM_ADDRESS);
+  assert.deepEqual(body.to, [resendEnv.RESEND_TO_ADDRESS]);
+  assert.equal(body.reply_to, validPayload.email);
+  assert.match(body.subject, /Example Global/);
+  assert.match(body.text, /multi-region network rollout/);
+});
+
+test("uses the configured provider without exposing its credentials", async () => {
+  const deliveries = [];
+  await sendContactEmail(validPayload, resendEnv, {
+    resend: async (fields, env) => deliveries.push({ fields, provider: mailProvider(env) }),
+  });
+  assert.equal(deliveries.length, 1);
+  assert.equal(deliveries[0].provider, "resend");
 });
 
 test("accepts a valid same-origin JSON request and invokes the mail adapter", async () => {

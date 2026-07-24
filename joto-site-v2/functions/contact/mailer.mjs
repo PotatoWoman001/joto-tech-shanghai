@@ -8,6 +8,35 @@ function required(name, env) {
   return value;
 }
 
+function hasAll(env, names) {
+  return names.every((name) => Boolean(env[name]));
+}
+
+export function mailProvider(env = process.env) {
+  if (
+    hasAll(env, [
+      "RESEND_API_KEY",
+      "RESEND_FROM_ADDRESS",
+      "RESEND_TO_ADDRESS",
+    ])
+  ) {
+    return "resend";
+  }
+
+  if (
+    hasAll(env, [
+      "ALIBABA_CLOUD_ACCESS_KEY_ID",
+      "ALIBABA_CLOUD_ACCESS_KEY_SECRET",
+      "ALIYUN_DM_ACCOUNT_NAME",
+      "ALIYUN_DM_TO_ADDRESS",
+    ])
+  ) {
+    return "aliyun";
+  }
+
+  return null;
+}
+
 export function createMailClient(env = process.env) {
   const config = new OpenApiModels.Config({
     accessKeyId: required("ALIBABA_CLOUD_ACCESS_KEY_ID", env),
@@ -33,4 +62,51 @@ export async function sendViaAliyun(fields, env = process.env) {
   });
 
   return client.singleSendMail(request);
+}
+
+export async function sendViaResend(
+  fields,
+  env = process.env,
+  fetchImpl = globalThis.fetch,
+) {
+  if (typeof fetchImpl !== "function") {
+    throw new Error("Fetch API is unavailable");
+  }
+
+  const mail = buildMail(fields);
+  const response = await fetchImpl("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${required("RESEND_API_KEY", env)}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: required("RESEND_FROM_ADDRESS", env),
+      to: [required("RESEND_TO_ADDRESS", env)],
+      reply_to: fields.email,
+      subject: mail.subject,
+      text: mail.textBody,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Resend delivery failed with status ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export async function sendContactEmail(
+  fields,
+  env = process.env,
+  dependencies = {},
+) {
+  const provider = mailProvider(env);
+  if (provider === "resend") {
+    return (dependencies.resend || sendViaResend)(fields, env);
+  }
+  if (provider === "aliyun") {
+    return (dependencies.aliyun || sendViaAliyun)(fields, env);
+  }
+  throw new Error("Mail service is not configured");
 }
