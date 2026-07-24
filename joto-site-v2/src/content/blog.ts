@@ -40,6 +40,7 @@ export interface BlogPageCopy {
   readArticle: string;
   backToInsights: string;
   related: string;
+  viewpointLabel: string;
   notFoundEyebrow: string;
   notFoundTitle: string;
   notFoundDescription: string;
@@ -56,6 +57,7 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
     readArticle: "Read article",
     backToInsights: "Back to insights",
     related: "Related insights",
+    viewpointLabel: "JOTO VIEWPOINT · CLOSING NOTE",
     notFoundEyebrow: "JOTO TECH / 404",
     notFoundTitle: "Article not found.",
     notFoundDescription:
@@ -71,6 +73,7 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
     readArticle: "阅读文章",
     backToInsights: "返回最新资讯",
     related: "相关资讯",
+    viewpointLabel: "JOTO 观点 · 文章结语",
     notFoundEyebrow: "JOTO TECH / 404",
     notFoundTitle: "未找到这篇文章。",
     notFoundDescription: "文章可能已移动，或地址不完整。请返回最新资讯继续阅读。",
@@ -85,6 +88,7 @@ export const blogPageCopy: Record<Locale, BlogPageCopy> = {
     readArticle: "مطالعه مقاله",
     backToInsights: "بازگشت به دیدگاه‌ها",
     related: "مطالب مرتبط",
+    viewpointLabel: "دیدگاه جوتو · جمع‌بندی",
     notFoundEyebrow: "JOTO TECH / 404",
     notFoundTitle: "مقاله پیدا نشد.",
     notFoundDescription:

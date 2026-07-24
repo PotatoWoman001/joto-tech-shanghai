@@ -11,7 +11,13 @@ import {
 import { useI18n } from "../i18n/I18nProvider";
 import { localizedHref } from "../i18n/routing";
 
-function ArticleBodyBlock({ block }: { block: BlogBodyBlock }) {
+function ArticleBodyBlock({
+  block,
+  viewpointLabel,
+}: {
+  block: BlogBodyBlock;
+  viewpointLabel: string;
+}) {
   if (block.type === "heading") {
     return (
       <h2 className="pt-7 text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[1] tracking-[-0.055em] text-white">
@@ -34,9 +40,18 @@ function ArticleBodyBlock({ block }: { block: BlogBodyBlock }) {
 
   if (block.type === "quote") {
     return (
-      <blockquote className="my-4 border-y border-white/14 py-9 font-serif text-[clamp(1.8rem,4vw,3.6rem)] italic leading-[1.08] text-joto-green">
-        “{block.text}”
-      </blockquote>
+      <aside
+        className="relative my-10 overflow-hidden bg-[radial-gradient(circle_at_85%_10%,rgba(94,210,156,0.09),transparent_38%)] py-7 sm:my-12 sm:py-9"
+        data-article-closing-viewpoint
+      >
+        <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-joto-green">
+          <span aria-hidden="true" className="h-px w-8 bg-joto-green" />
+          {viewpointLabel}
+        </p>
+        <blockquote className="max-w-3xl border-s-2 border-joto-green ps-5 font-sans text-[clamp(1.55rem,3vw,2.65rem)] font-medium not-italic leading-[1.18] tracking-[-0.035em] text-white/88 sm:ps-7">
+          {block.text}
+        </blockquote>
+      </aside>
     );
   }
 
@@ -141,7 +156,11 @@ export default function BlogArticlePage({ article }: { article?: BlogArticle }) 
           </aside>
           <article className="space-y-8 lg:col-span-7">
             {content.body.map((block, index) => (
-              <ArticleBodyBlock block={block} key={`${block.type}-${index}`} />
+              <ArticleBodyBlock
+                block={block}
+                key={`${block.type}-${index}`}
+                viewpointLabel={copy.viewpointLabel}
+              />
             ))}
           </article>
         </div>
