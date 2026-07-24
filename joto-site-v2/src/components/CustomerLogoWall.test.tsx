@@ -3,17 +3,20 @@ import { describe, expect, it } from "vitest";
 import CustomerLogoWall from "./CustomerLogoWall";
 
 describe("CustomerLogoWall", () => {
-  it("exposes one accessible image per unique customer and hides loop copies", () => {
+  it("renders all 42 unique logos in one accessible sequence", () => {
     const { container } = render(<CustomerLogoWall />);
 
     expect(
       screen.getByRole("heading", { level: 2, name: "TRUSTED BY INDUSTRY LEADERS" }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(42);
-    expect(container.querySelectorAll('[data-logo-sequence="duplicate"]')).toHaveLength(2);
+    expect(container.querySelectorAll(".customer-logo-wall__track")).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo-sequence="primary"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo-sequence="duplicate"]')).toHaveLength(1);
     expect(
-      container.querySelectorAll('[data-logo-sequence="duplicate"][aria-hidden="true"]'),
-    ).toHaveLength(2);
+      container.querySelector('[data-logo-sequence="duplicate"]'),
+    ).toHaveAttribute("aria-hidden", "true");
+    expect(container.querySelector(".customer-logo-wall__track--reverse")).toBeNull();
     expect(screen.getByRole("img", { name: "Bosch logo" })).toHaveAttribute(
       "data-logo-scale",
       "standard",
@@ -36,12 +39,11 @@ describe("CustomerLogoWall", () => {
     expect(screen.queryByRole("img", { name: "McDonald’s logo" })).not.toBeInTheDocument();
   });
 
-  it("marks the second row for reverse motion", () => {
+  it("does not render individual logo cards", () => {
     const { container } = render(<CustomerLogoWall />);
-    const tracks = container.querySelectorAll(".customer-logo-wall__track");
 
-    expect(tracks).toHaveLength(2);
-    expect(tracks[0]).not.toHaveClass("customer-logo-wall__track--reverse");
-    expect(tracks[1]).toHaveClass("customer-logo-wall__track--reverse");
+    for (const item of container.querySelectorAll("[data-customer-logo-item]")) {
+      expect(item.className).not.toMatch(/bg-\[#f4f6f5\]|rounded-lg|shadow-/);
+    }
   });
 });
