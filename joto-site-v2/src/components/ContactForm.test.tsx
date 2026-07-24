@@ -1,7 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { trackContactConversion } from "../analytics/baidu";
 import ContactForm from "./ContactForm";
+
+vi.mock("../analytics/baidu", () => ({
+  trackContactConversion: vi.fn(),
+}));
 
 const captcha = {
   captchaId: "captcha-1",
@@ -29,6 +34,7 @@ describe("ContactForm", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
+    vi.mocked(trackContactConversion).mockClear();
   });
 
   it("loads and refreshes the captcha", async () => {
@@ -95,6 +101,7 @@ describe("ContactForm", () => {
       captchaText: "A7K9",
       locale: "en",
     });
+    expect(trackContactConversion).toHaveBeenCalledTimes(1);
   });
 
   it("keeps business fields and replaces an expired captcha", async () => {

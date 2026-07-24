@@ -1,5 +1,6 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { ArrowUpRight, LoaderCircle, RefreshCw } from "lucide-react";
+import { trackContactConversion } from "../analytics/baidu";
 import { useI18n } from "../i18n/I18nProvider";
 import {
   type CaptchaChallenge,
@@ -112,6 +113,7 @@ export default function ContactForm() {
           referrer: document.referrer,
         }),
       );
+      trackContactConversion();
       setFields(initialFields);
       setStatus("success");
       await refreshCaptcha();
