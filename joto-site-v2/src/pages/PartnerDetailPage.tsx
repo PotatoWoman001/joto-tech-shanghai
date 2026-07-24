@@ -373,7 +373,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                           className={`object-contain object-left opacity-90 ${
                             isPortraitLogo
                               ? "h-24 w-[100px]"
-                              : "max-h-12 w-auto max-w-[150px]"
+                              : "h-12 w-[150px]"
                           } ${caseStudy.logoTreatment === "brand" ? "" : "brightness-0 invert"}`}
                           data-case-logo-size={isPortraitLogo ? "portrait" : "standard"}
                           data-logo-treatment={caseStudy.logoTreatment ?? "monochrome"}

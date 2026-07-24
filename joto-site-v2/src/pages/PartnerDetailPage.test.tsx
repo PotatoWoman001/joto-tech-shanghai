@@ -93,6 +93,9 @@ describe("PartnerDetailPage", () => {
     expect(within(cases as HTMLElement).getAllByRole("article")).toHaveLength(3);
     const chewyLogo = within(cases as HTMLElement).getByRole("img", { name: "Chewy logo" });
     expect(chewyLogo).toHaveAttribute("data-logo-treatment", "monochrome");
+    expect(chewyLogo).toHaveAttribute("data-case-logo-size", "standard");
+    expect(chewyLogo).toHaveClass("h-12", "w-[150px]", "object-contain", "object-left");
+    expect(chewyLogo).not.toHaveClass("max-h-12", "w-auto", "max-w-[150px]");
     expect(chewyLogo).toHaveClass("brightness-0", "invert");
     const harrowLogo = within(cases as HTMLElement).getByRole("img", {
       name: "Harrow International School logo",
@@ -138,6 +141,18 @@ describe("PartnerDetailPage", () => {
     const cases = container.querySelector("#partner-case-studies");
     expect(cases).toBeInTheDocument();
     expect(within(cases as HTMLElement).getAllByRole("article")).toHaveLength(3);
+    const starbucksLogo = within(cases as HTMLElement).getByRole("img", {
+      name: "Starbucks China logo",
+    });
+    expect(starbucksLogo).toHaveClass(
+      "h-12",
+      "w-[150px]",
+      "object-contain",
+      "object-left",
+      "brightness-0",
+      "invert",
+    );
+    expect(starbucksLogo).toHaveAttribute("data-logo-treatment", "monochrome");
     expect(
       within(cases as HTMLElement).getByText("PA-5430 / PA-5250 / PA-5220 / PA-3250"),
     ).toBeInTheDocument();
@@ -161,6 +176,18 @@ describe("PartnerDetailPage", () => {
       "partner-solution-visual__image",
     );
     expect(screen.queryByText(/Cisco infrastructure, proven in the field/i)).not.toBeInTheDocument();
+  });
+
+  it("keeps verified text fallbacks for clients without official logo files", () => {
+    const { container } = renderDetail("/solutions/security/palo-alto-networks");
+    const cases = container.querySelector("#partner-case-studies") as HTMLElement;
+    const jinnetHeading = within(cases).getByRole("heading", { level: 3, name: "Jinnet" });
+    const jinnetArticle = jinnetHeading.closest("article");
+
+    expect(jinnetArticle).toHaveTextContent("Jinnet");
+    expect(
+      within(jinnetArticle as HTMLElement).queryByRole("img", { name: "Jinnet logo" }),
+    ).not.toBeInTheDocument();
   });
 
   it.each([
