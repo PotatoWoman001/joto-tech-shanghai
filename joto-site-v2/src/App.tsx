@@ -1,4 +1,5 @@
-import { lazy, Suspense, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
+import { trackPageView } from "./analytics/baidu";
 import About from "./components/About";
 import CaseStudies from "./components/CaseStudies";
 import ContactFooter from "./components/ContactFooter";
@@ -29,6 +30,11 @@ const CustomerLogoWallPreviewPage = lazy(() => import("./pages/CustomerLogoWallP
 
 export default function App() {
   const { locale, pathname } = useI18n();
+
+  useEffect(() => {
+    trackPageView(`${window.location.pathname}${window.location.search}`);
+  }, [locale, pathname]);
+
   const categoryDetail = getSolutionCategoryDetail(pathname, locale);
   const detail = localizePartnerDetail(locale, getPartnerDetail(pathname));
   const seo = buildSeoDescriptor(locale, pathname);
