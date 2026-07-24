@@ -184,6 +184,13 @@ describe("PartnerDetailPage", () => {
   it("renders confirmed Extreme products without commercial amounts", () => {
     const { container } = renderDetail("/solutions/network/extreme-networks", "zh-CN");
     const cases = container.querySelector("#partner-case-studies");
+    const ctaTitle = screen.getByRole("heading", {
+      level: 2,
+      name: "让网络运营回归简单。",
+    });
+
+    expect(ctaTitle).toHaveClass("text-[clamp(2.25rem,5.5vw,5.75rem)]");
+    expect(ctaTitle).not.toHaveClass("text-[clamp(3.2rem,7.5vw,8rem)]");
 
     expect(
       within(cases as HTMLElement).getByText(/49 个 XIQ-PIL-S-C-PWP/),
