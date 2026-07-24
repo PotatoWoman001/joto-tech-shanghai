@@ -24,7 +24,7 @@ describe("AboutPage", () => {
     const cards = container.querySelectorAll("[data-about-page-stat-card]");
 
     expect(layout).toHaveClass("lg:grid-cols-[1.4fr_1fr]");
-    expect(stats).toHaveClass("grid-cols-2", "lg:grid-cols-1");
+    expect(stats).toHaveClass("sm:grid-cols-2", "lg:grid-cols-1");
     expect(cards).toHaveLength(4);
 
     expect(screen.getByText("2010")).toBeInTheDocument();
@@ -37,8 +37,15 @@ describe("AboutPage", () => {
     expect(screen.getByText("Support & maintenance")).toBeInTheDocument();
 
     for (const card of cards) {
-      expect(card).toHaveClass("rounded-2xl", "p-5");
-      expect(card).not.toHaveClass("min-h-48", "md:min-h-56");
+      expect(card).toHaveClass(
+        "min-h-[8.75rem]",
+        "rounded-[1.75rem]",
+        "border-white/15",
+        "bg-[#090e0c]",
+      );
+      expect(card.querySelector("[data-about-page-stat-value]")).toHaveClass(
+        "text-[#5ed29c]",
+      );
     }
   });
 });

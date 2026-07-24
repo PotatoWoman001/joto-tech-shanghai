@@ -105,30 +105,44 @@ export default function AboutPage() {
               </blockquote>
             </Reveal>
             <dl
-              className="grid grid-cols-2 self-start gap-4 lg:grid-cols-1"
+              className="grid self-start gap-4 sm:grid-cols-2 lg:grid-cols-1"
               data-about-page-stats
             >
-              {aboutPageStats.map((stat, index) => (
-                <Reveal
-                  delay={index * 60}
-                  key={stat.label}
-                >
-                  <div
-                    className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6"
-                    data-about-page-stat-card
-                  >
-                    <dd className="bg-gradient-to-b from-white to-[#b4c0ff] bg-clip-text font-sans text-[clamp(1.75rem,2.4vw,2.25rem)] font-semibold leading-none tracking-[-0.035em] text-transparent">
-                      {stat.value}
-                    </dd>
-                    <dt
-                      className="mt-auto pt-2 text-xs leading-5 text-white/50 md:text-sm"
-                      data-about-stat-label
+              {aboutPageStats.map((stat, index) => {
+                const isVeryLongValue = stat.value.length > 11;
+                const isLongValue = stat.value.length > 7;
+                const valueSizeClass = isVeryLongValue
+                  ? "text-[clamp(1.6rem,3vw,3.15rem)]"
+                  : isLongValue
+                    ? "text-[clamp(1.85rem,3.4vw,3.6rem)]"
+                    : "text-[clamp(2.8rem,4.8vw,4.5rem)]";
+
+                return (
+                  <Reveal className="h-full" delay={index * 70} key={stat.label}>
+                    <div
+                      className="group relative flex h-full min-h-[8.75rem] min-w-0 flex-col justify-center overflow-hidden rounded-[1.75rem] border border-white/15 bg-[#090e0c] px-6 py-7 transition-colors duration-300 hover:border-[#5ed29c]/45 sm:px-7 lg:min-h-[9.5rem] lg:px-8"
+                      data-about-page-stat-card
                     >
-                      {t(stat.label)}
-                    </dt>
-                  </div>
-                </Reveal>
-              ))}
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute -right-10 -top-12 h-32 w-32 rounded-full bg-[#5ed29c]/[0.06] blur-3xl transition-colors duration-300 group-hover:bg-[#5ed29c]/[0.11]"
+                      />
+                      <dt
+                        className="relative text-sm leading-6 text-white/46 md:text-base"
+                        data-about-stat-label
+                      >
+                        {t(stat.label)}
+                      </dt>
+                      <dd
+                        className={`relative mt-2 min-w-0 whitespace-nowrap font-medium leading-none tracking-[-0.055em] text-[#5ed29c] ${valueSizeClass}`}
+                        data-about-page-stat-value
+                      >
+                        {stat.value}
+                      </dd>
+                    </div>
+                  </Reveal>
+                );
+              })}
             </dl>
           </div>
         </div>

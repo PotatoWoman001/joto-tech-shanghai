@@ -261,9 +261,9 @@ describe("JOTO TECH single-page website", () => {
     expect(titleLines[1]).toHaveTextContent("顺利落地。");
     expect(quote.querySelector("br")).toBeInTheDocument();
     expect(container.querySelector("[data-about-stat-label]")).toHaveClass(
-      "mt-auto",
-      "text-xs",
-      "md:text-sm",
+      "text-sm",
+      "md:text-base",
+      "text-white/46",
     );
     const statLabels = container.querySelectorAll("[data-about-stat-label]");
     expect(statLabels).toHaveLength(4);
