@@ -14,6 +14,16 @@ This file records the sources used for the first English homepage content layer.
 
 The following primary sources informed concise vendor descriptions. Descriptions summarize product categories only; they do not assert that JOTO holds a partnership status unless a level was explicitly supplied for this build.
 
+## JOTO legacy website references for solution detail pages
+
+- [JOTO legacy homepage and service scope](https://www.jototech.cn/)
+- [JOTO Extreme Networks page](https://www.jototech.cn/?page_id=12703)
+- [JOTO KnowBe4 page](https://www.jototech.cn/?page_id=11370)
+- [JOTO OneLogin page](https://www.jototech.cn/?page_id=11177)
+- [JOTO Verkada education scenario](https://www.jototech.cn/?p=16515)
+
+The new detail pages use these references only where they directly support JOTO-specific statements. Other vendor pages describe official product categories and JOTO's general planning, integration and support services; they do not invent customer deployments or current partner levels.
+
 ### Network
 
 - [Cisco networking](https://www.cisco.com/site/us/en/products/networking/index.html)
