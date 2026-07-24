@@ -65,6 +65,19 @@ function appendLink(
   document.head.append(link);
 }
 
+function appendStructuredData(descriptor: SeoDescriptor) {
+  if (descriptor.structuredData.length === 0) return;
+
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": descriptor.structuredData,
+  });
+  script.setAttribute("data-joto-seo", "");
+  document.head.append(script);
+}
+
 export default function SeoHead({ descriptor }: { descriptor: SeoDescriptor }) {
   useEffect(() => {
     document.title = descriptor.title;
@@ -116,6 +129,7 @@ export default function SeoHead({ descriptor }: { descriptor: SeoDescriptor }) {
     descriptor.alternates.forEach(({ hreflang, href }) => {
       appendLink("alternate", href, hreflang);
     });
+    appendStructuredData(descriptor);
 
     return () => {
       removeManagedElements();

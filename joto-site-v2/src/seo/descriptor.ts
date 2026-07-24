@@ -10,6 +10,7 @@ import {
   absolutePublicUrl,
   alternateUrls,
 } from "./site";
+import { buildStructuredData } from "./structuredData";
 import type {
   OpenGraphType,
   SeoDescriptor,
@@ -154,7 +155,13 @@ function publicDescriptor(
     canonicalUrl,
     alternates: alternateUrls(pathname),
     openGraph: openGraph(locale, title, description, type, canonicalUrl),
-    structuredData: [],
+    structuredData: buildStructuredData({
+      locale,
+      pathname,
+      title,
+      description,
+      canonicalUrl,
+    }),
   };
 }
 

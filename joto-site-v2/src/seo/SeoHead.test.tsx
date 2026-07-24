@@ -48,6 +48,14 @@ describe("SeoHead", () => {
       "content",
       "summary_large_image",
     );
+    const jsonLd = document.head.querySelector(
+      'script[type="application/ld+json"][data-joto-seo]',
+    );
+    expect(jsonLd).not.toBeNull();
+    expect(JSON.parse(jsonLd?.textContent ?? "")).toEqual({
+      "@context": "https://schema.org",
+      "@graph": publicSeo.structuredData,
+    });
 
     rerender(<SeoHead descriptor={previewSeo} />);
 
@@ -59,6 +67,9 @@ describe("SeoHead", () => {
     expect(document.head.querySelector('link[rel="canonical"]')).toBeNull();
     expect(document.head.querySelectorAll('link[rel="alternate"]')).toHaveLength(0);
     expect(document.head.querySelector('meta[property="og:url"]')).toBeNull();
+    expect(
+      document.head.querySelector('script[type="application/ld+json"]'),
+    ).toBeNull();
   });
 
   it("cleans up every managed tag when unmounted", () => {
