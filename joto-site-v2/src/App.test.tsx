@@ -64,15 +64,33 @@ describe("JOTO TECH single-page website", () => {
   });
 
   it.each([
-    { language: "English", pathname: "/", desktopOffset: "lg:left-[47%]" },
-    { language: "Chinese", pathname: "/zh/", desktopOffset: "lg:left-[47%]" },
-    { language: "Persian", pathname: "/fa/", desktopOffset: "lg:left-[32%]" },
+    {
+      language: "English",
+      pathname: "/",
+      desktopOffset: "lg:left-[47%]",
+      desktopAnchor: "heading",
+    },
+    {
+      language: "Chinese",
+      pathname: "/zh/",
+      desktopOffset: "lg:left-[47%]",
+      desktopAnchor: "heading",
+    },
+    {
+      language: "Persian",
+      pathname: "/fa/",
+      desktopOffset: "lg:left-0",
+      desktopAnchor: "stage",
+    },
   ])(
     "positions the $language hero CTA beside the desktop headline and below mobile copy",
-    ({ pathname, desktopOffset }) => {
+    ({ pathname, desktopOffset, desktopAnchor }) => {
       window.history.replaceState({}, "", pathname);
 
       const { container } = renderApp();
+      const headingStage = container.querySelector(
+        "[data-hero-heading-stage]",
+      ) as HTMLElement;
       const headingShell = container.querySelector(
         "[data-hero-heading-shell]",
       ) as HTMLElement;
@@ -82,15 +100,19 @@ describe("JOTO TECH single-page website", () => {
       const description = copyColumn.querySelector(
         "[data-hero-description]",
       ) as HTMLElement;
-      const desktopCta = headingShell.querySelector(
+      const desktopCta = headingStage.querySelector(
         "[data-hero-cta-desktop]",
       ) as HTMLAnchorElement;
       const mobileCta = copyColumn.querySelector(
         "[data-hero-cta-mobile]",
       ) as HTMLAnchorElement;
 
+      expect(headingStage).toHaveClass("relative", "w-full");
       expect(headingShell).toHaveClass("relative");
       expect(desktopCta).toHaveClass("hidden", "lg:inline-flex", desktopOffset);
+      expect(desktopCta.parentElement).toBe(
+        desktopAnchor === "stage" ? headingStage : headingShell,
+      );
       expect(mobileCta).toHaveClass("lg:hidden");
       expect(copyColumn).toContainElement(description);
       expect(description.compareDocumentPosition(mobileCta)).toBe(
