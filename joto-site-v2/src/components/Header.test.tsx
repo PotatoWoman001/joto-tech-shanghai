@@ -213,6 +213,111 @@ describe("Header", () => {
     );
   });
 
+  it.each([
+    {
+      pathname: "/about",
+      navigationName: "Primary navigation",
+      servicesLabel: "SERVICES",
+      caseStudiesLabel: "CASE STUDIES",
+      servicesHref: "/#services",
+      caseStudiesHref: "/#case-studies",
+    },
+    {
+      pathname: "/zh/about",
+      navigationName: "主导航",
+      servicesLabel: "服务",
+      caseStudiesLabel: "客户案例",
+      servicesHref: "/zh/#services",
+      caseStudiesHref: "/zh/#case-studies",
+    },
+    {
+      pathname: "/fa/about",
+      navigationName: "پیمایش اصلی",
+      servicesLabel: "خدمات",
+      caseStudiesLabel: "مطالعات موردی",
+      servicesHref: "/fa/#services",
+      caseStudiesHref: "/fa/#case-studies",
+    },
+  ])(
+    "links $pathname desktop navigation to localized homepage sections",
+    ({
+      pathname,
+      navigationName,
+      servicesLabel,
+      caseStudiesLabel,
+      servicesHref,
+      caseStudiesHref,
+    }) => {
+      window.history.replaceState({}, "", pathname);
+      renderHeader();
+
+      const navigation = screen.getByRole("navigation", { name: navigationName });
+      expect(within(navigation).getByRole("link", { name: servicesLabel })).toHaveAttribute(
+        "href",
+        servicesHref,
+      );
+      expect(
+        within(navigation).getByRole("link", { name: caseStudiesLabel }),
+      ).toHaveAttribute("href", caseStudiesHref);
+    },
+  );
+
+  it.each([
+    [
+      "/about",
+      "Open menu",
+      "Mobile navigation",
+      "SERVICES",
+      "CASE STUDIES",
+      "/#services",
+      "/#case-studies",
+    ],
+    [
+      "/zh/about",
+      "打开菜单",
+      "移动端导航",
+      "服务",
+      "客户案例",
+      "/zh/#services",
+      "/zh/#case-studies",
+    ],
+    [
+      "/fa/about",
+      "باز کردن منو",
+      "پیمایش موبایل",
+      "خدمات",
+      "مطالعات موردی",
+      "/fa/#services",
+      "/fa/#case-studies",
+    ],
+  ])(
+    "links %s mobile navigation to localized homepage sections",
+    async (
+      pathname,
+      openMenuLabel,
+      navigationName,
+      servicesLabel,
+      caseStudiesLabel,
+      servicesHref,
+      caseStudiesHref,
+    ) => {
+      const user = userEvent.setup();
+      window.history.replaceState({}, "", pathname);
+      renderHeader();
+
+      await user.click(screen.getByRole("button", { name: openMenuLabel }));
+      const navigation = screen.getByRole("navigation", { name: navigationName });
+
+      expect(within(navigation).getByRole("link", { name: servicesLabel })).toHaveAttribute(
+        "href",
+        servicesHref,
+      );
+      expect(
+        within(navigation).getByRole("link", { name: caseStudiesLabel }),
+      ).toHaveAttribute("href", caseStudiesHref);
+    },
+  );
+
   it("returns detail-page navigation to the corresponding home sections", () => {
     window.history.replaceState({}, "", "/solutions/network/cisco");
     renderHeader();
