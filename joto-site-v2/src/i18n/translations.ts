@@ -1,5 +1,6 @@
 import type { SiteContent } from "../content/types";
 import { siteContent as englishSiteContent } from "../content/en";
+import { getPartnerCases } from "../content/partnerCases";
 import type { PartnerDetail } from "../content/partners";
 import type { Locale } from "./routing";
 import { faPartnerProfiles, zhPartnerProfiles } from "./solutionProfiles";
@@ -195,7 +196,22 @@ export function localizePartnerDetail(
   locale: Locale,
   detail: PartnerDetail | undefined,
 ): PartnerDetail | undefined {
-  if (!detail || locale === "en") return detail;
+  if (!detail) return detail;
+  const partnerCases = getPartnerCases(detail.pathname, locale);
+
+  if (locale === "en") {
+    if (partnerCases.length === 0) return detail;
+
+    return {
+      ...detail,
+      casesEyebrow: "Representative Projects",
+      casesTitle: `${detail.partnerName} capabilities, proven through real projects.`,
+      casesDescription:
+        "Selected customer environments where JOTO has delivered or supported the partner technology.",
+      cases: partnerCases,
+    };
+  }
+
   const translated = translateObject(locale, detail);
   if (detail.pathname === "/solutions/network/cisco") return translated;
 
@@ -259,9 +275,16 @@ export function localizePartnerDetail(
       imageAlt: zhLocale ? `${partner} 服务场景` : `صحنه خدمات ${partner}`,
     })),
     casesEyebrow: zhLocale ? "代表项目" : "پروژه‌های منتخب",
-    casesTitle: zhLocale ? "代表项目。" : "پروژه‌های منتخب.",
-    casesDescription: "",
-    cases: [],
+    casesTitle: zhLocale
+      ? `经过实际项目验证的 ${partner} 能力。`
+      : `توانمندی‌های ${partner}، اثبات‌شده در پروژه‌های واقعی.`,
+    casesDescription:
+      partnerCases.length === 0
+        ? ""
+        : zhLocale
+          ? `以下客户项目展示 JOTO 在 ${partner} 技术交付与支持方面的实践。`
+          : `این پروژه‌های مشتری، تجربه JOTO در تحویل و پشتیبانی فناوری ${partner} را نشان می‌دهند.`,
+    cases: partnerCases,
     ctaTitle: profile.ctaTitle,
     ctaDescription: profile.ctaDescription,
   };

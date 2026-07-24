@@ -4,6 +4,16 @@ import { localizePartnerDetail } from "./translations";
 import { faPartnerProfiles, zhPartnerProfiles } from "./solutionProfiles";
 
 const nonCiscoDetails = partnerDetails.filter((detail) => detail.partnerName !== "Cisco");
+const projectPaths = new Set([
+  "/solutions/network/extreme-networks",
+  "/solutions/network/aruba",
+  "/solutions/network/sangfor",
+  "/solutions/security/knowbe4",
+  "/solutions/security/palo-alto-networks",
+  "/solutions/security/fortinet",
+  "/solutions/security/sangfor",
+  "/solutions/safeguarding/hikvision",
+]);
 
 describe("localized solution profiles", () => {
   it("covers every non-Cisco public solution route in Chinese and Persian", () => {
@@ -33,8 +43,24 @@ describe("localized solution profiles", () => {
       expect(detail.relationshipTitle).toMatch(scriptPattern);
       expect(detail.services).toHaveLength(3);
       expect(detail.services.every((service) => service.title.match(scriptPattern))).toBe(true);
-      expect(detail.cases).toEqual([]);
+      expect(detail.cases.length > 0).toBe(projectPaths.has(detail.pathname));
       expect(detail.partnerBadge).toBeTruthy();
     }
   });
+
+  it.each(["en", "zh-CN", "fa-IR"] as const)(
+    "keeps representative projects available in %s",
+    (locale) => {
+      for (const detail of nonCiscoDetails) {
+        const localized = localizePartnerDetail(locale, detail)!;
+
+        if (projectPaths.has(detail.pathname)) {
+          expect(localized.cases.length).toBeGreaterThan(0);
+          expect(localized.casesTitle).toContain(detail.partnerName.split(" ")[0]);
+        } else {
+          expect(localized.cases).toEqual([]);
+        }
+      }
+    },
+  );
 });
