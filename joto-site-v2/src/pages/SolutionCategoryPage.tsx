@@ -1,5 +1,35 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import {
+  Activity,
+  ArrowUpRight,
+  Bell,
+  Boxes,
+  CircleUserRound,
+  ClipboardCheck,
+  Cloud,
+  Database,
+  DoorOpen,
+  GitBranch,
+  GraduationCap,
+  HardDrive,
+  KeyRound,
+  LockKeyhole,
+  MessageSquare,
+  MonitorCheck,
+  Network,
+  Phone,
+  Radar,
+  Radio,
+  RotateCcw,
+  ScanFace,
+  Server,
+  Shield,
+  ShieldCheck,
+  Video,
+  Wifi,
+  Workflow,
+  type LucideIcon,
+} from "lucide-react";
+import { useState, type PointerEvent as ReactPointerEvent } from "react";
 import Header from "../components/Header";
 import { Reveal } from "../components/SectionHeading";
 import SiteFooter from "../components/SiteFooter";
@@ -14,6 +44,14 @@ interface SolutionCategoryPageProps {
   detail: SolutionCategoryDetail;
 }
 
+const capabilityIcons: Record<string, LucideIcon[]> = {
+  network: [Network, Cloud, GitBranch, ShieldCheck, Activity, Wifi],
+  security: [Shield, Radar, MonitorCheck, ClipboardCheck, KeyRound, GraduationCap],
+  "server-storage": [Cloud, Boxes, Database, HardDrive, RotateCcw, Server],
+  collaboration: [Phone, Video, MessageSquare, Radio, CircleUserRound, Bell],
+  safeguarding: [Video, ScanFace, LockKeyhole, DoorOpen, ClipboardCheck, Workflow],
+};
+
 function TechnologyPartnerCard({
   categoryId,
   vendor,
@@ -24,18 +62,29 @@ function TechnologyPartnerCard({
   const { locale } = useI18n();
   const [logoFailed, setLogoFailed] = useState(false);
 
+  const handlePointerMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    if (event.pointerType === "touch") return;
+
+    const card = event.currentTarget;
+    const bounds = card.getBoundingClientRect();
+    card.style.setProperty("--partner-glow-x", `${event.clientX - bounds.left}px`);
+    card.style.setProperty("--partner-glow-y", `${event.clientY - bounds.top}px`);
+  };
+
   return (
     <a
-      className="group grid min-h-64 border-b border-r border-white/15 p-6 transition-colors hover:bg-joto-green hover:text-joto-ink md:min-h-72 md:p-8"
+      className="solution-partner-card group relative flex min-h-72 flex-col items-center p-6 text-center md:min-h-80 md:p-8"
       data-solution-partner={vendor.name}
       href={localizedHref(vendorAnchor(categoryId, vendor.name), locale)}
+      onPointerMove={handlePointerMove}
     >
-      <div className="flex min-h-16 items-start justify-between gap-5">
+      <ArrowUpRight className="absolute right-6 top-6 z-10 h-5 w-5 text-joto-green transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 md:right-8 md:top-8" />
+      <div className="relative z-10 flex min-h-24 w-full items-center justify-center px-10">
         {vendor.logo && !logoFailed ? (
-          <span className="inline-flex min-h-14 min-w-32 items-center rounded-md bg-[#f2f4f3] px-4 py-3">
+          <span className="inline-flex min-h-16 min-w-32 items-center justify-center">
             <img
               alt={`${vendor.name} logo`}
-              className="max-h-8 max-w-36 object-contain"
+              className="max-h-12 max-w-44 object-contain opacity-80 brightness-0 invert transition-opacity duration-300 group-hover:opacity-100"
               onError={() => setLogoFailed(true)}
               src={vendor.logo}
             />
@@ -43,18 +92,25 @@ function TechnologyPartnerCard({
         ) : (
           <span className="text-xl font-semibold">{vendor.name}</span>
         )}
-        <ArrowUpRight className="h-5 w-5 shrink-0 text-joto-green transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-joto-ink" />
       </div>
-      <div className="mt-auto pt-12">
-        <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-2xl font-medium tracking-[-0.04em]">{vendor.name}</h3>
+      <div className="relative z-10 mt-auto flex w-full flex-col items-center pt-10">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {(!vendor.logo || logoFailed) && (
+            <h3 className="text-2xl font-medium tracking-[-0.04em]">{vendor.name}</h3>
+          )}
           {vendor.tier && (
-            <span className="rounded-full border border-current/30 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em]">
+            <span
+              className={`rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] ${
+                vendor.tier.toLowerCase() === "gold"
+                  ? "border border-[#d6ad55]/70 bg-[#d6ad55]/10 text-[#e3bc68]"
+                  : "border border-current/30"
+              }`}
+            >
               {vendor.tier} Partner
             </span>
           )}
         </div>
-        <p className="mt-4 max-w-md text-sm leading-6 text-white/52 transition-colors group-hover:text-black/62">
+        <p className="mt-4 max-w-md text-center text-sm leading-6 text-white/52 transition-colors group-hover:text-white/72">
           {vendor.description}
         </p>
       </div>
@@ -66,10 +122,6 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
   const { locale, siteContent } = useI18n();
   const labels = getSolutionCategoryPageLabels(locale);
   const category = siteContent.solutions.categories.find((item) => item.id === detail.id);
-  const featuredCase = siteContent.caseStudies.items.find(
-    (item) => item.client === detail.featuredCaseClient,
-  );
-
   if (!category) return null;
 
   return (
@@ -80,7 +132,7 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
     >
       <Header />
 
-      <section className="relative isolate min-h-[84svh] overflow-hidden border-b border-white/12 px-5 pb-20 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-28 lg:pt-40">
+      <section className="relative isolate min-h-[84svh] overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-28 lg:pt-40">
         <img
           alt={category.imageAlt}
           className="absolute inset-0 -z-20 h-full w-full object-cover opacity-45"
@@ -91,7 +143,7 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
           className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#070b0a_0%,rgba(7,11,10,0.94)_42%,rgba(7,11,10,0.36)_100%)]"
         />
         <div className="mx-auto flex min-h-[calc(84svh-13rem)] max-w-[1440px] items-end">
-          <Reveal className="grid w-full gap-12 border-t border-white/22 pt-6 lg:grid-cols-12 lg:gap-6">
+          <Reveal className="grid w-full gap-12 pt-6 lg:grid-cols-12 lg:gap-6">
             <div className="lg:col-span-3">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-joto-green">
                 [ {labels.overview} / {String(siteContent.solutions.categories.indexOf(category) + 1).padStart(2, "0")} ]
@@ -122,26 +174,37 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
               {labels.capabilitiesTitle}
             </h2>
           </Reveal>
-          <div className="mt-16 grid border-l border-t border-white/15 md:grid-cols-2 lg:mt-24 lg:grid-cols-3">
-            {detail.capabilities.map((item, index) => (
-              <Reveal
-                className="flex min-h-72 flex-col border-b border-r border-white/15 p-6 transition-colors hover:bg-white/[0.035] lg:min-h-80 lg:p-8"
-                delay={index * 55}
-                key={item.title}
-              >
-                <p className="font-mono text-[10px] tracking-[0.2em] text-joto-green">
-                  [ {String(index + 1).padStart(2, "0")} ]
-                </p>
-                <div className="mt-auto pt-16">
-                  <h3 className="max-w-sm text-2xl font-medium leading-tight tracking-[-0.045em]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-5 max-w-sm text-sm leading-6 text-white/48">
-                    {item.description}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 xl:grid-cols-6">
+            {detail.capabilities.map((item, index) => {
+              const CapabilityIcon = capabilityIcons[detail.id]?.[index] ?? Network;
+
+              return (
+                <Reveal
+                  className="flex min-h-[18rem] flex-col items-center px-2"
+                  delay={index * 55}
+                  key={item.title}
+                >
+                  <div className="flex h-20 w-full items-center justify-center">
+                    <CapabilityIcon
+                      aria-hidden="true"
+                      className="h-12 w-12 stroke-[2.1] text-joto-green"
+                    />
+                  </div>
+                  <div
+                    className={`w-full max-w-[12rem] pt-5 ${
+                      locale === "fa-IR" ? "text-right" : "text-left"
+                    }`}
+                  >
+                    <h3 className="min-h-[4.5rem] text-xl font-medium leading-tight tracking-[-0.04em]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-white/48">
+                      {item.description}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -156,7 +219,7 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
               {labels.partnersTitle}
             </h2>
           </Reveal>
-          <div className="mt-16 grid border-l border-t border-white/15 md:grid-cols-2 lg:mt-24">
+          <div className="relative mt-16 grid gap-px overflow-hidden bg-white/14 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
             {category.vendors.map((vendor, index) => (
               <Reveal delay={Math.min(index * 55, 220)} key={vendor.name}>
                 <TechnologyPartnerCard categoryId={category.id} vendor={vendor} />
@@ -165,72 +228,6 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
           </div>
         </div>
       </section>
-
-      {featuredCase && (
-        <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
-          <div className="mx-auto max-w-[1440px]">
-            <Reveal className="grid gap-10 border-t border-white/15 pt-6 lg:grid-cols-12 lg:gap-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/48 lg:col-span-3">
-                {labels.caseEyebrow}
-              </p>
-              <div className="lg:col-span-9">
-                <h2 className="max-w-5xl text-[clamp(3rem,7vw,7rem)] font-medium leading-[0.88] tracking-[-0.07em]">
-                  {labels.caseTitle}
-                </h2>
-                <a
-                  className="group mt-14 grid min-h-96 gap-10 border border-white/18 p-7 transition-colors hover:border-joto-green md:grid-cols-2 md:p-10 lg:mt-20"
-                  href={localizedHref("/#case-studies", locale)}
-                >
-                  <div className="flex flex-col">
-                    <span className="w-fit rounded-full border border-white/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50">
-                      {featuredCase.sector}
-                    </span>
-                    {featuredCase.logo ? (
-                      <span className="mt-auto flex min-h-40 items-end pt-14">
-                        <img
-                          alt={`${featuredCase.client} logo`}
-                          className={`max-h-24 max-w-48 object-contain ${
-                            featuredCase.logoTreatment === "original"
-                              ? ""
-                              : "grayscale brightness-0 invert"
-                          }`}
-                          src={featuredCase.logo}
-                        />
-                      </span>
-                    ) : (
-                      <h3 className="mt-auto pt-14 text-4xl font-semibold">
-                        {featuredCase.client}
-                      </h3>
-                    )}
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className="text-3xl font-medium tracking-[-0.05em]">
-                      {featuredCase.client}
-                    </h3>
-                    <p className="mt-6 max-w-xl text-base leading-7 text-white/55">
-                      {featuredCase.summary}
-                    </p>
-                    <div className="mt-8 flex flex-wrap gap-2">
-                      {featuredCase.capabilities.map((item) => (
-                        <span
-                          className="rounded-full border border-white/18 px-3 py-1.5 text-[10px] text-white/52"
-                          key={item}
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="mt-auto inline-flex items-center gap-3 pt-12 text-sm font-semibold text-joto-green">
-                      {labels.viewCase}
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-      )}
 
       <section className="bg-joto-green px-5 py-24 text-joto-ink sm:px-8 md:py-32 lg:px-12 lg:py-40">
         <Reveal className="mx-auto grid max-w-[1440px] gap-12 border-t border-black/25 pt-6 lg:grid-cols-12 lg:gap-6">

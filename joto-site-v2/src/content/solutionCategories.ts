@@ -405,7 +405,7 @@ const labels: Record<Locale, SolutionCategoryPageLabels> = {
     capabilitiesEyebrow: "我们交付什么",
     capabilitiesTitle: "从规划到运营，能力贯穿全程。",
     partnersEyebrow: "技术合作伙伴",
-    partnersTitle: "选择合适的技术组合。",
+    partnersTitle: "与专业技术伙伴协同交付。",
     caseEyebrow: "代表项目经验",
     caseTitle: "在复杂环境中经过验证。",
     viewCase: "查看客户案例",

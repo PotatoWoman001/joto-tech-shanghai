@@ -17,6 +17,7 @@ import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
 import SolutionCategoryPage from "./pages/SolutionCategoryPage";
+import SolutionCapabilityIconPreviewPage from "./pages/SolutionCapabilityIconPreviewPage";
 import { useI18n } from "./i18n/I18nProvider";
 import { localizePartnerDetail } from "./i18n/translations";
 
@@ -33,6 +34,10 @@ export default function App() {
         <CustomerLogoWallPreviewPage />
       </Suspense>
     );
+  }
+
+  if (pathname === "/preview/solution-capability-icons") {
+    return <SolutionCapabilityIconPreviewPage />;
   }
 
   const detail = localizePartnerDetail(locale, getPartnerDetail(pathname));

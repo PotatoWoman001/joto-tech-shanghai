@@ -33,12 +33,12 @@ describe("SolutionCategoryPage", () => {
     expect(
       screen.getByRole("heading", { name: "High-availability Network Design" }),
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(11);
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(6);
     expect(screen.getByRole("link", { name: /Cisco/ })).toHaveAttribute(
       "href",
       "/solutions/network/cisco",
     );
-    expect(screen.getByText("Harrow International School")).toBeInTheDocument();
+    expect(screen.queryByText("Harrow International School")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Contact JOTO/ })).toHaveAttribute(
       "href",
       "/contact",
