@@ -33,6 +33,34 @@ describe("partner representative projects", () => {
     }
   });
 
+  it("uses verified local logos and keeps only unverified clients as text fallbacks", () => {
+    const projects = primaryPaths.flatMap((path) => getPartnerCases(path, "en"));
+    const withoutLogo = projects.filter(({ logo }) => !logo).map(({ client }) => client);
+
+    expect(withoutLogo).toEqual(["Jinnet", "Quasar Medical"]);
+    expect(projects.filter(({ logo }) => logo)).toHaveLength(13);
+    expect(projects.every(({ logoTreatment }) => logoTreatment !== "brand")).toBe(true);
+  });
+
+  it("reuses shared brand assets and keeps logo references identical across locales", () => {
+    const sangfor = getPartnerCases("/solutions/network/sangfor", "en");
+    const hikvision = getPartnerCases("/solutions/safeguarding/hikvision", "en");
+    const fortinet = getPartnerCases("/solutions/security/fortinet", "en");
+
+    expect(sangfor[0].logo).toBe(sangfor[1].logo);
+    expect(hikvision[0].logo).toBe(sangfor[0].logo);
+    expect(hikvision[1].logo).toBe(fortinet[0].logo);
+
+    for (const path of primaryPaths) {
+      expect(getPartnerCases(path, "zh-CN").map(({ logo }) => logo)).toEqual(
+        getPartnerCases(path, "en").map(({ logo }) => logo),
+      );
+      expect(getPartnerCases(path, "fa-IR").map(({ logo }) => logo)).toEqual(
+        getPartnerCases(path, "en").map(({ logo }) => logo),
+      );
+    }
+  });
+
   it("preserves confirmed Palo Alto and Extreme facts", () => {
     const paloAltoProjects = getPartnerCases(
       "/solutions/security/palo-alto-networks",
