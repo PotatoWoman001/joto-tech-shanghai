@@ -54,7 +54,7 @@ describe("BlogPage", () => {
     expect(siteHeader).not.toBeNull();
     expect(within(siteHeader!).getByRole("link", { name: "JOTO TECH home" })).toHaveAttribute(
       "href",
-      "/zh#top",
+      "/zh/#top",
     );
   });
 });

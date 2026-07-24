@@ -37,7 +37,7 @@ describe("LanguageSelector", () => {
     );
     expect(within(menu).getByRole("menuitem", { name: "فارسی" })).toHaveAttribute(
       "href",
-      "/fa",
+      "/fa/",
     );
   });
 

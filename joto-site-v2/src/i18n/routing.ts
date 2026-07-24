@@ -84,7 +84,8 @@ export function localizedHref(href: string, locale: Locale): string {
   const pathPart = match?.[1] || "/";
   const suffix = match?.[2] || "";
   const { pathname } = parseLocalizedPath(pathPart);
-  const localizedPath = `${prefix}${pathname === "/" ? "" : pathname}` || "/";
+  const localizedPath =
+    pathname === "/" ? (prefix ? `${prefix}/` : "/") : `${prefix}${pathname}`;
   return `${prependBasePath(localizedPath)}${suffix}`;
 }
 

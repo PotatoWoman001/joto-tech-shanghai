@@ -23,7 +23,7 @@ describe("localized routing", () => {
     expect(localizedHref("/contact", "zh-CN")).toBe("/zh/contact");
     expect(localizedHref("/contact", "fa-IR")).toBe("/fa/contact");
     expect(localizedHref("/contact", "en")).toBe("/contact");
-    expect(localizedHref("/fa#top", "fa-IR")).toBe("/fa#top");
+    expect(localizedHref("/fa#top", "fa-IR")).toBe("/fa/#top");
     expect(localizedHref("/zh/about", "zh-CN")).toBe("/zh/about");
     expect(localeSwitchHref("fa-IR", "/zh/about", "#top")).toBe("/fa/about#top");
   });
