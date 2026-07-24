@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "../App";
 import { I18nProvider } from "../i18n/I18nProvider";
@@ -41,6 +41,20 @@ describe("BlogPage", () => {
     expect(screen.getByRole("link", { name: /构建能够随业务增长的企业网络/ })).toHaveAttribute(
       "href",
       "/zh/blog/enterprise-network-growth",
+    );
+  });
+
+  it("renders the shared site navigation on the localized Blog index", () => {
+    renderApp("/zh/blog");
+
+    const primaryNavigation = screen.getByRole("navigation", { name: "主导航" });
+    const siteHeader = primaryNavigation.closest("header");
+
+    expect(primaryNavigation).toBeInTheDocument();
+    expect(siteHeader).not.toBeNull();
+    expect(within(siteHeader!).getByRole("link", { name: "JOTO TECH home" })).toHaveAttribute(
+      "href",
+      "/zh#top",
     );
   });
 });

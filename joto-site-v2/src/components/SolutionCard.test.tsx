@@ -14,7 +14,7 @@ const category: SolutionCategory = {
 };
 
 describe("SolutionCard", () => {
-  it("renders the solution story and links to the first partner detail", () => {
+  it("renders the solution story and links to the category detail", () => {
     const { container } = render(
       <SolutionCard
         category={category}
@@ -34,10 +34,26 @@ describe("SolutionCard", () => {
     expect(screen.getByText(category.description)).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Learn more: Network" }),
-    ).toHaveAttribute("href", "/solutions/network/cisco");
+    ).toHaveAttribute("href", "/solutions/network");
     expect(container.querySelector("[data-solution-card]")).toHaveAttribute(
       "data-solution-card",
       "network",
+    );
+  });
+
+  it("localizes the category detail route", () => {
+    render(
+      <SolutionCard
+        category={category}
+        index={0}
+        learnMoreLabel="了解更多"
+        locale="zh-CN"
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "了解更多: Network" })).toHaveAttribute(
+      "href",
+      "/zh/solutions/network",
     );
   });
 

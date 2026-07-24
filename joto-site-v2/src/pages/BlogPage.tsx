@@ -1,4 +1,5 @@
 import BlogCard from "../components/BlogCard";
+import Header from "../components/Header";
 import SiteFooter from "../components/SiteFooter";
 import { blogArticles, blogPageCopy } from "../content/blog";
 import { useI18n } from "../i18n/I18nProvider";
@@ -9,6 +10,8 @@ export default function BlogPage() {
 
   return (
     <main id="top" className="min-h-screen overflow-x-clip bg-[#070b0a] text-white antialiased">
+      <Header />
+
       <section
         aria-labelledby="blog-page-title"
         className="border-b border-white/10 px-5 pb-8 pt-28 sm:px-8 sm:pb-10 sm:pt-32 lg:px-12 lg:pb-12 lg:pt-36"

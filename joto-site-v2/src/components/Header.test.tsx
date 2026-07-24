@@ -50,6 +50,9 @@ describe("Header", () => {
     expect(
       within(desktopNavigation).getByRole("link", { name: "Cisco", hidden: true }),
     ).toHaveAttribute("href", "/solutions/network/cisco");
+    expect(
+      within(desktopNavigation).getByRole("link", { name: "Network", hidden: true }),
+    ).toHaveAttribute("href", "/solutions/network");
 
     expect(within(desktopNavigation).queryByRole("link", { name: "CONTACT" })).not.toBeInTheDocument();
     expect(within(desktopNavigation).getByRole("link", { name: "BLOG" })).toHaveAttribute(
@@ -189,6 +192,10 @@ describe("Header", () => {
     expect(within(mobileNavigation).getByRole("button", { name: "Network" })).toHaveAttribute(
       "aria-expanded",
       "true",
+    );
+    expect(within(mobileNavigation).getByRole("link", { name: "Network" })).toHaveAttribute(
+      "href",
+      "/solutions/network",
     );
     expect(within(mobileNavigation).getByRole("link", { name: "Cisco" })).toHaveAttribute(
       "href",

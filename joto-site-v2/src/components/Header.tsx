@@ -192,7 +192,7 @@ export default function Header() {
                     <div className="bg-[#08100d] p-4" key={category.id}>
                       <a
                         className="text-sm font-semibold text-white transition-colors hover:text-joto-green"
-                        href={localizedHref(homeAnchor(`solution-${category.id}`, fromInteriorPage), locale)}
+                        href={localizedHref(`/solutions/${category.id}`, locale)}
                         onClick={closeDesktopSolutions}
                       >
                         {category.title}
@@ -299,21 +299,31 @@ export default function Header() {
 
                     return (
                       <div className="border-b border-white/10 last:border-b-0" key={category.id}>
-                        <button
-                          aria-expanded={categoryOpen}
-                          className="flex w-full items-center justify-between py-3 text-left text-xs font-semibold uppercase tracking-[0.16em] text-joto-green"
-                          onClick={() =>
-                            setActiveSolutionCategory(categoryOpen ? null : category.id)
-                          }
-                          tabIndex={solutionsOpen ? 0 : -1}
-                          type="button"
-                        >
-                          {category.title}
-                          <ChevronDown
-                            aria-hidden="true"
-                            className={`h-4 w-4 transition-transform ${categoryOpen ? "rotate-180" : ""}`}
-                          />
-                        </button>
+                        <div className="flex items-center">
+                          <a
+                            className="py-3 text-xs font-semibold uppercase tracking-[0.16em] text-joto-green"
+                            href={localizedHref(`/solutions/${category.id}`, locale)}
+                            onClick={closeMenu}
+                            tabIndex={solutionsOpen ? 0 : -1}
+                          >
+                            {category.title}
+                          </a>
+                          <button
+                            aria-expanded={categoryOpen}
+                            aria-label={category.title}
+                            className="ml-auto flex h-10 w-10 items-center justify-center text-joto-green"
+                            onClick={() =>
+                              setActiveSolutionCategory(categoryOpen ? null : category.id)
+                            }
+                            tabIndex={solutionsOpen ? 0 : -1}
+                            type="button"
+                          >
+                            <ChevronDown
+                              aria-hidden="true"
+                              className={`h-4 w-4 transition-transform ${categoryOpen ? "rotate-180" : ""}`}
+                            />
+                          </button>
+                        </div>
                         <div
                           aria-hidden={!categoryOpen}
                           className={`grid transition-[grid-template-rows,opacity] duration-300 ${

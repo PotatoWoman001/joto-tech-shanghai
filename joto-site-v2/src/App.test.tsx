@@ -63,6 +63,30 @@ describe("JOTO TECH single-page website", () => {
     );
   });
 
+  it.each([
+    ["English", "/"],
+    ["Chinese", "/zh/"],
+    ["Persian", "/fa/"],
+  ])("centers the %s hero CTA below its supporting copy", (_language, pathname) => {
+    window.history.replaceState({}, "", pathname);
+
+    const { container } = renderApp();
+    const copyColumn = container.querySelector(
+      "[data-hero-copy-column]",
+    ) as HTMLElement;
+    const description = copyColumn.querySelector(
+      "[data-hero-description]",
+    ) as HTMLElement;
+    const cta = copyColumn.querySelector("[data-hero-cta]") as HTMLElement;
+
+    expect(copyColumn).toHaveClass("flex", "flex-col", "items-center");
+    expect(copyColumn).toContainElement(description);
+    expect(copyColumn).toContainElement(cta);
+    expect(description.compareDocumentPosition(cta)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it("uses the tailored Chinese hero alignment and natural case-study copy", () => {
     window.history.replaceState({}, "", "/zh/");
 
@@ -120,7 +144,7 @@ describe("JOTO TECH single-page website", () => {
     expect(within(solutions).getAllByText("了解更多")).toHaveLength(5);
     expect(
       within(solutions).getByRole("link", { name: "了解更多: 网络" }),
-    ).toHaveAttribute("href", "/zh/solutions/network/cisco");
+    ).toHaveAttribute("href", "/zh/solutions/network");
   });
 
   it("keeps the JD International logo in its original colors", () => {

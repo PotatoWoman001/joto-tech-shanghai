@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { SolutionCategory } from "../content/types";
 import { localizedHref, type Locale } from "../i18n/routing";
-import { vendorAnchor } from "../lib/anchors";
 
 interface SolutionCardProps {
   category: SolutionCategory;
@@ -16,11 +15,7 @@ export default function SolutionCard({
   learnMoreLabel,
   locale,
 }: SolutionCardProps) {
-  const primaryVendor = category.vendors[0];
-  const href = localizedHref(
-    primaryVendor ? vendorAnchor(category.id, primaryVendor.name) : "/contact",
-    locale,
-  );
+  const href = localizedHref(`/solutions/${category.id}`, locale);
 
   return (
     <article

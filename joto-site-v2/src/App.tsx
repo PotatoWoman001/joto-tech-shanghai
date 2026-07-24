@@ -10,11 +10,13 @@ import Solutions from "./components/Solutions";
 import { featureFlags } from "./config/features";
 import { getBlogArticle } from "./content/blog";
 import { getPartnerDetail } from "./content/partners";
+import { getSolutionCategoryDetail } from "./content/solutionCategories";
 import AboutPage from "./pages/AboutPage";
 import BlogArticlePage from "./pages/BlogArticlePage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
+import SolutionCategoryPage from "./pages/SolutionCategoryPage";
 import { useI18n } from "./i18n/I18nProvider";
 import { localizePartnerDetail } from "./i18n/translations";
 
@@ -23,6 +25,7 @@ const CustomerLogoWallPreviewPage = lazy(() => import("./pages/CustomerLogoWallP
 
 export default function App() {
   const { locale, pathname } = useI18n();
+  const categoryDetail = getSolutionCategoryDetail(pathname, locale);
 
   if (pathname === "/preview/customer-logo-wall") {
     return (
@@ -49,6 +52,10 @@ export default function App() {
 
   if (pathname === "/contact" || pathname === "/contact/") {
     return <ContactPage />;
+  }
+
+  if (categoryDetail) {
+    return <SolutionCategoryPage detail={categoryDetail} />;
   }
 
   if (detail) {

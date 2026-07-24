@@ -33,6 +33,22 @@ describe("BlogArticlePage", () => {
     ).toBeInTheDocument();
   });
 
+  it("keeps the shared site navigation on article pages", () => {
+    renderApp("/blog/enterprise-network-growth");
+
+    const primaryNavigation = screen.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    const siteHeader = primaryNavigation.closest("header");
+
+    expect(primaryNavigation).toBeInTheDocument();
+    expect(siteHeader).not.toBeNull();
+    expect(within(siteHeader!).getByRole("link", { name: "JOTO TECH home" })).toHaveAttribute(
+      "href",
+      "/#top",
+    );
+  });
+
   it("renders the Chinese closing viewpoint as compact sans-serif content", () => {
     const { container } = renderApp("/zh/blog/enterprise-network-growth");
     const closingViewpoint = container.querySelector(
