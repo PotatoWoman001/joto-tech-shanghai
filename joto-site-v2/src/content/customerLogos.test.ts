@@ -23,4 +23,19 @@ describe("customer logo content", () => {
       expect(logo.src).toMatch(/\.(png|svg)$/);
     }
   });
+
+  it("preserves internal contrast for enclosed multicolor marks", () => {
+    const contrastNames = customerLogoRows
+      .flat()
+      .filter((logo) => logo.treatment === "contrast")
+      .map((logo) => logo.name);
+
+    expect(contrastNames).toEqual([
+      "Haday",
+      "Starbucks",
+      "ChinaAMC",
+      "Changshu Rural Commercial Bank",
+      "BY-HEALTH",
+    ]);
+  });
 });

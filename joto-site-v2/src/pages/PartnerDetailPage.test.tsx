@@ -66,7 +66,9 @@ describe("PartnerDetailPage", () => {
     expect(relationship).not.toBeNull();
     expect(customerLogoWall).not.toBeNull();
     expect(customerLogoWall?.querySelector("#customer-logo-wall")).toBeInTheDocument();
-    expect(customerLogoWall?.querySelectorAll("[data-logo-sequence]")).toHaveLength(4);
+    expect(customerLogoWall?.querySelectorAll("[data-logo-sequence]")).toHaveLength(2);
+    expect(customerLogoWall?.querySelectorAll('[data-logo-sequence="primary"]')).toHaveLength(1);
+    expect(customerLogoWall?.querySelectorAll('[data-logo-sequence="duplicate"]')).toHaveLength(1);
     expect(relationship?.contains(customerLogoWall)).toBe(true);
     expect(customerLogoWall?.compareDocumentPosition(services as Node)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,

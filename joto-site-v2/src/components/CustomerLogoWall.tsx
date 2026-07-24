@@ -7,9 +7,9 @@ import {
 import { useI18n } from "../i18n/I18nProvider";
 
 const logoScaleClasses: Record<CustomerLogoScale, string> = {
-  compact: "max-h-12 max-w-[7rem] sm:max-h-14 sm:max-w-[8rem]",
-  standard: "max-h-10 max-w-[9.5rem] sm:max-h-12 sm:max-w-[11rem]",
-  prominent: "max-h-9 max-w-[10.5rem] sm:max-h-11 sm:max-w-[12rem]",
+  compact: "h-12 w-24 sm:h-14 sm:w-28",
+  standard: "h-10 w-[9.5rem] sm:h-12 sm:w-44",
+  prominent: "h-9 w-[10.5rem] sm:h-11 sm:w-48",
 };
 
 const customerLogos = customerLogoRows.flat();
@@ -22,6 +22,7 @@ interface LogoItemProps {
 function LogoItem({ decorative, logo }: LogoItemProps) {
   const [failed, setFailed] = useState(false);
   const scale = logo.scale ?? "standard";
+  const treatment = logo.treatment ?? "solid";
 
   return (
     <li
@@ -36,8 +37,11 @@ function LogoItem({ decorative, logo }: LogoItemProps) {
       ) : (
         <img
           alt={decorative ? "" : `${logo.name} logo`}
-          className={`${logoScaleClasses[scale]} customer-logo-wall__logo w-auto object-contain`}
+          className={`${logoScaleClasses[scale]} customer-logo-wall__logo ${
+            treatment === "contrast" ? "customer-logo-wall__logo--contrast" : ""
+          } object-contain`}
           data-logo-scale={scale}
+          data-logo-treatment={treatment}
           decoding="async"
           onError={() => setFailed(true)}
           src={logo.src}

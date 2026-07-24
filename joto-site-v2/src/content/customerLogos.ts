@@ -42,17 +42,19 @@ import xinjiangBank from "../assets/customer-logos/xinjiang-bank.png";
 import yuwell from "../assets/customer-logos/yuwell.png";
 
 export type CustomerLogoScale = "compact" | "standard" | "prominent";
+export type CustomerLogoTreatment = "solid" | "contrast";
 
 export interface CustomerLogo {
   name: string;
   scale?: CustomerLogoScale;
   src: string;
+  treatment?: CustomerLogoTreatment;
 }
 
 const firstRow: readonly CustomerLogo[] = [
   { name: "McDonald’s", src: mcdonalds },
   { name: "Booking.com", src: booking },
-  { name: "Haday", scale: "compact", src: haday },
+  { name: "Haday", scale: "compact", src: haday, treatment: "contrast" },
   { name: "Saint-Gobain", src: saintGobain },
   { name: "Cartier", src: cartier },
   { name: "Delphi", src: delphi },
@@ -74,21 +76,21 @@ const firstRow: readonly CustomerLogo[] = [
 ];
 
 const secondRow: readonly CustomerLogo[] = [
-  { name: "Starbucks", src: starbucks },
+  { name: "Starbucks", src: starbucks, treatment: "contrast" },
   { name: "Mondelēz International", src: mondelez },
   { name: "Huawei", src: huawei },
   { name: "ECOVACS", src: ecovacs },
   { name: "Shanghai Tower", scale: "compact", src: shanghaiTower },
   { name: "Chewy", src: chewy },
   { name: "Fullgoal Fund", src: fullgoalFund },
-  { name: "ChinaAMC", scale: "compact", src: chinaamc },
-  { name: "Changshu Rural Commercial Bank", src: changshuBank },
+  { name: "ChinaAMC", scale: "compact", src: chinaamc, treatment: "contrast" },
+  { name: "Changshu Rural Commercial Bank", src: changshuBank, treatment: "contrast" },
   { name: "Guolian Minsheng Securities", src: guolianMinsheng },
   { name: "Bloomage", scale: "compact", src: bloomage },
   { name: "IMG Academy", scale: "prominent", src: imgAcademy },
   { name: "Innovent", src: innovent },
   { name: "Fosun Pharma", src: fosunPharma },
-  { name: "BY-HEALTH", src: byHealth },
+  { name: "BY-HEALTH", src: byHealth, treatment: "contrast" },
   { name: "Amlogic", src: amlogic },
   { name: "Cepheid", src: cepheid },
   { name: "UBS", src: ubs },
