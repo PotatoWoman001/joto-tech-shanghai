@@ -39,7 +39,7 @@ expect(screen.getByText("JOTO 观点 · 文章结语")).toBeInTheDocument();
 expect(closingQuote).toHaveClass("border-s-2", "font-sans", "not-italic");
 expect(closingQuote).not.toHaveClass("border-y", "font-serif", "italic", "text-joto-green");
 expect(closingQuote).toHaveTextContent(
-  "当企业网络需要扩展时，最稳妥的做法不是不断叠加设备，而是先建立能够长期复用的架构标准。",
+  "真正可扩展的网络，是在新站点、新用户和新服务加入后，仍然清晰、可控、可维护的网络。",
 );
 expect(closingQuote).not.toHaveTextContent("“");
 expect(closingQuote).not.toHaveTextContent("”");
