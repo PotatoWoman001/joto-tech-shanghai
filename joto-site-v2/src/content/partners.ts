@@ -24,11 +24,7 @@ import ciscoConsulting from "../assets/partners/cisco-consulting.jpg";
 import ciscoIntegration from "../assets/partners/cisco-integration.jpg";
 import ciscoManagedServices from "../assets/partners/cisco-managed-services.jpg";
 import ciscoHeroVisual from "../assets/partners/cisco-network-management.png";
-import collaborationVisual from "../assets/solutions/collaboration.webp";
-import networkVisual from "../assets/solutions/network.webp";
-import safeguardingVisual from "../assets/solutions/safeguarding.webp";
-import securityVisual from "../assets/solutions/security.webp";
-import serverStorageVisual from "../assets/solutions/server-storage.webp";
+import { partnerVisuals, type PartnerVisualSet } from "./partnerVisuals";
 
 export interface PartnerReason {
   title: string;
@@ -98,41 +94,30 @@ type ServiceCopyGroup = [
 
 interface CategoryDefinition {
   solutionName: string;
-  visual: string;
-  visualAlt: string;
 }
 
 const categoryDefinitions: Record<string, CategoryDefinition> = {
   network: {
     solutionName: "Network",
-    visual: networkVisual,
-    visualAlt: "Enterprise switches connected through illuminated network links",
   },
   security: {
     solutionName: "Security",
-    visual: securityVisual,
-    visualAlt: "Layered digital security surrounding connected enterprise infrastructure",
   },
   "server-storage": {
     solutionName: "Server & Storage",
-    visual: serverStorageVisual,
-    visualAlt: "Enterprise compute and storage racks inside a modern data center",
   },
   collaboration: {
     solutionName: "Collaboration",
-    visual: collaborationVisual,
-    visualAlt: "Enterprise voice, paging and communication devices connected across a workplace",
   },
   safeguarding: {
     solutionName: "Safeguarding",
-    visual: safeguardingVisual,
-    visualAlt: "Video security and access control devices protecting a modern facility",
   },
 };
 
 interface PartnerFactoryInput {
   pathname: string;
   categoryId: keyof typeof categoryDefinitions;
+  visuals: PartnerVisualSet;
   partnerName: string;
   partnerLogo: string;
   partnerBadge?: PartnerBadge;
@@ -153,6 +138,7 @@ interface PartnerFactoryInput {
 function createPartnerDetail({
   pathname,
   categoryId,
+  visuals,
   partnerName,
   partnerLogo,
   partnerBadge = "Partner",
@@ -182,8 +168,8 @@ function createPartnerDetail({
     accent,
     introduction,
     heroVisual: {
-      src: category.visual,
-      alt: `${partnerName} ${category.solutionName.toLowerCase()} solution environment`,
+      src: visuals.hero.src,
+      alt: visuals.hero.alt,
       caption: `${partnerName} technology · planned, deployed and supported by JOTO`,
     },
     relationshipTitle,
@@ -196,25 +182,25 @@ function createPartnerDetail({
         ...serviceCopy[0],
         capabilities: capabilities[0],
         icon: "compass",
-        image: ciscoConsulting,
-        imageAlt: `Consultants planning a ${partnerName} solution with enterprise stakeholders`,
-        imagePosition: "object-center",
+        image: visuals.planning.src,
+        imageAlt: visuals.planning.alt,
+        imagePosition: visuals.planning.position ?? "object-center",
       },
       {
         ...serviceCopy[1],
         capabilities: capabilities[1],
         icon: "wrench",
-        image: ciscoIntegration,
-        imageAlt: `Engineer installing and integrating ${partnerName} technology on site`,
-        imagePosition: "object-center",
+        image: visuals.deployment.src,
+        imageAlt: visuals.deployment.alt,
+        imagePosition: visuals.deployment.position ?? "object-center",
       },
       {
         ...serviceCopy[2],
         capabilities: capabilities[2],
         icon: "headphones",
-        image: ciscoManagedServices,
-        imageAlt: `Operations team monitoring and supporting a ${partnerName} environment`,
-        imagePosition: "object-center",
+        image: visuals.operations.src,
+        imageAlt: visuals.operations.alt,
+        imagePosition: visuals.operations.position ?? "object-center",
       },
     ],
     casesEyebrow: "Representative Projects",
@@ -350,6 +336,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/network/extreme-networks",
     categoryId: "network",
+    visuals: partnerVisuals["extreme-networks"],
     partnerName: "Extreme Networks",
     partnerLogo: extremeLogo,
     partnerBadge: "Gold Partner",
@@ -381,6 +368,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/network/aruba",
     categoryId: "network",
+    visuals: partnerVisuals.aruba,
     partnerName: "Aruba",
     partnerLogo: arubaLogo,
     title: "Aruba edge-to-cloud networking,",
@@ -411,6 +399,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/network/sangfor",
     categoryId: "network",
+    visuals: partnerVisuals["sangfor-network"],
     partnerName: "Sangfor 深信服",
     partnerLogo: sangforLogo,
     partnerBadge: "Gold Partner",
@@ -442,6 +431,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/knowbe4",
     categoryId: "security",
+    visuals: partnerVisuals.knowbe4,
     partnerName: "KnowBe4",
     partnerLogo: knowBe4Logo,
     title: "KnowBe4 human risk management,",
@@ -472,6 +462,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/palo-alto-networks",
     categoryId: "security",
+    visuals: partnerVisuals["palo-alto-networks"],
     partnerName: "Palo Alto Networks",
     partnerLogo: paloAltoLogo,
     partnerBadge: "Platinum Partner",
@@ -503,6 +494,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/fortinet",
     categoryId: "security",
+    visuals: partnerVisuals.fortinet,
     partnerName: "Fortinet",
     partnerLogo: fortinetLogo,
     partnerBadge: "Gold Partner",
@@ -534,6 +526,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/sangfor",
     categoryId: "security",
+    visuals: partnerVisuals["sangfor-security"],
     partnerName: "Sangfor 深信服",
     partnerLogo: sangforLogo,
     partnerBadge: "Gold Partner",
@@ -565,6 +558,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/check-point",
     categoryId: "security",
+    visuals: partnerVisuals["check-point"],
     partnerName: "Check Point",
     partnerLogo: checkpointLogo,
     title: "Check Point unified threat prevention,",
@@ -595,6 +589,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/security/onelogin",
     categoryId: "security",
+    visuals: partnerVisuals.onelogin,
     partnerName: "OneLogin",
     partnerLogo: oneLoginLogo,
     title: "OneLogin unified identity access,",
@@ -625,6 +620,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/server-storage/dell-technologies",
     categoryId: "server-storage",
+    visuals: partnerVisuals["dell-technologies"],
     partnerName: "Dell Technologies",
     partnerLogo: dellLogo,
     title: "Dell Technologies data center infrastructure,",
@@ -655,6 +651,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/server-storage/huawei",
     categoryId: "server-storage",
+    visuals: partnerVisuals.huawei,
     partnerName: "Huawei",
     partnerLogo: huaweiLogo,
     title: "Huawei OceanStor data infrastructure,",
@@ -685,6 +682,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/server-storage/inspur",
     categoryId: "server-storage",
+    visuals: partnerVisuals.inspur,
     partnerName: "Inspur 浪潮",
     partnerLogo: inspurLogo,
     title: "Inspur compute and storage,",
@@ -715,6 +713,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/collaboration/audiocodes",
     categoryId: "collaboration",
+    visuals: partnerVisuals.audiocodes,
     partnerName: "AudioCodes",
     partnerLogo: audioCodesLogo,
     title: "AudioCodes enterprise voice connectivity,",
@@ -745,6 +744,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/collaboration/vodia",
     categoryId: "collaboration",
+    visuals: partnerVisuals.vodia,
     partnerName: "Vodia",
     partnerLogo: vodiaLogo,
     title: "Vodia multi-tenant IP communications,",
@@ -775,6 +775,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/collaboration/cyberdata",
     categoryId: "collaboration",
+    visuals: partnerVisuals.cyberdata,
     partnerName: "CyberData",
     partnerLogo: cyberDataLogo,
     title: "CyberData IP intercom and paging,",
@@ -805,6 +806,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/collaboration/informacast",
     categoryId: "collaboration",
+    visuals: partnerVisuals.informacast,
     partnerName: "InformaCast",
     partnerLogo: informaCastLogo,
     title: "InformaCast critical event notification,",
@@ -835,6 +837,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/safeguarding/verkada",
     categoryId: "safeguarding",
+    visuals: partnerVisuals.verkada,
     partnerName: "Verkada",
     partnerLogo: verkadaLogo,
     title: "Verkada cloud-managed physical security,",
@@ -865,6 +868,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/safeguarding/hikvision",
     categoryId: "safeguarding",
+    visuals: partnerVisuals.hikvision,
     partnerName: "Hikvision",
     partnerLogo: hikvisionLogo,
     title: "Hikvision intelligent physical security,",
@@ -895,6 +899,7 @@ const additionalPartnerDetails: PartnerDetail[] = [
   createPartnerDetail({
     pathname: "/solutions/safeguarding/keyking",
     categoryId: "safeguarding",
+    visuals: partnerVisuals.keyking,
     partnerName: "Keyking",
     partnerLogo: keykingLogo,
     title: "Keyking access control and integrated security,",

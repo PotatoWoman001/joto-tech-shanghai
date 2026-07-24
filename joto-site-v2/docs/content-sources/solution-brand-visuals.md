@@ -6,6 +6,37 @@ after the represented product and reuse suitability have been checked.
 
 Retrieved: 2026-07-24
 
+The exact direct URL for every one of the 76 output files is kept in
+[`scripts/acquire-partner-visuals.sh`](../../scripts/acquire-partner-visuals.sh).
+That manifest is executable and maps `partner slug | role | official asset URL`
+one-to-one. All non-transparent sources are normalized locally to JPEG, quality
+84, with a maximum long edge of 1600 px. Extreme Networks retains the official
+PNG assets because their transparency is part of the supplied product artwork.
+
+## Completed output matrix
+
+| Partner | Local outputs | Official owner / source family |
+|---|---|---|
+| Extreme Networks | `extreme-networks/{hero,planning,deployment,operations}.png` | Extreme Networks Platform ONE and 4000 Series product media |
+| Aruba | `aruba/{hero,planning,deployment,operations}.jpg` | HPE Aruba Networking Developer Hub and Central documentation media |
+| Sangfor Network | `sangfor-network/{hero,planning,deployment,operations}.jpg` | Sangfor Secure SD-WAN, Athena NGFW and Central Manager media |
+| KnowBe4 | `knowbe4/{hero,planning,deployment,operations}.jpg` | KnowBe4 Human Risk Management and SAT product media |
+| Palo Alto Networks | `palo-alto-networks/{hero,planning,deployment,operations}.jpg` | Palo Alto Networks NGFW and PA-Series product media |
+| Fortinet | `fortinet/{hero,planning,deployment,operations}.jpg` | Fortinet FortiGate, FortiManager and Security Fabric media |
+| Sangfor Security | `sangfor-security/{hero,planning,deployment,operations}.jpg` | Sangfor Athena, NGFW and official product demonstration media |
+| Check Point | `check-point/{hero,planning,deployment,operations}.jpg` | Check Point Infinity and Quantum product media |
+| OneLogin | `onelogin/{hero,planning,deployment,operations}.jpg` | OneLogin identity platform product media |
+| Dell Technologies | `dell-technologies/{hero,planning,deployment,operations}.jpg` | Dell Technologies official product demonstrations |
+| Huawei | `huawei/{hero,planning,deployment,operations}.jpg` | Huawei OceanStor and all-flash data-center product media |
+| Inspur | `inspur/{hero,planning,deployment,operations}.jpg` | Inspur compute and storage product media |
+| AudioCodes | `audiocodes/{hero,planning,deployment,operations}.jpg` | AudioCodes Mediant SBC and management product media |
+| Vodia | `vodia/{hero,planning,deployment,operations}.jpg` | Vodia V70 portal, dashboard and Teams integration media |
+| CyberData | `cyberdata/{hero,planning,deployment,operations}.jpg` | CyberData SIP paging and intercom product media |
+| InformaCast | `informacast/{hero,planning,deployment,operations}.jpg` | Singlewire InformaCast product and integration media |
+| Verkada | `verkada/{hero,planning,deployment,operations}.jpg` | Verkada Command, cameras, access and workplace product media |
+| Hikvision | `hikvision/{hero,planning,deployment,operations}.jpg` | Hikvision official channel product demonstrations |
+| Keyking | `keyking/{hero,planning,deployment,operations}.jpg` | Keyking access-control product and interface media |
+
 ## Batch 1 — Network
 
 | Partner / role | Represented product or capability | Official source | Review status |

@@ -80,6 +80,38 @@ describe("partner detail content", () => {
     }
   });
 
+  it("assigns four explicit non-Cisco visuals to every additional partner", () => {
+    const cisco = getPartnerDetail("/solutions/network/cisco")!;
+    const ciscoImages = new Set([
+      cisco.heroVisual.src,
+      ...cisco.services.map(({ image }) => image),
+    ]);
+    const nonCiscoDetails = partnerDetails.filter(
+      ({ partnerName }) => partnerName !== "Cisco",
+    );
+
+    for (const detail of nonCiscoDetails) {
+      const images = [
+        detail.heroVisual.src,
+        ...detail.services.map(({ image }) => image),
+      ];
+
+      expect(new Set(images).size).toBe(4);
+      expect(images.every((image) => !ciscoImages.has(image))).toBe(true);
+    }
+  });
+
+  it("does not reuse a visual across different non-Cisco routes", () => {
+    const nonCiscoImages = partnerDetails
+      .filter(({ partnerName }) => partnerName !== "Cisco")
+      .flatMap((detail) => [
+        detail.heroVisual.src,
+        ...detail.services.map(({ image }) => image),
+      ]);
+
+    expect(new Set(nonCiscoImages).size).toBe(19 * 4);
+  });
+
   it("assigns a partnership badge to every detail route", () => {
     expect(partnerDetails.every((detail) => detail.partnerBadge)).toBe(true);
     expect(
