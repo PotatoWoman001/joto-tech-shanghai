@@ -36,10 +36,20 @@ describe("partner representative projects", () => {
   it("uses verified local logos and keeps only unverified clients as text fallbacks", () => {
     const projects = primaryPaths.flatMap((path) => getPartnerCases(path, "en"));
     const withoutLogo = projects.filter(({ logo }) => !logo).map(({ client }) => client);
+    const brandClients = projects
+      .filter(({ logoTreatment }) => logoTreatment === "brand")
+      .map(({ client }) => client);
 
     expect(withoutLogo).toEqual(["Jinnet", "Quasar Medical"]);
     expect(projects.filter(({ logo }) => logo)).toHaveLength(13);
-    expect(projects.every(({ logoTreatment }) => logoTreatment !== "brand")).toBe(true);
+    expect(brandClients).toEqual([
+      "Starbucks China",
+      "Shanghai Singapore International School (SSIS)",
+      "Zhongke Chuangwei",
+      "Pall Filter (Beijing)",
+      "Pall (China) Investment",
+      "Pall (China) Investment",
+    ]);
   });
 
   it("reuses shared brand assets and keeps logo references identical across locales", () => {
@@ -69,7 +79,7 @@ describe("partner representative projects", () => {
 
     expect(JSON.stringify(paloAltoProjects)).toContain("PA-5430");
     expect(JSON.stringify(paloAltoProjects)).toContain("2022–2025");
-    expect(paloAltoProjects[0].logoTreatment).toBeUndefined();
+    expect(paloAltoProjects[0].logoTreatment).toBe("brand");
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "zh-CN")))
       .toContain("49 个");
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "en")))

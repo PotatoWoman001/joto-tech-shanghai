@@ -149,10 +149,15 @@ describe("PartnerDetailPage", () => {
       "w-[150px]",
       "object-contain",
       "object-left",
-      "brightness-0",
-      "invert",
+      "opacity-100",
     );
-    expect(starbucksLogo).toHaveAttribute("data-logo-treatment", "monochrome");
+    expect(starbucksLogo).not.toHaveClass("brightness-0", "invert");
+    expect(starbucksLogo).toHaveAttribute("data-logo-treatment", "brand");
+    const dulwichLogo = within(cases as HTMLElement).getByRole("img", {
+      name: "Dulwich College International Schools logo",
+    });
+    expect(dulwichLogo).toHaveClass("opacity-90", "brightness-0", "invert");
+    expect(dulwichLogo).toHaveAttribute("data-logo-treatment", "monochrome");
     expect(
       within(cases as HTMLElement).getByText("PA-5430 / PA-5250 / PA-5220 / PA-3250"),
     ).toBeInTheDocument();

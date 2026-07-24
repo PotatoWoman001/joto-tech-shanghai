@@ -79,6 +79,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: starbucksLogo,
+      logoTreatment: "brand",
     },
     {
       client: text(
@@ -257,6 +258,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: ssisLogo,
+      logoTreatment: "brand",
     },
     {
       client: text(
@@ -421,6 +423,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: zhongkeChuangweiLogo,
+      logoTreatment: "brand",
     },
   ],
   sangfor: [
@@ -453,6 +456,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: pallLogo,
+      logoTreatment: "brand",
     },
     {
       client: text(
@@ -483,6 +487,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: pallLogo,
+      logoTreatment: "brand",
     },
   ],
   hikvision: [
@@ -515,6 +520,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: pallLogo,
+      logoTreatment: "brand",
     },
     {
       client: text(

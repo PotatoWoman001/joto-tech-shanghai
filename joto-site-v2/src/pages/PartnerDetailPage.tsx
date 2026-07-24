@@ -370,7 +370,9 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                       {caseStudy.logo ? (
                         <img
                           alt={`${caseStudy.client} logo`}
-                          className={`object-contain object-left opacity-90 ${
+                          className={`object-contain object-left ${
+                            caseStudy.logoTreatment === "brand" ? "opacity-100" : "opacity-90"
+                          } ${
                             isPortraitLogo
                               ? "h-24 w-[100px]"
                               : "h-12 w-[150px]"
