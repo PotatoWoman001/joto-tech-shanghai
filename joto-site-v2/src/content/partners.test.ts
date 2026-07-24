@@ -40,9 +40,7 @@ describe("partner detail content", () => {
       expect(service.imageAlt.length).toBeGreaterThan(20);
     }
     expect(detail?.cases).toHaveLength(3);
-    expect(detail?.cases.find((caseStudy) => caseStudy.client === "Chewy")?.logoTreatment).toBe(
-      "brand",
-    );
+    expect(detail?.cases.find((caseStudy) => caseStudy.client === "Chewy")?.logoTreatment).toBeUndefined();
     expect(detail?.contactEmail).toBe("sales@jototech.cn");
     expect(detail?.heroVisual.src).toMatch(/cisco-network-management\.png$/);
   });

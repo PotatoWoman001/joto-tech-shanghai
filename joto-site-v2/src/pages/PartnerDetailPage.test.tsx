@@ -91,8 +91,8 @@ describe("PartnerDetailPage", () => {
     expect(cases).not.toBeNull();
     expect(within(cases as HTMLElement).getAllByRole("article")).toHaveLength(3);
     const chewyLogo = within(cases as HTMLElement).getByRole("img", { name: "Chewy logo" });
-    expect(chewyLogo).toHaveAttribute("data-logo-treatment", "brand");
-    expect(chewyLogo).not.toHaveClass("brightness-0");
+    expect(chewyLogo).toHaveAttribute("data-logo-treatment", "monochrome");
+    expect(chewyLogo).toHaveClass("brightness-0", "invert");
     const harrowLogo = within(cases as HTMLElement).getByRole("img", {
       name: "Harrow International School logo",
     });

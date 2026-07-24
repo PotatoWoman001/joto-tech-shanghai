@@ -339,7 +339,6 @@ const ciscoDetail: PartnerDetail = {
       brief: "As Chewy expands into China, JOTO handles its IT procurement, installation and ongoing maintenance.",
       scope: ["Cisco Meraki networking", "Site deployment and installation", "On-site technical support"],
       logo: chewyLogo,
-      logoTreatment: "brand",
     },
   ],
   ctaTitle: "Discuss your Cisco project with JOTO.",
