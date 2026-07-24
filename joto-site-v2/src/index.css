@@ -1,5 +1,45 @@
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap");
 
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/poppins/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/fonts/poppins/Poppins-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/poppins/Poppins-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("./assets/fonts/poppins/Poppins-ExtraBold.ttf") format("truetype");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,6 +94,12 @@ html[dir="rtl"] bdi {
 
 html[lang="fa-IR"] main :is(h1, h2, h3, p, a, button, label, li) {
   letter-spacing: 0;
+}
+
+/* English display hierarchy uses Poppins, while nested serif accents such as
+   the hero's rotating IT / Network / Safeguarding words retain Instrument Serif. */
+html[lang="en"] main :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "Poppins", "Inter", sans-serif;
 }
 
 /* Chinese headings need natural CJK rhythm instead of the Latin display type's
