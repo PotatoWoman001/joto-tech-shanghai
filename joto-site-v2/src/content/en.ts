@@ -25,11 +25,11 @@ import advisoryPlanningVisual from "../assets/services/advisory-planning.webp";
 import designIntegrationVisual from "../assets/services/design-integration.webp";
 import managedSupportVisual from "../assets/services/managed-support.webp";
 import securityComplianceVisual from "../assets/services/security-compliance.webp";
-import collaborationVisual from "../assets/solutions/collaboration-v2.jpg";
-import networkVisual from "../assets/solutions/network-v2.jpg";
-import safeguardingVisual from "../assets/solutions/safeguarding-v2.jpg";
-import securityVisual from "../assets/solutions/security-v2.jpg";
-import serverStorageVisual from "../assets/solutions/server-storage-v2.jpg";
+import collaborationVisual from "../assets/solutions/collaboration-field-v3.png";
+import networkVisual from "../assets/solutions/network-field-v3.png";
+import safeguardingVisual from "../assets/solutions/safeguarding-field-v3.png";
+import securityVisual from "../assets/solutions/security-field-v3.png";
+import serverStorageVisual from "../assets/solutions/server-storage-field-v3.png";
 import type { SiteContent, Vendor } from "./types";
 
 const vendors: Record<string, Vendor> = {
@@ -193,7 +193,7 @@ export const siteContent: SiteContent = {
     eyebrow: "ENTERPRISE-READY IT SOLUTIONS",
     headline: "We Make",
     accent: "IT",
-    accentWords: ["IT", "Connections", "Resilience", "Progress"],
+    accentWords: ["IT", "Network", "Safeguarding", "Collaboration", "Security"],
     headlineSecondLine: "Happen",
     description:
       "Enterprise networks, security, data centers, collaboration and physical safeguarding — designed, built and supported for the world's most demanding companies since 2010.",

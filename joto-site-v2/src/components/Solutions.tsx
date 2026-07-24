@@ -1,9 +1,10 @@
 import { useI18n } from "../i18n/I18nProvider";
 import { vendorId } from "../lib/anchors";
 import SectionHeading, { Reveal } from "./SectionHeading";
+import SolutionCard from "./SolutionCard";
 
 export default function Solutions() {
-  const { siteContent } = useI18n();
+  const { locale, siteContent, t } = useI18n();
   const { solutions } = siteContent;
 
   return (
@@ -16,16 +17,12 @@ export default function Solutions() {
           description={solutions.description}
         />
 
-        <div className="mt-16 grid border-l border-t border-white/15 md:mt-24 md:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-16 grid gap-x-5 gap-y-10 md:mt-24 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12">
           {solutions.categories.map((category, categoryIndex) => (
             <Reveal
               key={category.id}
               delay={categoryIndex * 70}
-              className={`group relative flex min-h-[390px] min-w-0 flex-col overflow-hidden border-b border-r border-white/15 bg-white/[0.015] p-5 transition-colors duration-500 hover:bg-white/[0.045] sm:p-6 lg:min-h-[410px] lg:p-5 2xl:p-7 ${
-                categoryIndex === solutions.categories.length - 1
-                  ? "md:col-span-2 lg:col-span-1"
-                  : ""
-              }`}
+              className="relative min-w-0 scroll-mt-24"
             >
               {category.vendors.map((vendor) => (
                 <span
@@ -35,34 +32,14 @@ export default function Solutions() {
                   key={vendor.name}
                 />
               ))}
-              <div className="flex scroll-mt-24 items-center justify-between" id={`solution-${category.id}`}>
-                <span className="font-mono text-[10px] tracking-[0.18em] text-white/35">
-                  {String(categoryIndex + 1).padStart(2, "0")}
-                </span>
-                <span className="h-2 w-2 rounded-full bg-[#5ed29c] shadow-[0_0_18px_rgba(94,210,156,0.65)]" />
-              </div>
-
-              <div
-                className={`mt-8 overflow-hidden border border-white/10 bg-[#0b1210] ${
-                  categoryIndex === solutions.categories.length - 1
-                    ? "aspect-[16/10] md:aspect-[16/6] lg:aspect-[16/10]"
-                    : "aspect-[16/10]"
-                }`}
-              >
-                <img
-                  src={category.image}
-                  alt={category.imageAlt}
-                  loading="lazy"
-                  className="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-[1.035] group-hover:opacity-100 motion-reduce:transition-none"
+              <div id={`solution-${category.id}`}>
+                <SolutionCard
+                  category={category}
+                  index={categoryIndex}
+                  learnMoreLabel={t("Learn more")}
+                  locale={locale}
                 />
               </div>
-
-              <h3 className="mt-7 break-words text-[clamp(1.25rem,1.75vw,1.5rem)] font-medium tracking-[-0.03em] text-white">
-                {category.title}
-              </h3>
-              <p className="mt-4 break-words text-sm leading-6 text-white/52">
-                {category.description}
-              </p>
             </Reveal>
           ))}
         </div>

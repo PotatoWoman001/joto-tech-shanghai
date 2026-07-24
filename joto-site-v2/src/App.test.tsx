@@ -85,7 +85,7 @@ describe("JOTO TECH single-page website", () => {
     }
   });
 
-  it("renders the five solution categories without empty detail links", () => {
+  it("renders five solution cards with partner detail links", () => {
     const { container } = renderApp();
     const solutions = container.querySelector("#solutions");
     expect(solutions).not.toBeNull();
@@ -95,10 +95,24 @@ describe("JOTO TECH single-page website", () => {
       expect(region.getByRole("heading", { name: heading })).toBeInTheDocument();
     }
     expect(region.getAllByRole("heading", { level: 3 })).toHaveLength(5);
-    expect(region.queryAllByRole("link")).toHaveLength(0);
+    expect(solutions?.querySelectorAll("[data-solution-card]")).toHaveLength(5);
+    expect(region.getAllByRole("link")).toHaveLength(5);
+    expect(region.getAllByText("Learn more")).toHaveLength(5);
     expect(region.getAllByRole("img")).toHaveLength(5);
     expect(region.queryByText("Cisco")).not.toBeInTheDocument();
     expect(container.querySelector("#solution-network-cisco")).toBeInTheDocument();
+  });
+
+  it("localizes the solution card action in Chinese", () => {
+    window.history.replaceState({}, "", "/zh/");
+
+    const { container } = renderApp();
+    const solutions = container.querySelector("#solutions") as HTMLElement;
+
+    expect(within(solutions).getAllByText("了解更多")).toHaveLength(5);
+    expect(
+      within(solutions).getByRole("link", { name: "了解更多: 网络" }),
+    ).toHaveAttribute("href", "/zh/solutions/network/cisco");
   });
 
   it("keeps the JD International logo in its original colors", () => {
