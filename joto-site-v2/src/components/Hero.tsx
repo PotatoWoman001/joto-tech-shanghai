@@ -78,7 +78,7 @@ export default function Hero() {
   const { locale, siteContent } = useI18n();
   const { hero } = siteContent;
   const isChinese = locale === "zh-CN";
-  const desktopCtaOffset = locale === "fa-IR" ? "lg:left-[32%]" : "lg:left-[47%]";
+  const isPersian = locale === "fa-IR";
 
   return (
     <section
@@ -117,35 +117,47 @@ export default function Hero() {
           <p className="mb-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mb-5">
             {hero.eyebrow}
           </p>
-          <div className="relative max-w-[1100px]" data-hero-heading-shell>
-            <h1
-              aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
-              className="font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
-              id="hero-title"
-            >
-              <span
-                className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
-                data-hero-line="primary"
+          <div className="relative w-full" data-hero-heading-stage>
+            <div className="relative max-w-[1100px]" data-hero-heading-shell>
+              <h1
+                aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
+                className="font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
+                id="hero-title"
               >
-                {hero.headline}{" "}
-                <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
-                  <TypewriterWords words={hero.accentWords} />
+                <span
+                  className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
+                  data-hero-line="primary"
+                >
+                  {hero.headline}{" "}
+                  <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
+                    <TypewriterWords words={hero.accentWords} />
+                  </span>
                 </span>
-              </span>
-              <span
-                className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
-                data-hero-line="secondary"
-              >
-                {hero.headlineSecondLine}
-                <span className="text-joto-green">.</span>
-              </span>
-            </h1>
-            <HeroCta
-              className={`hidden lg:absolute lg:bottom-[0.08em] lg:inline-flex ${desktopCtaOffset}`}
-              href={hero.cta.href}
-              label={hero.cta.label}
-              placement="desktop"
-            />
+                <span
+                  className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
+                  data-hero-line="secondary"
+                >
+                  {hero.headlineSecondLine}
+                  <span className="text-joto-green">.</span>
+                </span>
+              </h1>
+              {!isPersian ? (
+                <HeroCta
+                  className="hidden lg:absolute lg:bottom-[0.08em] lg:left-[47%] lg:inline-flex"
+                  href={hero.cta.href}
+                  label={hero.cta.label}
+                  placement="desktop"
+                />
+              ) : null}
+            </div>
+            {isPersian ? (
+              <HeroCta
+                className="hidden lg:absolute lg:bottom-[0.08em] lg:left-0 lg:inline-flex"
+                href={hero.cta.href}
+                label={hero.cta.label}
+                placement="desktop"
+              />
+            ) : null}
           </div>
           <div
             className={`mt-6 sm:mt-7 ${
