@@ -48,10 +48,37 @@ function DesktopGrid() {
   );
 }
 
+interface HeroCtaProps {
+  className: string;
+  href: string;
+  label: string;
+  placement: "desktop" | "mobile";
+}
+
+function HeroCta({ className, href, label, placement }: HeroCtaProps) {
+  return (
+    <a
+      className={`group w-fit shrink-0 items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green ${className}`}
+      data-hero-cta={placement}
+      data-hero-cta-desktop={placement === "desktop" ? "true" : undefined}
+      data-hero-cta-mobile={placement === "mobile" ? "true" : undefined}
+      href={href}
+    >
+      {label}
+      <ArrowRight
+        aria-hidden="true"
+        className="transition-transform duration-300 group-hover:translate-x-1"
+        size={16}
+      />
+    </a>
+  );
+}
+
 export default function Hero() {
   const { locale, siteContent } = useI18n();
   const { hero } = siteContent;
   const isChinese = locale === "zh-CN";
+  const desktopCtaOffset = locale === "fa-IR" ? "lg:left-[32%]" : "lg:left-[47%]";
 
   return (
     <section
@@ -90,28 +117,36 @@ export default function Hero() {
           <p className="mb-4 font-display text-[11px] font-bold uppercase tracking-[0.18em] text-joto-green sm:mb-5">
             {hero.eyebrow}
           </p>
-          <h1
-            aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
-            className="max-w-[1100px] font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
-            id="hero-title"
-          >
-            <span
-              className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
-              data-hero-line="primary"
+          <div className="relative max-w-[1100px]" data-hero-heading-shell>
+            <h1
+              aria-label={`${hero.headline} ${hero.accent} ${hero.headlineSecondLine}.`}
+              className="font-sans text-[clamp(1.8rem,9vw,4rem)] font-semibold leading-[0.86] tracking-[-0.065em] text-white lg:text-[clamp(4.75rem,7.8vw,8rem)]"
+              id="hero-title"
             >
-              {hero.headline}{" "}
-              <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
-                <TypewriterWords words={hero.accentWords} />
+              <span
+                className={`block whitespace-nowrap ${isChinese ? "pl-[0.5em]" : ""}`}
+                data-hero-line="primary"
+              >
+                {hero.headline}{" "}
+                <span className="hero-accent-word inline-block font-serif font-normal italic tracking-[-0.04em] text-joto-green">
+                  <TypewriterWords words={hero.accentWords} />
+                </span>
               </span>
-            </span>
-            <span
-              className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
-              data-hero-line="secondary"
-            >
-              {hero.headlineSecondLine}
-              <span className="text-joto-green">.</span>
-            </span>
-          </h1>
+              <span
+                className={`block text-white/78 ${isChinese ? "pl-[0.5em]" : "sm:pl-[0.65em]"}`}
+                data-hero-line="secondary"
+              >
+                {hero.headlineSecondLine}
+                <span className="text-joto-green">.</span>
+              </span>
+            </h1>
+            <HeroCta
+              className={`hidden lg:absolute lg:bottom-[0.08em] lg:inline-flex ${desktopCtaOffset}`}
+              href={hero.cta.href}
+              label={hero.cta.label}
+              placement="desktop"
+            />
+          </div>
           <div
             className={`mt-6 sm:mt-7 ${
               isChinese
@@ -132,18 +167,12 @@ export default function Hero() {
               >
                 {hero.description}
               </p>
-              <a
-                className="group mt-5 inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-joto-green px-6 py-3.5 font-sans text-[12px] font-bold uppercase tracking-[0.08em] text-[#070b0a] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-joto-green sm:mt-6"
-                data-hero-cta
+              <HeroCta
+                className="mt-5 inline-flex sm:mt-6 lg:hidden"
                 href={hero.cta.href}
-              >
-                {hero.cta.label}
-                <ArrowRight
-                  aria-hidden="true"
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                  size={16}
-                />
-              </a>
+                label={hero.cta.label}
+                placement="mobile"
+              />
             </div>
           </div>
         </div>
