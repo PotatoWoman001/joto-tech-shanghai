@@ -55,8 +55,9 @@
 1. 浏览器从官网同源 `/api/captcha` 获取后台验证码。
 2. 浏览器向官网同源 `/api/contact` 提交表单。
 3. Nginx 把两个请求转发到 `https://admin.jotoai.com` 的同名接口。
-4. Nginx 向上游保留原始 `Host` 和 `X-Forwarded-Host` 为
-   `jotoglobal.com`，让后台按真实来源域名存储和展示留言。
+4. Nginx 使用 `Host: admin.jotoai.com` 和对应 TLS SNI 访问正确的上游
+   虚拟主机，同时设置 `X-Forwarded-Host: jotoglobal.com`，让后台按
+   真实来源域名存储和展示留言。
 
 未采用浏览器直接跨域请求后台，因为同源代理能避免 CORS、来源主机丢失
 和浏览器侧暴露后台地址等问题。未采用旧服务转发或双写，因为会形成两个
@@ -168,7 +169,8 @@
   `https://admin.jotoai.com/api/contact`。
 - 为 HTTPS 上游启用正确的 SNI，TLS 名称使用
   `admin.jotoai.com`。
-- 上游请求的 `Host` 与 `X-Forwarded-Host` 使用原始官网主机名。
+- 上游请求的 `Host` 使用 `admin.jotoai.com`，确保命中正确的 HTTPS
+  虚拟主机；`X-Forwarded-Host` 使用原始官网主机名，供后台识别来源。
 - 继续传递真实客户端 IP、协议和请求 ID。
 - 联系提交继续使用现有按 IP 限流、16 KB 请求体限制、短连接和禁止
   缓存策略。
