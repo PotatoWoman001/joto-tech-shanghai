@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "build:github-pages": "tsc --noEmit && vite build --mode github-pages",
+    "build": "tsc --noEmit && vite build && node scripts/generate-seo-files.mjs",
+    "build:github-pages": "tsc --noEmit && vite build --mode github-pages && node scripts/generate-seo-files.mjs",
     "build:sites": "npm run build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:seo-files": "node --test scripts/generate-seo-files.test.mjs"
   },
   "dependencies": {
     "hls.js": "^1.6.13",
