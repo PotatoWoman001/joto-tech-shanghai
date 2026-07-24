@@ -30,7 +30,7 @@
 
 - [ ] **Step 1: Write the failing data test**
 
-Assert that Starbucks, SSIS, 中科创威, and Pall use `brand`, while Dulwich, DFX, Bunge, Amlogic, Boston Scientific, and YK Pao do not.
+Assert that Starbucks, SSIS, and 中科创威 use `brand`, while Pall, Dulwich, DFX, Bunge, Amlogic, Boston Scientific, and YK Pao do not.
 
 - [ ] **Step 2: Run the focused data test**
 
@@ -60,7 +60,7 @@ Expected: FAIL because Starbucks currently renders as monochrome.
 
 - [ ] **Step 1: Mark structure-dependent logos as brand assets**
 
-Set `logoTreatment: "brand"` on Starbucks, SSIS, 中科创威, and every Pall-backed project.
+Set `logoTreatment: "brand"` on Starbucks, SSIS, and 中科创威. Keep every Pall-backed project on the monochrome path so its transparent negative space remains readable.
 
 - [ ] **Step 2: Keep brand assets at full opacity**
 

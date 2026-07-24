@@ -46,10 +46,11 @@ describe("partner representative projects", () => {
       "Starbucks China",
       "Shanghai Singapore International School (SSIS)",
       "Zhongke Chuangwei",
-      "Pall Filter (Beijing)",
-      "Pall (China) Investment",
-      "Pall (China) Investment",
     ]);
+    expect(
+      getPartnerCases("/solutions/network/sangfor", "en")
+        .every(({ logoTreatment }) => logoTreatment !== "brand"),
+    ).toBe(true);
   });
 
   it("reuses shared brand assets and keeps logo references identical across locales", () => {
@@ -68,6 +69,12 @@ describe("partner representative projects", () => {
       expect(getPartnerCases(path, "fa-IR").map(({ logo }) => logo)).toEqual(
         getPartnerCases(path, "en").map(({ logo }) => logo),
       );
+      expect(
+        getPartnerCases(path, "zh-CN").map(({ logoTreatment }) => logoTreatment),
+      ).toEqual(getPartnerCases(path, "en").map(({ logoTreatment }) => logoTreatment));
+      expect(
+        getPartnerCases(path, "fa-IR").map(({ logoTreatment }) => logoTreatment),
+      ).toEqual(getPartnerCases(path, "en").map(({ logoTreatment }) => logoTreatment));
     }
   });
 

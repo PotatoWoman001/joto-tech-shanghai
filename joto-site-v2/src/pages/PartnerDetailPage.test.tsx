@@ -195,6 +195,17 @@ describe("PartnerDetailPage", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("uses a high-contrast knockout treatment for Pall logos", () => {
+    const { container } = renderDetail("/solutions/network/sangfor");
+    const cases = container.querySelector("#partner-case-studies") as HTMLElement;
+    const pallLogo = within(cases).getByRole("img", {
+      name: "Pall Filter (Beijing) logo",
+    });
+
+    expect(pallLogo).toHaveClass("opacity-90", "brightness-0", "invert");
+    expect(pallLogo).toHaveAttribute("data-logo-treatment", "monochrome");
+  });
+
   it.each([
     ["/solutions/network/extreme-networks", "network"],
     ["/solutions/security/fortinet", "security"],

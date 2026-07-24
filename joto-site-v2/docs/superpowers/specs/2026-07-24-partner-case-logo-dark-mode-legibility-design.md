@@ -24,7 +24,7 @@ Logo 采用两种显示模式：
 | Amlogic | `monochrome` | 官方素材本身为透明底白色标识 |
 | Boston Scientific | `monochrome` | 单一深蓝字标，反白后清晰 |
 | 中科创威 | `brand` | 蓝、橙及中文文字共同构成品牌识别 |
-| Pall | `brand` | 蓝色椭圆与白色负形文字必须同时保留 |
+| Pall | `monochrome` | 原始蓝色图形的负形为透明区域；反白后椭圆和 `PALL` 字样最清晰 |
 
 Jinnet 与 Quasar Medical 继续使用已确认的文字回退，不生成或猜测 Logo。
 
@@ -40,7 +40,7 @@ Jinnet 与 Quasar Medical 继续使用已确认的文字回退，不生成或猜
 ## 验收标准
 
 - Starbucks 的绿色海妖与白色区域均可识别，不显示为纯白圆块。
-- Pall 的椭圆轮廓和 `PALL` 负形文字均可识别。
+- Pall 以白色反转显示，椭圆轮廓和 `PALL` 字样均可识别。
 - SSIS 与中科创威保留品牌色。
 - 其余单色 Logo 仍以清晰白色显示。
 - 标准 Logo 槽位保持 `150×48px`；Harrow 竖版特例不变。
