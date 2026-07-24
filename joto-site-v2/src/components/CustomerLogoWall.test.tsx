@@ -46,4 +46,11 @@ describe("CustomerLogoWall", () => {
       expect(item.className).not.toMatch(/bg-\[#f4f6f5\]|rounded-lg|shadow-/);
     }
   });
+
+  it("marks the complete wall for the dark glass treatment", () => {
+    const { container } = render(<CustomerLogoWall />);
+
+    expect(container.querySelector(".customer-logo-wall__ribbon")).toBeInTheDocument();
+    expect(container.querySelectorAll(".customer-logo-wall__logo")).toHaveLength(84);
+  });
 });
