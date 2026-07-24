@@ -84,7 +84,7 @@ function TechnologyPartnerCard({
           <span className="inline-flex min-h-16 min-w-32 items-center justify-center">
             <img
               alt={`${vendor.name} logo`}
-              className="max-h-12 max-w-44 object-contain opacity-80 brightness-0 invert transition-opacity duration-300 group-hover:opacity-100"
+              className="max-h-12 max-w-44 object-contain brightness-0 invert"
               onError={() => setLogoFailed(true)}
               src={vendor.logo}
             />
@@ -123,6 +123,15 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
   const labels = getSolutionCategoryPageLabels(locale);
   const category = siteContent.solutions.categories.find((item) => item.id === detail.id);
   if (!category) return null;
+
+  const partnerGridColumns =
+    category.vendors.length === 4
+      ? "lg:grid-cols-4"
+      : category.vendors.length >= 5
+        ? "lg:grid-cols-3"
+        : category.vendors.length === 3
+          ? "lg:grid-cols-3"
+          : "lg:grid-cols-2";
 
   return (
     <main
@@ -219,7 +228,10 @@ export default function SolutionCategoryPage({ detail }: SolutionCategoryPagePro
               {labels.partnersTitle}
             </h2>
           </Reveal>
-          <div className="relative mt-16 grid gap-px overflow-hidden bg-white/14 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+          <div
+            className={`relative mt-16 grid gap-px overflow-hidden bg-white/14 sm:grid-cols-2 lg:mt-24 ${partnerGridColumns}`}
+            data-solution-partner-grid
+          >
             {category.vendors.map((vendor, index) => (
               <Reveal delay={Math.min(index * 55, 220)} key={vendor.name}>
                 <TechnologyPartnerCard categoryId={category.id} vendor={vendor} />
