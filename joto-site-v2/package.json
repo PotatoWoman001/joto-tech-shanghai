@@ -10,6 +10,7 @@
     "build:sites": "npm run build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test": "vitest",
+    "test:deploy-config": "node --test deploy/aliyun/*.test.mjs",
     "test:seo-files": "node --test scripts/generate-seo-files.node.mjs"
   },
   "dependencies": {
