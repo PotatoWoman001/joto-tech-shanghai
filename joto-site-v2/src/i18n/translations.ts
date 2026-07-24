@@ -104,6 +104,12 @@ Object.assign(fa, {
 
 Object.assign(zh, {
   "Learn more": "了解更多",
+  "Founded in Shanghai": "创立于上海",
+  "Cities worldwide": "全球服务城市",
+  "Clients served for a decade+": "服务财富 500 强客户十余年",
+  "Support & maintenance": "支持与维护",
+  "Fortune 500": "财富 500 强",
+  "24×7": "7×24",
   "Campus networking and ongoing on-site support for international-school environments in China.": "为中国的国际学校环境提供园区网络与持续驻场支持。",
   "Security-infrastructure reinforcement supporting large-scale business operations in China.": "强化安全基础设施，支持在中国的大规模业务运营。",
   "Multi-site IT and security infrastructure delivery and maintenance for offices in China.": "为中国多个办公地点交付并维护 IT 与安全基础设施。",
@@ -114,6 +120,14 @@ Object.assign(zh, {
 
 Object.assign(fa, {
   "Learn more": "بیشتر بدانید",
+  "Founded in Shanghai": "تأسیس در شانگهای",
+  "Cities worldwide": "شهر در سراسر جهان",
+  "Clients served for a decade+": "بیش از یک دهه خدمت به شرکت‌های Fortune 500",
+  "Support & maintenance": "پشتیبانی و نگهداری",
+  "2010": "۲۰۱۰",
+  "10": "۱۰",
+  "Fortune 500": "فورچون ۵۰۰",
+  "24×7": "۲۴×۷",
   "Campus networking and ongoing on-site support for international-school environments in China.": "شبکه پردیس و پشتیبانی مستمر در محل برای مدارس بین‌المللی در چین.",
   "Security-infrastructure reinforcement supporting large-scale business operations in China.": "تقویت زیرساخت امنیت برای پشتیبانی از عملیات گسترده کسب‌وکار در چین.",
   "Multi-site IT and security infrastructure delivery and maintenance for offices in China.": "تحویل و نگهداری زیرساخت فناوری اطلاعات و امنیت در چندین دفتر در چین.",

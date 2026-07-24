@@ -137,7 +137,7 @@ export default function AboutPage() {
                         className={`relative mt-2 min-w-0 whitespace-nowrap font-medium leading-none tracking-[-0.055em] text-[#5ed29c] ${valueSizeClass}`}
                         data-about-page-stat-value
                       >
-                        {stat.value}
+                        {t(stat.value)}
                       </dd>
                     </div>
                   </Reveal>

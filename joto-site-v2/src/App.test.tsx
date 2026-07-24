@@ -284,6 +284,14 @@ describe("JOTO TECH single-page website", () => {
     expect(titleLines[0]).toHaveTextContent("让复杂 IT 项目");
     expect(titleLines[1]).toHaveTextContent("顺利落地。");
     expect(quote.querySelector("br")).toBeInTheDocument();
+    expect(screen.getByText("创立于上海")).toBeInTheDocument();
+    expect(screen.getByText("全球服务城市")).toBeInTheDocument();
+    expect(screen.getByText("服务财富 500 强客户十余年")).toBeInTheDocument();
+    expect(screen.getByText("支持与维护")).toBeInTheDocument();
+    expect(screen.getByText("财富 500 强")).toBeInTheDocument();
+    expect(screen.getByText("7×24")).toBeInTheDocument();
+    expect(screen.queryByText("Founded in Shanghai")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cities worldwide")).not.toBeInTheDocument();
     expect(container.querySelector("[data-about-stat-label]")).toHaveClass(
       "text-sm",
       "md:text-base",
@@ -294,5 +302,23 @@ describe("JOTO TECH single-page website", () => {
     for (const statLabel of statLabels) {
       expect(statLabel.parentElement).toHaveClass("flex", "flex-col");
     }
+  });
+
+  it("localizes every About statistic in Persian", () => {
+    window.history.replaceState({}, "", "/fa/about");
+
+    renderApp();
+
+    expect(screen.getByText("تأسیس در شانگهای")).toBeInTheDocument();
+    expect(screen.getByText("شهر در سراسر جهان")).toBeInTheDocument();
+    expect(
+      screen.getByText("بیش از یک دهه خدمت به شرکت‌های Fortune 500"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("پشتیبانی و نگهداری")).toBeInTheDocument();
+    expect(screen.getByText("۲۰۱۰")).toBeInTheDocument();
+    expect(screen.getByText("۱۰")).toBeInTheDocument();
+    expect(screen.getByText("فورچون ۵۰۰")).toBeInTheDocument();
+    expect(screen.getByText("۲۴×۷")).toBeInTheDocument();
+    expect(screen.queryByText("Founded in Shanghai")).not.toBeInTheDocument();
   });
 });
