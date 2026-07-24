@@ -64,28 +64,42 @@ describe("JOTO TECH single-page website", () => {
   });
 
   it.each([
-    ["English", "/"],
-    ["Chinese", "/zh/"],
-    ["Persian", "/fa/"],
-  ])("centers the %s hero CTA below its supporting copy", (_language, pathname) => {
-    window.history.replaceState({}, "", pathname);
+    { language: "English", pathname: "/", desktopOffset: "lg:left-[47%]" },
+    { language: "Chinese", pathname: "/zh/", desktopOffset: "lg:left-[47%]" },
+    { language: "Persian", pathname: "/fa/", desktopOffset: "lg:left-[32%]" },
+  ])(
+    "positions the $language hero CTA beside the desktop headline and below mobile copy",
+    ({ pathname, desktopOffset }) => {
+      window.history.replaceState({}, "", pathname);
 
-    const { container } = renderApp();
-    const copyColumn = container.querySelector(
-      "[data-hero-copy-column]",
-    ) as HTMLElement;
-    const description = copyColumn.querySelector(
-      "[data-hero-description]",
-    ) as HTMLElement;
-    const cta = copyColumn.querySelector("[data-hero-cta]") as HTMLElement;
+      const { container } = renderApp();
+      const headingShell = container.querySelector(
+        "[data-hero-heading-shell]",
+      ) as HTMLElement;
+      const copyColumn = container.querySelector(
+        "[data-hero-copy-column]",
+      ) as HTMLElement;
+      const description = copyColumn.querySelector(
+        "[data-hero-description]",
+      ) as HTMLElement;
+      const desktopCta = headingShell.querySelector(
+        "[data-hero-cta-desktop]",
+      ) as HTMLAnchorElement;
+      const mobileCta = copyColumn.querySelector(
+        "[data-hero-cta-mobile]",
+      ) as HTMLAnchorElement;
 
-    expect(copyColumn).toHaveClass("flex", "flex-col", "items-center");
-    expect(copyColumn).toContainElement(description);
-    expect(copyColumn).toContainElement(cta);
-    expect(description.compareDocumentPosition(cta)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-  });
+      expect(headingShell).toHaveClass("relative");
+      expect(desktopCta).toHaveClass("hidden", "lg:inline-flex", desktopOffset);
+      expect(mobileCta).toHaveClass("lg:hidden");
+      expect(copyColumn).toContainElement(description);
+      expect(description.compareDocumentPosition(mobileCta)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+      expect(desktopCta).toHaveAttribute("href", "#solutions");
+      expect(mobileCta).toHaveAttribute("href", "#solutions");
+    },
+  );
 
   it("uses the tailored Chinese hero alignment and natural case-study copy", () => {
     window.history.replaceState({}, "", "/zh/");

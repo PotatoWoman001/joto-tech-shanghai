@@ -373,7 +373,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
                           className={`object-contain object-left opacity-90 ${
                             isPortraitLogo
                               ? "h-24 w-[100px]"
-                              : "max-h-12 w-auto max-w-[150px]"
+                              : "h-12 w-[150px]"
                           } ${caseStudy.logoTreatment === "brand" ? "" : "brightness-0 invert"}`}
                           data-case-logo-size={isPortraitLogo ? "portrait" : "standard"}
                           data-logo-treatment={caseStudy.logoTreatment ?? "monochrome"}
@@ -427,7 +427,7 @@ export default function PartnerDetailPage({ detail }: PartnerDetailPageProps) {
               05 / {t("Start a project")}
             </p>
             <div className="lg:col-span-9">
-              <h2 className="max-w-5xl text-[clamp(3.2rem,7.5vw,8rem)] font-medium leading-[0.86] tracking-[-0.07em]">
+              <h2 className="max-w-5xl text-[clamp(2.25rem,5.5vw,5.75rem)] font-medium leading-[0.86] tracking-[-0.07em]">
                 {detail.ctaTitle}
               </h2>
               <p className="mt-8 max-w-2xl text-base leading-7 text-black/62 md:text-lg">
