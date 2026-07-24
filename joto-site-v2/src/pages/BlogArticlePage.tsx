@@ -124,7 +124,11 @@ export default function BlogArticlePage({ article }: { article?: BlogArticle }) 
               </p>
             </div>
             <div className="lg:col-span-9">
-              <h1 className="max-w-6xl text-balance text-[clamp(3.4rem,7.6vw,8.2rem)] font-medium leading-[0.87] tracking-[-0.072em]">
+              <h1
+                className={`max-w-6xl text-balance text-[clamp(3.4rem,7.6vw,8.2rem)] font-medium tracking-[-0.072em] ${
+                  locale === "en" ? "leading-[1.04]" : "leading-[0.87]"
+                }`}
+              >
                 {content.title}
               </h1>
               <p className="mt-8 max-w-3xl text-lg leading-8 text-white/58 md:text-xl md:leading-9">
