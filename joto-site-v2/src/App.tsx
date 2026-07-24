@@ -15,6 +15,7 @@ import AboutPage from "./pages/AboutPage";
 import BlogArticlePage from "./pages/BlogArticlePage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
 import SolutionCategoryPage from "./pages/SolutionCategoryPage";
 import SolutionCapabilityIconPreviewPage from "./pages/SolutionCapabilityIconPreviewPage";
@@ -49,14 +50,15 @@ export default function App() {
     const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
 
     if (blogSlug) {
-      page = <BlogArticlePage article={getBlogArticle(blogSlug)} />;
+      const article = getBlogArticle(blogSlug);
+      page = article ? <BlogArticlePage article={article} /> : <NotFoundPage />;
     } else if (pathname === "/contact" || pathname === "/contact/") {
       page = <ContactPage />;
     } else if (categoryDetail) {
       page = <SolutionCategoryPage detail={categoryDetail} />;
     } else if (detail) {
       page = <PartnerDetailPage detail={detail} />;
-    } else {
+    } else if (pathname === "/") {
       page = (
         <main
           id="top"
@@ -79,6 +81,8 @@ export default function App() {
           <ContactFooter />
         </main>
       );
+    } else {
+      page = <NotFoundPage />;
     }
   }
 
