@@ -100,11 +100,11 @@ describe("BlogArticlePage", () => {
     expect(document.documentElement).toHaveAttribute("dir", "rtl");
   });
 
-  it("renders an article-not-found state for an unknown slug", () => {
+  it("renders the shared not-found page for an unknown slug", () => {
     renderApp("/blog/unknown");
 
-    expect(screen.getByRole("heading", { name: "Article not found." })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Back to insights" })).toHaveAttribute(
+    expect(screen.getByRole("heading", { name: "Page not found." })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Latest insights" })).toHaveAttribute(
       "href",
       "/blog",
     );
