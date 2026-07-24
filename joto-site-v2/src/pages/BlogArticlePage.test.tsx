@@ -49,6 +49,21 @@ describe("BlogArticlePage", () => {
     );
   });
 
+  it("loosens only the English article title line height", () => {
+    const english = renderApp("/blog/enterprise-network-growth");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveClass("leading-[1.04]");
+    english.unmount();
+
+    const chinese = renderApp("/zh/blog/enterprise-network-growth");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveClass("leading-[0.87]");
+    expect(screen.getByRole("heading", { level: 1 })).not.toHaveClass("leading-[1.04]");
+    chinese.unmount();
+
+    renderApp("/fa/blog/enterprise-network-growth");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveClass("leading-[0.87]");
+    expect(screen.getByRole("heading", { level: 1 })).not.toHaveClass("leading-[1.04]");
+  });
+
   it("renders the Chinese closing viewpoint as compact sans-serif content", () => {
     const { container } = renderApp("/zh/blog/enterprise-network-growth");
     const closingViewpoint = container.querySelector(
