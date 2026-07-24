@@ -10,7 +10,10 @@
 
 ## Global Constraints
 
-- 桌面端三列 3 + 2 排列，平板两列，手机单列。
+- 五张卡片保持单行横排并通过原生横向滚动浏览。
+- 桌面约三张可见、平板约两张可见、手机露出一张及下一张边缘。
+- 滚动使用 `scroll-snap-type: x mandatory` 和细滚动条。
+- 卡片高度缩至第一版约 80%。
 - 默认态为大图标题加图片外黑底按钮；悬停/键盘聚焦时图片纵向展开，说明进入图片，按钮切换为白底绿色文字。
 - 每张卡片只保留一句说明。
 - 触屏不依赖悬停，内容常显。
@@ -243,3 +246,65 @@ Expected: 成功生成包含 `dist/server/index.js` 与托管元数据的构建�
 仅暂存本计划涉及的组件、测试、翻译、内容文件和五张图片；保留工作树中与本任务无关的用户改动。
 
 Commit: `feat: redesign solution cards with field imagery`
+
+### Task 5: 收紧卡片比例并改为单行横向滚动
+
+**Files:**
+- Modify: `src/components/Solutions.tsx`
+- Modify: `src/components/SolutionCard.tsx`
+- Modify: `src/components/SolutionCard.test.tsx`
+- Modify: `src/App.test.tsx`
+- Modify: `src/index.css`
+
+**Interfaces:**
+- Consumes: `SolutionCard` 和五项 `solutions.categories`
+- Produces: `data-solutions-scroller` 单行横向滚动容器和约 80% 高度卡片
+
+- [ ] **Step 1: 补充布局与高度测试**
+
+```tsx
+expect(scroller).toHaveClass("flex", "overflow-x-auto", "snap-x");
+expect(scroller.querySelectorAll("[data-solution-card-slot]")).toHaveLength(5);
+expect(card).toHaveClass("h-[500px]", "xl:h-[530px]");
+expect(visual.className).toContain("xl:h-[440px]");
+```
+
+- [ ] **Step 2: 运行测试确认失败**
+
+Run: `npm test -- --run src/components/SolutionCard.test.tsx src/App.test.tsx`
+
+Expected: FAIL，旧布局仍为多行网格且卡片高度仍为 `620–680px`。
+
+- [ ] **Step 3: 实现单行横向滚动**
+
+```tsx
+<div
+  className="solution-card-scroller mt-16 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-5 md:mt-24"
+  data-solutions-scroller
+>
+  <Reveal className="w-[82vw] max-w-[420px] flex-none snap-start sm:w-[48vw] lg:w-[31vw]" />
+</div>
+```
+
+- [ ] **Step 4: 将卡片高度收紧到约 80%**
+
+```tsx
+<article className="group relative h-[500px] sm:h-[540px] xl:h-[530px]">
+  <div className="xl:h-[440px] xl:group-hover:h-full" />
+</article>
+```
+
+- [ ] **Step 5: 添加轻量滚动条**
+
+```css
+.solution-card-scroller {
+  scrollbar-color: rgba(94, 210, 156, 0.7) rgba(255, 255, 255, 0.08);
+  scrollbar-width: thin;
+}
+```
+
+- [ ] **Step 6: 运行测试和构建**
+
+Run: `npm test -- --run && npm run build:sites`
+
+Expected: 全部测试与 Sites 构建通过。
