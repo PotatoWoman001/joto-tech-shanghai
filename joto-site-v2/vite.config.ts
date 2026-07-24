@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
       globals: true,
       setupFiles: "./src/test/setup.ts",
       css: true,
-      exclude: ["functions/**", "node_modules/**", "dist/**"],
+      exclude: ["deploy/**", "functions/**", "node_modules/**", "dist/**"],
     },
   };
 });
