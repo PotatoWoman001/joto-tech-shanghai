@@ -47,3 +47,18 @@ RAM 身份只授予 `dm:SingleSendMail` 权限。不要使用主账号 AccessKey
 - <https://help.aliyun.com/en/functioncompute/fc/web-functions>
 - <https://help.aliyun.com/en/functioncompute/fc/deploy-a-code-package>
 - <https://help.aliyun.com/en/direct-mail/api-dm-2015-11-23-singlesendmail>
+
+## ECS + Resend 配置
+
+在 ECS 上，服务通过 Nginx 反向代理并仅监听
+`127.0.0.1:9000`。配置以下环境变量时，服务优先使用 Resend：
+
+- `RESEND_API_KEY`
+- `RESEND_FROM_ADDRESS`
+- `RESEND_TO_ADDRESS`
+- `ALLOWED_ORIGINS=https://jotoglobal.com,https://www.jotoglobal.com`
+- `PORT=9000`
+- `HOST=127.0.0.1`
+
+Resend 和阿里云邮件推送均未完整配置时，接口返回 `503`。不要把上述
+变量写入前端、Git 或公开目录。
