@@ -49,22 +49,18 @@ describe("English site content", () => {
     }
   });
 
-  it("uses the international JD.com logo without inversion", () => {
+  it("uses the international JD.com artwork", () => {
     const jd = siteContent.caseStudies.items.find(
       ({ client }) => client === "JD International",
     );
 
     expect(jd?.logo).toMatch(/jingdong-international\.png$/i);
-    expect(jd?.logoTreatment).toBe("original");
   });
 
-  it("preserves the Starbucks brand colors on its dark case-study card", () => {
-    const starbucks = siteContent.caseStudies.items.find(
-      ({ client }) => client === "Starbucks China",
-    );
-
-    expect(starbucks?.logo).toMatch(/starbucks\.svg$/i);
-    expect(starbucks?.logoTreatment).toBe("original");
+  it("renders every case-study logo with the shared monochrome treatment", () => {
+    expect(
+      siteContent.caseStudies.items.every(({ logoTreatment }) => logoTreatment !== "original"),
+    ).toBe(true);
   });
 
   it("shows only the partnership levels supplied for each category", () => {

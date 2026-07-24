@@ -329,7 +329,6 @@ export const siteContent: SiteContent = {
           "Campus networking and ongoing on-site support for international-school environments in China.",
         capabilities: ["Campus networking", "Wireless infrastructure", "On-site support"],
         logo: harrowLogo,
-        logoTreatment: "original",
       },
       {
         client: "Starbucks China",
@@ -338,7 +337,6 @@ export const siteContent: SiteContent = {
           "Security-infrastructure reinforcement supporting large-scale business operations in China.",
         capabilities: ["Network security", "Endpoint protection", "Security operations"],
         logo: starbucksLogo,
-        logoTreatment: "original",
       },
       {
         client: "Danaher",
@@ -347,7 +345,6 @@ export const siteContent: SiteContent = {
           "Multi-site IT and security infrastructure delivery and maintenance for offices in China.",
         capabilities: ["Data-center networking", "Compute and storage", "Physical security"],
         logo: danaherLogo,
-        logoTreatment: "original",
       },
       {
         client: "JD International",
@@ -356,7 +353,6 @@ export const siteContent: SiteContent = {
           "Workplace infrastructure design and deployment supporting international business expansion.",
         capabilities: ["Global workplace design", "Network and security", "Site deployment"],
         logo: jdLogo,
-        logoTreatment: "original",
       },
     ],
   },
