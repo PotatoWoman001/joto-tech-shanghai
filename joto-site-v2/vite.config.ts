@@ -1,8 +1,8 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  base: "/",
+export default defineConfig(({ mode }) => ({
+  base: mode === "github-pages" ? "/joto-tech-shanghai/" : "/",
   plugins: [react()],
   server: {
     proxy: {
@@ -16,4 +16,4 @@ export default defineConfig({
     css: true,
     exclude: ["functions/**", "node_modules/**", "dist/**"],
   },
-});
+}));
