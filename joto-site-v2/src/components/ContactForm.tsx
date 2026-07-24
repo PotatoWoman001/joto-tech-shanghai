@@ -1,18 +1,17 @@
-import { FormEvent, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { ArrowUpRight, LoaderCircle, RefreshCw } from "lucide-react";
 import { useI18n } from "../i18n/I18nProvider";
+import {
+  type CaptchaChallenge,
+  type ContactErrorKey,
+  type ContactFields,
+  buildContactPayload,
+  contactErrorKey,
+  loadCaptcha,
+  submitContact,
+} from "../lib/contactApi";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
-
-interface ContactFields {
-  name: string;
-  company: string;
-  email: string;
-  phoneOrWechat: string;
-  message: string;
-  website: string;
-}
-
 type ContactErrors = Partial<Record<keyof ContactFields, string>>;
 
 const initialFields: ContactFields = {
@@ -26,7 +25,7 @@ const initialFields: ContactFields = {
 
 const fieldClassName =
   "mt-2 w-full border border-white/18 bg-[#0a100d] px-4 py-3.5 text-sm text-white outline-none transition-colors placeholder:text-white/24 focus:border-joto-green";
-const contactEndpoint = import.meta.env.VITE_CONTACT_API_URL?.trim() || "/api/contact";
+const genericDeliveryError = "We could not send your enquiry. Please try again or email";
 
 function validate(fields: ContactFields, t: (source: string) => string): ContactErrors {
   const errors: ContactErrors = {};
@@ -42,10 +41,35 @@ function validate(fields: ContactFields, t: (source: string) => string): Contact
 }
 
 export default function ContactForm() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [fields, setFields] = useState<ContactFields>(initialFields);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [statusMessage, setStatusMessage] = useState<ContactErrorKey | null>(null);
+  const [captcha, setCaptcha] = useState<CaptchaChallenge | null>(null);
+  const [captchaText, setCaptchaText] = useState("");
+  const [captchaLoading, setCaptchaLoading] = useState(true);
+  const [captchaError, setCaptchaError] = useState(false);
+  const hasCaptchaStatusError =
+    statusMessage !== null && statusMessage !== genericDeliveryError;
+
+  const refreshCaptcha = useCallback(async () => {
+    setCaptchaLoading(true);
+    setCaptchaError(false);
+    try {
+      setCaptcha(await loadCaptcha());
+      setCaptchaText("");
+    } catch {
+      setCaptcha(null);
+      setCaptchaError(true);
+    } finally {
+      setCaptchaLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshCaptcha();
+  }, [refreshCaptcha]);
 
   const updateField = (field: keyof ContactFields, value: string) => {
     setFields((current) => ({ ...current, [field]: value }));
@@ -53,6 +77,7 @@ export default function ContactForm() {
       setErrors((current) => ({ ...current, [field]: undefined }));
     }
     if (status !== "idle") setStatus("idle");
+    setStatusMessage(null);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -66,18 +91,34 @@ export default function ContactForm() {
       return;
     }
 
-    setStatus("submitting");
-    try {
-      const response = await fetch(contactEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
-      });
-
-      if (!response.ok) throw new Error("Contact request failed");
-      setStatus("success");
-    } catch {
+    if (!captchaText.trim()) {
       setStatus("error");
+      setStatusMessage("Please enter the verification code.");
+      document.getElementById("contact-captcha")?.focus();
+      return;
+    }
+    if (!captcha) {
+      setCaptchaError(true);
+      return;
+    }
+
+    setStatus("submitting");
+    setStatusMessage(null);
+    try {
+      await submitContact(
+        buildContactPayload(fields, captcha, captchaText, {
+          locale,
+          pageUrl: window.location.href,
+          referrer: document.referrer,
+        }),
+      );
+      setFields(initialFields);
+      setStatus("success");
+      await refreshCaptcha();
+    } catch (error) {
+      setStatus("error");
+      setStatusMessage(contactErrorKey(error));
+      await refreshCaptcha();
     }
   };
 
@@ -191,6 +232,71 @@ export default function ContactForm() {
           />
           {errorMessage("message")}
         </div>
+        <div className="sm:col-span-2">
+          <label className="text-xs text-white/65" htmlFor="contact-captcha">
+            {t("Verification code")} <span className="text-joto-green">*</span>
+          </label>
+          <div className="mt-2 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-stretch">
+            <input
+              aria-describedby={
+                hasCaptchaStatusError ? "contact-captcha-error" : undefined
+              }
+              aria-invalid={hasCaptchaStatusError}
+              autoComplete="off"
+              className={fieldClassName.replace("mt-2 ", "")}
+              id="contact-captcha"
+              maxLength={12}
+              onChange={(event) => {
+                setCaptchaText(event.target.value);
+                if (status !== "idle") setStatus("idle");
+                setStatusMessage(null);
+              }}
+              placeholder={t("Enter the characters shown")}
+              value={captchaText}
+            />
+            <div className="flex min-h-12 items-stretch gap-2">
+              {captcha ? (
+                <button
+                  className="min-w-32 overflow-hidden border border-white/18 bg-white"
+                  disabled={captchaLoading}
+                  onClick={() => void refreshCaptcha()}
+                  type="button"
+                >
+                  <img
+                    alt={t("Security verification code")}
+                    className="h-12 w-full object-contain"
+                    src={captcha.svg}
+                  />
+                </button>
+              ) : (
+                <div className="flex min-w-32 items-center justify-center border border-white/18 bg-white/[0.04] text-white/45">
+                  {captchaLoading ? (
+                    <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "—"
+                  )}
+                </div>
+              )}
+              <button
+                aria-label={t("Refresh verification code")}
+                className="flex w-12 items-center justify-center border border-white/18 text-white/55 transition-colors hover:border-joto-green hover:text-joto-green"
+                disabled={captchaLoading}
+                onClick={() => void refreshCaptcha()}
+                type="button"
+              >
+                <RefreshCw
+                  aria-hidden="true"
+                  className={`h-4 w-4 ${captchaLoading ? "animate-spin" : ""}`}
+                />
+              </button>
+            </div>
+          </div>
+          {captchaError && (
+            <p className="mt-2 text-xs text-[#ff8f8f]">
+              {t("Verification code could not be loaded. Please refresh and try again.")}
+            </p>
+          )}
+        </div>
       </div>
 
       <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
@@ -210,7 +316,7 @@ export default function ContactForm() {
         </p>
         <button
           className="group inline-flex items-center gap-5 rounded-full bg-joto-green py-2 pl-5 pr-2 text-xs font-bold uppercase tracking-[0.1em] text-joto-ink transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-65"
-          disabled={status === "submitting" || status === "success"}
+          disabled={status === "submitting" || status === "success" || captchaLoading || !captcha}
           type="submit"
         >
           {status === "submitting"
@@ -219,7 +325,10 @@ export default function ContactForm() {
               ? t("Enquiry sent")
               : t("Send project brief")}
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-joto-ink text-joto-green">
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight
+              aria-hidden="true"
+              className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
           </span>
         </button>
       </div>
@@ -230,13 +339,26 @@ export default function ContactForm() {
             {t("Thank you. Your project brief has been sent, and our team will reply within one business day.")}
           </p>
         )}
-        {status === "error" && (
-          <p className="mt-6 border-l-2 border-[#ff8f8f] pl-4 text-sm leading-6 text-white/70">
-            {t("We could not send your enquiry. Please try again or email")} {" "}
-            <a className="text-joto-green underline underline-offset-4" href="mailto:sales@jototech.cn">
-              sales@jototech.cn
-            </a>
-            .
+        {status === "error" && statusMessage && (
+          <p
+            className="mt-6 border-l-2 border-[#ff8f8f] pl-4 text-sm leading-6 text-white/70"
+            id={
+              hasCaptchaStatusError ? "contact-captcha-error" : undefined
+            }
+          >
+            {t(statusMessage)}
+            {statusMessage === genericDeliveryError && (
+              <>
+                {" "}
+                <a
+                  className="text-joto-green underline underline-offset-4"
+                  href="mailto:sales@jototech.cn"
+                >
+                  sales@jototech.cn
+                </a>
+                .
+              </>
+            )}
           </p>
         )}
       </div>

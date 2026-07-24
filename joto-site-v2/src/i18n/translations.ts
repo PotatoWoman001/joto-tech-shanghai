@@ -117,6 +117,14 @@ Object.assign(zh, {
   "Workplace infrastructure design and deployment supporting international business expansion.": "设计并部署办公基础设施，支持国际业务拓展。",
   "Shanghai (HQ)": "上海（总部）",
   "Yangtze River Delta": "长三角", "Greater Bay Area": "粤港澳大湾区", "Sheridan, Wyoming": "怀俄明州谢里登", "Language selector": "语言选择", "Open solution branches": "展开解决方案分类", "Close solution branches": "收起解决方案分类",
+  "Verification code": "验证码",
+  "Enter the characters shown": "请输入图中字符",
+  "Security verification code": "安全验证码",
+  "Refresh verification code": "刷新验证码",
+  "Verification code could not be loaded. Please refresh and try again.": "验证码加载失败，请刷新后重试。",
+  "Please enter the verification code.": "请输入验证码。",
+  "The verification code is incorrect.": "验证码不正确。",
+  "The verification code has expired. Please use the new code.": "验证码已过期，请使用新的验证码。",
 });
 
 Object.assign(fa, {
@@ -135,6 +143,14 @@ Object.assign(fa, {
   "Workplace infrastructure design and deployment supporting international business expansion.": "طراحی و استقرار زیرساخت محیط کار برای پشتیبانی از توسعه بین‌المللی کسب‌وکار.",
   "Shanghai (HQ)": "شانگهای (دفتر مرکزی)",
   "Yangtze River Delta": "دلتای رود یانگ‌تسه", "Greater Bay Area": "منطقه خلیج بزرگ", "Sheridan, Wyoming": "شریدن، وایومینگ", "Language selector": "انتخاب زبان", "Open solution branches": "باز کردن دسته‌های راهکار", "Close solution branches": "بستن دسته‌های راهکار",
+  "Verification code": "کد تأیید",
+  "Enter the characters shown": "نویسه‌های تصویر را وارد کنید",
+  "Security verification code": "کد تأیید امنیتی",
+  "Refresh verification code": "تازه‌سازی کد تأیید",
+  "Verification code could not be loaded. Please refresh and try again.": "کد تأیید بارگیری نشد. صفحه را تازه کنید و دوباره تلاش کنید.",
+  "Please enter the verification code.": "لطفاً کد تأیید را وارد کنید.",
+  "The verification code is incorrect.": "کد تأیید نادرست است.",
+  "The verification code has expired. Please use the new code.": "کد تأیید منقضی شده است. از کد جدید استفاده کنید.",
 });
 
 function translateValue<T>(value: T, dictionary: Dictionary): T {
