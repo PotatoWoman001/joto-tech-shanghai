@@ -1,4 +1,12 @@
 import amlogicLogo from "../assets/customer-logos/amlogic.png";
+import bostonScientificLogo from "../assets/customer-logos/partner-cases/boston-scientific.svg";
+import bungeLogo from "../assets/customer-logos/partner-cases/bunge.svg";
+import dfxAdvanceLogo from "../assets/customer-logos/partner-cases/dfx-advance.svg";
+import dulwichLogo from "../assets/customer-logos/partner-cases/dulwich-college-international.svg";
+import pallLogo from "../assets/customer-logos/partner-cases/pall.png";
+import ssisLogo from "../assets/customer-logos/partner-cases/ssis.svg";
+import ykPaoLogo from "../assets/customer-logos/partner-cases/yk-pao-school.png";
+import zhongkeChuangweiLogo from "../assets/customer-logos/partner-cases/zhongke-chuangwei.png";
 import starbucksLogo from "../assets/customer-logos/starbucks.svg";
 import type { Locale } from "../i18n/routing";
 import type { PartnerCaseStudy } from "./partners";
@@ -71,7 +79,6 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
         ),
       ],
       logo: starbucksLogo,
-      logoTreatment: "brand",
     },
     {
       client: text(
@@ -111,6 +118,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "Palo Alto Networks PA-1410",
         ),
       ],
+      logo: dulwichLogo,
     },
     {
       client: text("Jinnet", "Jinnet 今网", "جین‌نت"),
@@ -206,6 +214,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری فعال مرتبط با KnowBe4",
         ),
       ],
+      logo: dfxAdvanceLogo,
     },
   ],
   extreme: [
@@ -247,6 +256,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "اشتراک ExtremeCloud IQ",
         ),
       ],
+      logo: ssisLogo,
     },
     {
       client: text(
@@ -286,6 +296,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "اشتراک‌های ابری XIQ",
         ),
       ],
+      logo: ykPaoLogo,
     },
   ],
   fortinet: [
@@ -317,6 +328,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری امنیتی مرتبط با Fortinet",
         ),
       ],
+      logo: bungeLogo,
     },
     {
       client: text(
@@ -378,6 +390,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری شبکه مرتبط با Aruba",
         ),
       ],
+      logo: bostonScientificLogo,
     },
     {
       client: text(
@@ -407,6 +420,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری شبکه مرتبط با Aruba",
         ),
       ],
+      logo: zhongkeChuangweiLogo,
     },
   ],
   sangfor: [
@@ -438,6 +452,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری فناوری مرتبط با Sangfor",
         ),
       ],
+      logo: pallLogo,
     },
     {
       client: text(
@@ -467,6 +482,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری فناوری مرتبط با Sangfor",
         ),
       ],
+      logo: pallLogo,
     },
   ],
   hikvision: [
@@ -498,6 +514,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری امنیت فیزیکی مرتبط با Hikvision",
         ),
       ],
+      logo: pallLogo,
     },
     {
       client: text(
@@ -527,6 +544,7 @@ const partnerCaseGroups: Record<PartnerCaseGroup, LocalizedPartnerCase[]> = {
           "همکاری امنیت فیزیکی مرتبط با Hikvision",
         ),
       ],
+      logo: bungeLogo,
     },
   ],
 };

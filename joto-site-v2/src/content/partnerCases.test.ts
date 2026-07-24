@@ -69,7 +69,7 @@ describe("partner representative projects", () => {
 
     expect(JSON.stringify(paloAltoProjects)).toContain("PA-5430");
     expect(JSON.stringify(paloAltoProjects)).toContain("2022–2025");
-    expect(paloAltoProjects[0].logoTreatment).toBe("brand");
+    expect(paloAltoProjects[0].logoTreatment).toBeUndefined();
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "zh-CN")))
       .toContain("49 个");
     expect(JSON.stringify(getPartnerCases("/solutions/network/extreme-networks", "en")))
