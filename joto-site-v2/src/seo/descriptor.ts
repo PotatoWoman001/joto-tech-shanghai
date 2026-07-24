@@ -1,4 +1,3 @@
-import jotoLogo from "../assets/brand/joto-logo.png";
 import { getBlogArticle } from "../content/blog";
 import { getPartnerDetail } from "../content/partners";
 import { getSolutionCategoryDetail } from "../content/solutionCategories";
@@ -17,9 +16,9 @@ import type {
   SeoStatus,
 } from "./types";
 
-const DEFAULT_IMAGE_WIDTH = 752;
-const DEFAULT_IMAGE_HEIGHT = 256;
-const DEFAULT_IMAGE_URL = new URL(jotoLogo, SITE_ORIGIN).href;
+const DEFAULT_IMAGE_WIDTH = 1734;
+const DEFAULT_IMAGE_HEIGHT = 907;
+const DEFAULT_IMAGE_URL = `${SITE_ORIGIN}/og.png`;
 
 const fixedPagePaths: Record<string, FixedPageKey> = {
   "/": "home",

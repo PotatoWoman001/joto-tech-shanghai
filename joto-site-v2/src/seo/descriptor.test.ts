@@ -11,6 +11,9 @@ describe("page SEO descriptors", () => {
     expect(seo.description).toContain("企业网络、网络安全、服务器与存储");
     expect(seo.canonicalUrl).toBe("https://jotoglobal.com/zh/");
     expect(seo.robots).toBe("index, follow");
+    expect(seo.openGraph.image).toBe("https://jotoglobal.com/og.png");
+    expect(seo.openGraph.imageWidth).toBe(1734);
+    expect(seo.openGraph.imageHeight).toBe(907);
   });
 
   it("uses article content for localized article metadata", () => {
