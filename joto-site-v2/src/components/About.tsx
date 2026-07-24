@@ -2,8 +2,9 @@ import { useI18n } from "../i18n/I18nProvider";
 import { Reveal } from "./SectionHeading";
 
 export default function About() {
-  const { siteContent } = useI18n();
+  const { locale, siteContent } = useI18n();
   const { about } = siteContent;
+  const isChinese = locale === "zh-CN";
 
   return (
     <section id="about" className="scroll-mt-20 bg-[#070b0a] px-5 py-12 sm:px-8 md:py-16 lg:px-12 lg:py-20">
@@ -44,6 +45,13 @@ export default function About() {
             {about.stats.map((stat, index) => {
               const isVeryLongValue = stat.value.length > 11;
               const isLongValue = stat.value.length > 7;
+              const valueSizeClass = isChinese
+                ? "text-[clamp(2.1rem,3.25vw,3.25rem)]"
+                : isVeryLongValue
+                  ? "text-[clamp(1.6rem,3vw,3.15rem)]"
+                  : isLongValue
+                    ? "text-[clamp(1.85rem,3.4vw,3.6rem)]"
+                    : "text-[clamp(2.8rem,4.8vw,4.5rem)]";
 
               return (
                 <Reveal
@@ -63,13 +71,8 @@ export default function About() {
                       {stat.label}
                     </p>
                     <p
-                      className={`relative mt-2 min-w-0 whitespace-nowrap font-medium leading-none tracking-[-0.055em] text-[#5ed29c] ${
-                        isVeryLongValue
-                          ? "text-[clamp(1.6rem,3vw,3.15rem)]"
-                          : isLongValue
-                            ? "text-[clamp(1.85rem,3.4vw,3.6rem)]"
-                            : "text-[clamp(2.8rem,4.8vw,4.5rem)]"
-                      }`}
+                      data-about-stat-value
+                      className={`relative mt-2 min-w-0 whitespace-nowrap font-medium leading-none tracking-[-0.055em] text-[#5ed29c] ${valueSizeClass}`}
                     >
                       {stat.value}
                     </p>
