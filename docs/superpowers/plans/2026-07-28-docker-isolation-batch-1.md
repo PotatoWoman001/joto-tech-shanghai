@@ -37,7 +37,7 @@
 - Consumes: `package-lock.json`、现有 `npm run dev` 和 `npm run build`。
 - Produces: Compose 项目 `workbuddy-creator`、服务 `web`、容器内端口 `5173`、宿主地址 `http://127.0.0.1:5174`、命名卷 `workbuddy_node_modules`。
 
-- [ ] **Step 1: 检查 Docker 基线和 Workbuddy 工作区保护条件**
+- [x] **Step 1: 检查 Docker 基线和 Workbuddy 工作区保护条件**
 
 Run:
 
@@ -52,7 +52,7 @@ Expected:
 - Docker Server 能返回版本且架构为 `aarch64`。
 - Git 状态仍显示用户已有的 `src/App.tsx`、`src/index.css` 和预览文件变更；这些文件不进入后续暂存列表。
 
-- [ ] **Step 2: 写入会先失败的 Docker 配置契约测试**
+- [x] **Step 2: 写入会先失败的 Docker 配置契约测试**
 
 Create `../Workbuddy 假网站/tests/docker-config.test.mjs`:
 
@@ -97,7 +97,7 @@ Modify `../Workbuddy 假网站/package.json` scripts to:
 }
 ```
 
-- [ ] **Step 3: 运行契约测试并确认缺少 Docker 文件**
+- [x] **Step 3: 运行契约测试并确认缺少 Docker 文件**
 
 Run:
 
@@ -108,7 +108,7 @@ npm run test:docker
 
 Expected: FAIL，错误包含 `ENOENT` 和 `Dockerfile`。
 
-- [ ] **Step 4: 创建 Workbuddy 镜像、Compose 和构建上下文**
+- [x] **Step 4: 创建 Workbuddy 镜像、Compose 和构建上下文**
 
 Create `../Workbuddy 假网站/Dockerfile`:
 
@@ -176,7 +176,7 @@ vite.config.d.ts
 .DS_Store
 ```
 
-- [ ] **Step 5: 写入 Workbuddy Docker 使用说明**
+- [x] **Step 5: 写入 Workbuddy Docker 使用说明**
 
 Replace the empty `../Workbuddy 假网站/README.md` with:
 
@@ -220,7 +220,7 @@ docker compose down
 迁移验证期间保留现有本机依赖，可继续使用 `npm run dev`。
 ````
 
-- [ ] **Step 6: 运行静态测试和 Compose 解析**
+- [x] **Step 6: 运行静态测试和 Compose 解析**
 
 Run:
 
@@ -235,7 +235,7 @@ Expected:
 - `Workbuddy Docker config: PASS`
 - Compose 解析命令退出码为 `0`。
 
-- [ ] **Step 7: 构建、启动并验证 Workbuddy**
+- [x] **Step 7: 构建、启动并验证 Workbuddy**
 
 Run:
 
@@ -254,7 +254,7 @@ Expected:
 - `curl` 退出码为 `0`。
 - Vite 构建完成且没有 TypeScript 错误。
 
-- [ ] **Step 8: 只提交 Workbuddy Docker 相关文件**
+- [x] **Step 8: 只提交 Workbuddy Docker 相关文件**
 
 Run:
 
@@ -291,7 +291,7 @@ Expected: 暂存文件列表不包含 `src/App.tsx`、`src/index.css`、`output/
 - Consumes: 现有宣传册内容、素材、构建脚本和测试。
 - Produces: Compose 项目 `joto-ai-brochure`、服务 `brochure`、宿主地址 `http://127.0.0.1:4175/build/brochure.html`、容器内 `CHROME_PATH=/usr/bin/chromium`。
 
-- [ ] **Step 1: 写入会先失败的宣传册容器契约测试**
+- [x] **Step 1: 写入会先失败的宣传册容器契约测试**
 
 Create `../Marketing/Brochure/brochure/tests/docker-config.test.mjs`:
 
@@ -332,7 +332,7 @@ assert.match(sheetScript, /BROCHURE_CONTACT_SHEET_FONT/);
 console.log("Brochure Docker config: PASS");
 ```
 
-- [ ] **Step 2: 运行契约测试并确认缺少 Docker 文件**
+- [x] **Step 2: 运行契约测试并确认缺少 Docker 文件**
 
 Run:
 
@@ -343,7 +343,7 @@ node tests/docker-config.test.mjs
 
 Expected: FAIL，错误包含 `ENOENT` 和 `Dockerfile`。
 
-- [ ] **Step 3: 固定宣传册运行时依赖和 npm 命令**
+- [x] **Step 3: 固定宣传册运行时依赖和 npm 命令**
 
 Create `../Marketing/Brochure/brochure/requirements.lock`:
 
@@ -384,7 +384,7 @@ npm install --package-lock-only --ignore-scripts
 
 Expected: `package-lock.json` 使用 lockfile version `3` 且根包名为 `joto-ai-brochure`。
 
-- [ ] **Step 4: 将图片尺寸检查改为跨平台 Python/Pillow 实现**
+- [x] **Step 4: 将图片尺寸检查改为跨平台 Python/Pillow 实现**
 
 Create `../Marketing/Brochure/brochure/scripts/image-dimensions.py`:
 
@@ -423,7 +423,7 @@ const height = Number(metadata.height);
 
 Expected: `validate-assets.mjs` no longer contains the string `"sips"`。
 
-- [ ] **Step 5: 让 PDF 导出脚本读取容器或 macOS 的 Chrome 路径**
+- [x] **Step 5: 让 PDF 导出脚本读取容器或 macOS 的 Chrome 路径**
 
 Replace `../Marketing/Brochure/brochure/scripts/export-pdf.mjs` with:
 
@@ -468,7 +468,7 @@ if (result.status !== 0 || !fs.existsSync(output)) {
 console.log(output);
 ```
 
-- [ ] **Step 6: 为 Python 图形脚本增加 Linux 字体回退**
+- [x] **Step 6: 为 Python 图形脚本增加 Linux 字体回退**
 
 In `../Marketing/Brochure/brochure/scripts/generate-qrs.py`, add `import os`,
 import `UnicodeCIDFont`, and replace the fixed font registration with:
@@ -503,7 +503,7 @@ font = ImageFont.truetype(
 )
 ```
 
-- [ ] **Step 7: 创建宣传册多运行时镜像和 Compose**
+- [x] **Step 7: 创建宣传册多运行时镜像和 Compose**
 
 Create `../Marketing/Brochure/brochure/Dockerfile`:
 
@@ -592,7 +592,7 @@ __pycache__/
 .DS_Store
 ```
 
-- [ ] **Step 8: 更新宣传册 Docker 使用说明**
+- [x] **Step 8: 更新宣传册 Docker 使用说明**
 
 Append to `../Marketing/Brochure/brochure/README.md`:
 
@@ -628,7 +628,7 @@ docker compose down
 ```
 ````
 
-- [ ] **Step 9: 运行静态测试和 Compose 解析**
+- [x] **Step 9: 运行静态测试和 Compose 解析**
 
 Run:
 
@@ -643,7 +643,7 @@ Expected:
 - `Brochure Docker config: PASS`
 - Compose 解析命令退出码为 `0`。
 
-- [ ] **Step 10: 构建、启动并验证宣传册完整工具链**
+- [x] **Step 10: 构建、启动并验证宣传册完整工具链**
 
 Run:
 
@@ -678,7 +678,7 @@ Expected:
 - Consumes: Task 1 的 `workbuddy-creator` 和 Task 2 的 `joto-ai-brochure`。
 - Produces: 第 1 批可复查的项目分类、端口、状态和命令清单。
 
-- [ ] **Step 1: 同时启动两个项目并验证端口隔离**
+- [x] **Step 1: 同时启动两个项目并验证端口隔离**
 
 Run:
 
@@ -701,7 +701,7 @@ Expected:
 - 宣传册只暴露 `127.0.0.1:4175`。
 - 两个服务均为 `healthy`，没有共享容器名或宿主端口。
 
-- [ ] **Step 2: 创建总项目 Docker 清单**
+- [x] **Step 2: 创建总项目 Docker 清单**
 
 Create `docs/docker-projects.md`:
 
@@ -745,7 +745,7 @@ docker compose down
 - `Obsidian`、`场景思考`：纯资料目录，不创建运行容器。
 ````
 
-- [ ] **Step 3: 提交总项目清单**
+- [x] **Step 3: 提交总项目清单**
 
 Run:
 
@@ -757,7 +757,7 @@ git commit -m "docs: add Docker project catalog"
 
 Expected: 提交只包含 `docs/docker-projects.md`。
 
-- [ ] **Step 4: 停止第 1 批服务并确认数据未被删除**
+- [x] **Step 4: 停止第 1 批服务并确认数据未被删除**
 
 Run:
 
