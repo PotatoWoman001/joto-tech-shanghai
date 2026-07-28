@@ -1,0 +1,15 @@
+.git/
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.egg-info/
+content-archive/
+joto-site-v2/node_modules/
+joto-site-v2/dist/
+joto-site-v2/output/
+joto-site-v2/joto-site-v2/
+.DS_Store

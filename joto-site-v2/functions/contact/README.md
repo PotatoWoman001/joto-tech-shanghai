@@ -66,3 +66,17 @@ RAM 身份只授予 `dm:SingleSendMail` 权限。不要使用主账号 AccessKey
 
 Resend 和阿里云邮件推送均未完整配置时，接口返回 `503`。不要把上述
 变量写入前端、Git 或公开目录。
+
+## Docker 回滚验证
+
+本仓库根目录的 `compose.yaml` 会把此历史服务隔离在独立容器中，并仅绑定
+`127.0.0.1:9000`：
+
+```bash
+docker compose up --build -d contact
+curl http://127.0.0.1:9000/healthz
+docker compose run --rm contact npm test
+```
+
+该容器只用于历史回滚和本地测试，不会替换当前生产环境的
+`admin.jotoai.com` 联系表单路由，也不包含任何真实邮件服务密钥。

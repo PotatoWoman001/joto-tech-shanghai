@@ -1,0 +1,63 @@
+name: joto-sunny
+
+services:
+  web:
+    build:
+      context: ./joto-site-v2
+    init: true
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - ./joto-site-v2:/workspace
+      - sunny_web_node_modules:/workspace/node_modules
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:5173').then((response) => { if (!response.ok) process.exit(1) }).catch(() => process.exit(1))"
+      interval: 5s
+      timeout: 3s
+      retries: 18
+      start_period: 10s
+
+  contact:
+    build:
+      context: ./joto-site-v2/functions/contact
+    init: true
+    environment:
+      HOST: 0.0.0.0
+      PORT: "9000"
+      ALLOWED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - ./joto-site-v2/functions/contact:/workspace
+      - sunny_contact_node_modules:/workspace/node_modules
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:9000/healthz').then((response) => { if (!response.ok) process.exit(1) }).catch(() => process.exit(1))"
+      interval: 5s
+      timeout: 3s
+      retries: 18
+      start_period: 10s
+
+  archive:
+    profiles: ["tools"]
+    build:
+      context: .
+      dockerfile: Dockerfile.archive
+    init: true
+    volumes:
+      - ./config:/workspace/config:ro
+      - ./src:/workspace/src:ro
+      - ./tests:/workspace/tests:ro
+      - ./content-archive:/workspace/content-archive
+    command: ["pytest", "-q", "--ignore=tests/test_docker_config.py"]
+
+volumes:
+  sunny_web_node_modules:
+  sunny_contact_node_modules:

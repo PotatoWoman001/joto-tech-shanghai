@@ -1,0 +1,17 @@
+FROM python:3.12.13-slim-bookworm
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /workspace
+COPY requirements.lock ./
+RUN pip install --no-cache-dir -r requirements.lock
+
+COPY pyproject.toml ./
+COPY config ./config
+COPY src ./src
+COPY tests ./tests
+RUN pip install --no-deps -e .
+
+RUN pytest -q --ignore=tests/test_docker_config.py
+CMD ["pytest", "-q", "--ignore=tests/test_docker_config.py"]

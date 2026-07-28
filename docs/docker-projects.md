@@ -8,6 +8,7 @@
 | --- | --- | --- | --- | --- |
 | Web | Workbuddy 假网站 | `../Workbuddy 假网站` | `http://127.0.0.1:5174` | 第 1 批已验证 |
 | 构建工具 | Marketing/Brochure | `../Marketing/Brochure/brochure` | `http://127.0.0.1:4175/build/brochure.html` | 第 1 批已验证 |
+| Web + 工具 | JOTO Sunny Try | `.` | `http://127.0.0.1:5173`、`http://127.0.0.1:9000/healthz` | 第 2 批已验证 |
 
 每个项目在自己的启动目录运行：
 
@@ -24,7 +25,6 @@ docker compose down
 
 | 批次 | 项目 | 计划端口 |
 | --- | --- | --- |
-| 2 | JOTO Sunny Try | `5173`、`9000` |
 | 3 | JOTO Cisco Solution - Persian | `3000`、`3001`、`3002` |
 | 4 | SalesFlow | `4173`、`4174` |
 | 5 | AI 解读 | `8888` |

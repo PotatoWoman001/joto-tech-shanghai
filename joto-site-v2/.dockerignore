@@ -1,0 +1,12 @@
+.git/
+.env
+.env.*
+!.env.example
+node_modules/
+functions/
+dist/
+output/
+joto-site-v2/
+.playwright-cli/
+*.log
+.DS_Store
