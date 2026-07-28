@@ -29,7 +29,9 @@ docker compose down
 ## 实施状态
 
 全部 5 批均已完成真实构建、端口访问和项目测试。交付时所有容器及项目网络
-均已停止，命名卷保留；宿主原有 `node_modules`、`.venv`、模型与构建目录未删除。
+均已停止，命名卷保留。验证成功后，已删除 7 个由容器替代的宿主
+`node_modules` 和 Cisco Python `.venv`；独立 Git worktree 依赖、销售电话助手
+macOS 后备 `.venv`、Apple 模型、源码、数据和构建目录保留。
 
 ## 原生或资料项目
 
