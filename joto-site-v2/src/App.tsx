@@ -16,6 +16,8 @@ import AboutPage from "./pages/AboutPage";
 import BlogArticlePage from "./pages/BlogArticlePage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
+import MallPage from "./pages/MallPage";
+import MallProductPage from "./pages/MallProductPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PartnerDetailPage from "./pages/PartnerDetailPage";
 import SolutionCategoryPage from "./pages/SolutionCategoryPage";
@@ -52,10 +54,22 @@ export default function App() {
     page = <AboutPage />;
   } else if (pathname === "/blog" || pathname === "/blog/") {
     page = <BlogPage />;
+  } else if (
+    pathname === "/mall" ||
+    pathname === "/mall/" ||
+    pathname === "/mall/products" ||
+    pathname === "/mall/products/"
+  ) {
+    page = <MallPage />;
   } else {
     const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
+    const mallProductSlug = pathname.match(
+      /^\/mall\/products\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/,
+    )?.[1];
 
-    if (blogSlug) {
+    if (mallProductSlug) {
+      page = <MallProductPage slug={mallProductSlug} />;
+    } else if (blogSlug) {
       const article = getBlogArticle(blogSlug);
       page = article ? <BlogArticlePage article={article} /> : <NotFoundPage />;
     } else if (pathname === "/contact" || pathname === "/contact/") {

@@ -4,6 +4,10 @@ import { resolve } from "node:path";
 
 const SITE_ORIGIN = "https://jotoglobal.com";
 const routeManifestUrl = new URL("../src/seo/public-routes.json", import.meta.url);
+const mallCatalogUrl = new URL(
+  "../public/mall-data/data/catalog-index.json",
+  import.meta.url,
+);
 const defaultOutputDirectory = new URL("../dist/", import.meta.url);
 
 const locales = [
@@ -92,6 +96,15 @@ export async function generateSeoFiles(outputDirectory = defaultOutputDirectory)
   const routes = JSON.parse(await readFile(routeManifestUrl, "utf8"));
   if (!Array.isArray(routes) || routes.some((route) => typeof route !== "string")) {
     throw new TypeError("SEO route manifest must be an array of strings.");
+  }
+  try {
+    const catalog = JSON.parse(await readFile(mallCatalogUrl, "utf8"));
+    const mallRoutes = (catalog.products ?? []).map(
+      (product) => `/mall/products/${product.slug}`,
+    );
+    routes.push(...mallRoutes);
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
   }
 
   await mkdir(outputDirectory, { recursive: true });

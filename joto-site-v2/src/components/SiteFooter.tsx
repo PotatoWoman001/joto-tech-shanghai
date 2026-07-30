@@ -5,6 +5,7 @@ import { stripBasePath } from "../i18n/routing";
 const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Blog", href: "/blog" },
+  { label: "Mall", href: "/mall" },
   { label: "Services", href: "#services" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Contact Us", href: "/contact" },

@@ -27,6 +27,23 @@ const fixedPagePaths: Record<string, FixedPageKey> = {
   "/blog": "blog",
 };
 
+const mallSeoCopy: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Enterprise IT Product Catalog | JOTO TECH",
+    description:
+      "Explore enterprise networking and infrastructure products available through JOTO TECH.",
+  },
+  "zh-CN": {
+    title: "企业 IT 产品目录 | JOTO TECH",
+    description: "浏览 JOTO TECH 提供的企业网络与基础设施产品。",
+  },
+  "fa-IR": {
+    title: "کاتالوگ محصولات فناوری سازمانی | JOTO TECH",
+    description:
+      "محصولات شبکه و زیرساخت سازمانی ارائه‌شده توسط JOTO TECH را بررسی کنید.",
+  },
+};
+
 const solutionNames: Record<string, string> = {
   network: "Network",
   security: "Security",
@@ -193,6 +210,20 @@ export function buildSeoDescriptor(
   const fixedPageKey = fixedPagePaths[normalizedPath];
   if (fixedPageKey) {
     const copy = fixedSeoCopy[locale][fixedPageKey];
+    return publicDescriptor(
+      locale,
+      normalizedPath,
+      copy.title,
+      copy.description,
+    );
+  }
+
+  if (
+    normalizedPath === "/mall" ||
+    normalizedPath === "/mall/products" ||
+    /^\/mall\/products\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(normalizedPath)
+  ) {
+    const copy = mallSeoCopy[locale];
     return publicDescriptor(
       locale,
       normalizedPath,

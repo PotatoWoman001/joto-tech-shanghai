@@ -17,12 +17,17 @@ test("generates a complete multilingual sitemap and robots file", async () => {
   const urlEntries = sitemap.match(/<url>/g) ?? [];
   const alternateLinks = sitemap.match(/<xhtml:link /g) ?? [];
 
-  assert.equal(urlEntries.length, 105);
-  assert.equal(alternateLinks.length, 105 * 4);
+  assert.equal(urlEntries.length, 159);
+  assert.equal(alternateLinks.length, 159 * 4);
   assert.match(sitemap, /<loc>https:\/\/jotoglobal\.com\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/jotoglobal\.com\/zh\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/jotoglobal\.com\/fa\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/jotoglobal\.com\/zh\/about<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/jotoglobal\.com\/mall<\/loc>/);
+  assert.match(
+    sitemap,
+    /<loc>https:\/\/jotoglobal\.com\/zh\/mall\/products\/ar1220c-s<\/loc>/,
+  );
   assert.match(
     sitemap,
     /hreflang="en" href="https:\/\/jotoglobal\.com\/about"/,

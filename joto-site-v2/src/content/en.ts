@@ -184,6 +184,7 @@ const nav = [
   { label: "CASE STUDIES", href: "#case-studies" },
   { label: "ABOUT", href: "/about" },
   { label: "BLOG", href: "/blog" },
+  { label: "MALL", href: "/mall" },
 ];
 
 export const siteContent: SiteContent = {

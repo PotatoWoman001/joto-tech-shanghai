@@ -44,6 +44,8 @@ describe("SEO public URLs", () => {
       "/about",
       "/contact",
       "/blog",
+      "/mall",
+      "/mall/products",
       ...blogArticles.map(({ slug }) => `/blog/${slug}`),
       ...solutionCategoryPaths,
       ...partnerDetails.map(({ pathname }) => pathname),
